@@ -1,0 +1,979 @@
+library(shiny)
+
+cramers_v <- function(tab) {
+  chi <- suppressWarnings(chisq.test(tab, correct = FALSE))
+  n <- sum(tab)
+  k <- min(dim(tab))
+  v <- if (k > 1) sqrt(as.numeric(chi$statistic) / (n * (k - 1))) else NA_real_
+  list(v = v, chi2 = as.numeric(chi$statistic), p_value = chi$p.value, n = n)
+}
+
+eta_squared <- function(df, group_col, value_col) {
+  f <- as.formula(paste0("`", value_col, "` ~ `", group_col, "`"))
+  m <- tryCatch(aov(f, data = df), error = function(e) NULL)
+  if (is.null(m)) return(NA_real_)
+  ss <- summary(m)[[1]][["Sum Sq"]]
+  ss[1] / sum(ss)
+}
+
+# ---- Shared severity-tier vocabulary (matches the explainer's "how to read
+# the output" section, applied consistently everywhere an association or
+# design property gets flagged) ----
+tier_label <- function(tier) {
+  switch(tier,
+    unfixable = "Unfixable (structural)",
+    fixable = "Fixable at a cost",
+    clean = "Clean",
+    "Not checked")
+}
+
+tier_cls <- function(tier) {
+  switch(tier, unfixable = "poor", fixable = "caution", clean = "good", "neutral")
+}
+
+# Association-strength tier shared by every Cramer's V / eta-squared based
+# check (batch confounding, covariate screening, interpretability,
+# collinearity, missingness) so the whole app applies one consistent rule.
+severity_from_v <- function(v) {
+  if (is.na(v)) return("not_checked")
+  if (v >= 0.6) return("unfixable")
+  if (v >= 0.3) return("fixable")
+  return("clean")
+}
+
+diagnose_batch <- function(df, condition_col, batch_col) {
+  tab <- table(df[[condition_col]], df[[batch_col]])
+  cv <- cramers_v(tab)
+  list(batch_col = batch_col, v = cv$v, chi2 = cv$chi2, p_value = cv$p_value,
+       severity = severity_from_v(cv$v))
+}
+
+diagnose_covariate <- function(df, condition_col, covariate_col) {
+  is_num <- is.numeric(df[[covariate_col]])
+  if (is_num) {
+    assoc <- eta_squared(df, condition_col, covariate_col)
+    method <- "eta_squared"
+  } else {
+    tab <- table(df[[condition_col]], df[[covariate_col]])
+    assoc <- cramers_v(tab)$v
+    method <- "cramers_v"
+  }
+  vals <- stats::na.omit(df[[covariate_col]])
+  list(covariate = covariate_col, is_numeric = is_num, method = method,
+       association = assoc, severity = severity_from_v(assoc),
+       n_levels = length(unique(vals)))
+}
+
+# Full covariate screen: test EVERY column in the sheet (not just ones the
+# user declared as batch/covariate) against condition, so unlabelled fields
+# (extraction date, operator ID, etc.) that turn out to be the real batch
+# effect don't get missed just because nobody thought to name them.
+full_covariate_screen <- function(df, condition_col, sample_id_cols, roles) {
+  other_cols <- setdiff(names(df), c(condition_col, sample_id_cols))
+  lapply(other_cols, function(col) {
+    d <- diagnose_covariate(df, condition_col, col)
+    d$declared_role <- if (!is.null(roles[[col]])) roles[[col]] else "ignore"
+    d$declared <- d$declared_role %in% c("batch", "covariate")
+    d
+  })
+}
+
+# Collinearity among covariates: do any two covariates carry (nearly) the
+# same information, so including both over-parameterizes the model even
+# though neither is aliased with condition itself?
+covariate_collinearity <- function(df, covariate_cols) {
+  if (length(covariate_cols) < 2) return(list())
+  pairs <- utils::combn(covariate_cols, 2, simplify = FALSE)
+  lapply(pairs, function(p) {
+    a <- p[1]; b <- p[2]
+    a_num <- is.numeric(df[[a]]); b_num <- is.numeric(df[[b]])
+    if (a_num && b_num) {
+      val <- suppressWarnings(as.numeric(stats::cor(df[[a]], df[[b]], use = "pairwise.complete.obs")))
+      val <- abs(val); method <- "pearson_r"
+    } else if (!a_num && !b_num) {
+      tab <- table(df[[a]], df[[b]])
+      val <- cramers_v(tab)$v; method <- "cramers_v"
+    } else {
+      grp <- if (a_num) b else a
+      value_col <- if (a_num) a else b
+      val <- eta_squared(df, grp, value_col); method <- "eta_squared"
+    }
+    list(a = a, b = b, method = method, value = val, severity = severity_from_v(val))
+  })
+}
+
+# Missingness vs. group: is data missing preferentially within one condition
+# group? If so, imputation can't fix the resulting bias -- the missingness
+# pattern itself is informative. Only columns that actually have some
+# missing data are reported.
+missingness_screen <- function(df, condition_col) {
+  cols <- setdiff(names(df), condition_col)
+  results <- lapply(cols, function(col) {
+    v <- df[[col]]
+    is_missing <- is.na(v) | (is.character(v) & trimws(v) == "")
+    n_missing <- sum(is_missing)
+    n <- length(v)
+    if (n_missing == 0 || n_missing == n) {
+      return(list(column = col, n_missing = n_missing, pct_missing = round(100 * n_missing / n, 1),
+                   v = NA_real_, p_value = NA_real_, severity = "clean"))
+    }
+    tab <- table(is_missing, df[[condition_col]])
+    if (nrow(tab) < 2) {
+      return(list(column = col, n_missing = n_missing, pct_missing = round(100 * n_missing / n, 1),
+                   v = NA_real_, p_value = NA_real_, severity = "clean"))
+    }
+    cv <- cramers_v(tab)
+    list(column = col, n_missing = n_missing, pct_missing = round(100 * n_missing / n, 1),
+         v = cv$v, p_value = cv$p_value, severity = severity_from_v(cv$v))
+  })
+  results[vapply(results, function(r) r$n_missing > 0, logical(1))]
+}
+
+replicate_adequacy <- function(df, condition_col) {
+  counts <- table(df[[condition_col]])
+  data.frame(condition = names(counts), n = as.integer(counts), stringsAsFactors = FALSE)
+}
+
+batch_balance <- function(df, batch_col) {
+  counts <- table(df[[batch_col]])
+  cv <- if (length(counts) > 1) stats::sd(counts) / mean(counts) else NA_real_
+  list(batch_col = batch_col, cv = cv)
+}
+
+# Rank / aliasing check: is condition separable from batch + covariates, and
+# are batch/covariates separable from each other? Uses rank-contribution
+# (does adding a term's columns to a model raise the rank by its full column
+# count, or does some of that information turn out to be redundant?) rather
+# than raw QR pivot order, which is arbitrary w.r.t. formula term order and
+# would otherwise "blame" whichever term happens to come later. Base R only
+# (model.matrix + qr), so this runs fine under webR too.
+term_rank_contrib <- function(df, focus_cols, other_cols) {
+  f_full <- as.formula(paste("~", paste(sprintf("`%s`", c(focus_cols, other_cols)), collapse = " + ")))
+  mm_full <- tryCatch(stats::model.matrix(f_full, data = df), error = function(e) NULL)
+  if (is.null(mm_full)) return(NULL)
+  rank_full <- qr(mm_full)$rank
+
+  if (length(other_cols) == 0) {
+    rank_without <- 1L; ncol_without <- 1L
+  } else {
+    f_without <- as.formula(paste("~", paste(sprintf("`%s`", other_cols), collapse = " + ")))
+    mm_without <- tryCatch(stats::model.matrix(f_without, data = df), error = function(e) NULL)
+    if (is.null(mm_without)) return(NULL)
+    rank_without <- qr(mm_without)$rank
+    ncol_without <- ncol(mm_without)
+  }
+  focus_ncol <- ncol(mm_full) - ncol_without
+  gained <- rank_full - rank_without
+  list(deficient = gained < focus_ncol, focus_ncol = focus_ncol, gained = gained,
+       rank_full = rank_full, ncol_full = ncol(mm_full))
+}
+
+check_design_rank <- function(df, condition_col, batch_cols, covariate_cols) {
+  other_terms <- unique(c(batch_cols, covariate_cols))
+  if (length(other_terms) == 0) {
+    return(list(status = "single_term"))
+  }
+  overall <- tryCatch(term_rank_contrib(df, condition_col, other_terms), error = function(e) NULL)
+  if (is.null(overall)) {
+    return(list(status = "error"))
+  }
+
+  if (isTRUE(overall$deficient)) {
+    culprits <- character(0)
+    for (t in other_terms) {
+      res_t <- tryCatch(term_rank_contrib(df, condition_col, t), error = function(e) NULL)
+      if (!is.null(res_t) && isTRUE(res_t$deficient)) culprits <- c(culprits, t)
+    }
+    if (length(culprits) == 0) culprits <- other_terms
+    return(list(status = "condition_aliased", aliased_terms = culprits,
+                rank = overall$rank_full, ncol = overall$ncol_full))
+  }
+
+  if (length(other_terms) < 2) {
+    return(list(status = "full_rank", rank = overall$rank_full, ncol = overall$ncol_full))
+  }
+  f_other <- as.formula(paste("~", paste(sprintf("`%s`", other_terms), collapse = " + ")))
+  mm_other <- tryCatch(stats::model.matrix(f_other, data = df), error = function(e) NULL)
+  if (is.null(mm_other)) return(list(status = "full_rank", rank = overall$rank_full, ncol = overall$ncol_full))
+  qr_obj <- qr(mm_other)
+  rank <- qr_obj$rank
+  p <- ncol(mm_other)
+  if (rank == p) {
+    return(list(status = "full_rank", rank = overall$rank_full, ncol = overall$ncol_full))
+  }
+  dependent_pos <- qr_obj$pivot[(rank + 1):p]
+  term_labels <- attr(stats::terms(f_other), "term.labels")
+  assign_idx <- attr(mm_other, "assign")
+  dependent_term_idx <- sort(unique(assign_idx[dependent_pos]))
+  dependent_term_idx <- dependent_term_idx[dependent_term_idx > 0]
+  aliased_terms <- gsub("`", "", term_labels[dependent_term_idx])
+  list(status = "rank_deficient", rank = rank, ncol = p, aliased_terms = aliased_terms)
+}
+
+assess_rank <- function(rank_check, condition_col) {
+  if (is.null(rank_check) || rank_check$status %in% c("single_term", "error")) {
+    return(list(cls = "neutral", tier = "not_checked",
+      reasons = "Mark at least a condition column plus one batch or covariate column to run this check."))
+  }
+  if (rank_check$status == "condition_aliased") {
+    other <- rank_check$aliased_terms
+    return(list(cls = "poor", tier = "unfixable",
+      reasons = sprintf(
+        "%s is perfectly (or near-perfectly) aliased with %s — the design matrix is rank-deficient (rank %d of %d columns). No statistical adjustment can separate a %s effect from %s in this data; the only fix is redesigning sample allocation so these terms vary independently.",
+        condition_col, paste(other, collapse = ", "), rank_check$rank, rank_check$ncol, condition_col, paste(other, collapse = " / "))))
+  }
+  if (rank_check$status == "full_rank") {
+    return(list(cls = "good", tier = "clean",
+      reasons = sprintf(
+        "No term in this design (condition, batch, covariates) is a perfect linear combination of the others — the design matrix has full rank (%d of %d columns). Each term's effect is in principle separable from the rest.",
+        rank_check$rank, rank_check$ncol)))
+  }
+  list(cls = "caution", tier = "fixable",
+    reasons = sprintf(
+      "%s are perfectly redundant given the rest of the design (rank %d of %d columns among batch/covariate terms). %s itself is not affected, but drop one of these terms or the model will be unidentifiable for them.",
+      paste(rank_check$aliased_terms, collapse = " & "), rank_check$rank, rank_check$ncol, condition_col))
+}
+
+# Variance Inflation Factor per term (generalized VIF, Fox & Monette 1992),
+# computed from the correlation matrix of the design matrix -- base R only
+# (cor + det), so this is safe under webR. GVIF^(1/(2*df)) is the
+# df-standardized version, comparable across terms with different numbers
+# of dummy columns. VIF is undefined (Inf) exactly when a term is aliased,
+# which the rank/aliasing check above already reports -- so an Inf/NA VIF
+# here just cross-references that check rather than showing a bogus number.
+compute_vif <- function(df, condition_col, batch_cols, covariate_cols) {
+  terms_in <- unique(c(condition_col, batch_cols, covariate_cols))
+  if (length(terms_in) < 2) return(list())
+  f <- as.formula(paste("~", paste(sprintf("`%s`", terms_in), collapse = " + ")))
+  mm_full <- tryCatch(stats::model.matrix(f, data = df), error = function(e) NULL)
+  if (is.null(mm_full)) return(list())
+  assign_full <- attr(mm_full, "assign")
+  keep <- assign_full != 0
+  mm <- mm_full[, keep, drop = FALSE]
+  assign_idx <- assign_full[keep]
+  term_labels <- gsub("`", "", attr(stats::terms(f), "term.labels"))
+  p <- ncol(mm)
+  if (p < 2) return(list())
+  R <- tryCatch(stats::cor(mm), error = function(e) NULL)
+  if (is.null(R) || any(!is.finite(R))) return(list())
+  detR <- det(R)
+
+  results <- list()
+  for (i in seq_along(term_labels)) {
+    cols_j <- which(assign_idx == i)
+    cols_rest <- which(assign_idx != i)
+    dfj <- length(cols_j)
+    if (dfj == 0) next
+    if (length(cols_rest) == 0) {
+      gvif <- 1
+    } else if (!is.finite(detR) || abs(detR) < 1e-10) {
+      gvif <- Inf
+    } else {
+      gvif <- (det(R[cols_j, cols_j, drop = FALSE]) * det(R[cols_rest, cols_rest, drop = FALSE])) / detR
+    }
+    gvif_std <- if (is.finite(gvif) && gvif > 0) gvif^(1 / (2 * dfj)) else Inf
+    n_effective <- if (is.finite(gvif) && gvif >= 1) nrow(df) / gvif else NA_real_
+    results[[term_labels[i]]] <- list(term = term_labels[i], df = dfj,
+                                       gvif = gvif, gvif_std = gvif_std, n_effective = n_effective)
+  }
+  results
+}
+
+assess_vif <- function(vif_entry) {
+  if (is.null(vif_entry) || !is.finite(vif_entry$gvif_std)) {
+    return(list(tier = "unfixable", cls = "poor",
+      reason = "VIF is undefined for this term because it is (near-)perfectly aliased with another term — see the Rank / aliasing check above."))
+  }
+  gs <- vif_entry$gvif_std
+  if (gs >= sqrt(10)) {
+    return(list(tier = "fixable", cls = "poor",
+      reason = sprintf("GVIF %.2f (df-standardized %.2f) — severe: equivalent to running this comparison with an effective sample size of about %.0f instead of the %s actually collected.",
+                        vif_entry$gvif, gs, vif_entry$n_effective, "full sample")))
+  }
+  if (gs >= sqrt(5)) {
+    return(list(tier = "fixable", cls = "caution",
+      reason = sprintf("GVIF %.2f (df-standardized %.2f) — moderate: this term shares meaningful variance with the rest of the design, costing some precision if included as a covariate.",
+                        vif_entry$gvif, gs)))
+  }
+  list(tier = "clean", cls = "good", reason = "Not meaningfully predictable from the rest of the design.")
+}
+
+guess_role <- function(col) {
+  c <- tolower(col)
+  if (grepl("id", c)) return("sample_id")
+  if (grepl("condition|group|status|disease|treatment", c)) return("condition")
+  if (grepl("batch|site|day|run|lane|operator|kit|plate", c)) return("batch")
+  if (grepl("sex|age|cohort|centre|center", c)) return("covariate")
+  return("ignore")
+}
+
+# ---- Power calculator functions (verbatim from the tested webR version) ----
+
+count_effect_sd <- function(depth, cv) sqrt(2 * (1 / depth + cv^2) / (log(2)^2))
+
+count_power <- function(n, depth, cv, log2fc, alpha, target_power) {
+  sd <- count_effect_sd(depth, cv)
+  pt <- power.t.test(n = n, delta = abs(log2fc), sd = sd, sig.level = alpha)
+  n_needed <- tryCatch(
+    power.t.test(delta = abs(log2fc), sd = sd, sig.level = alpha, power = target_power)$n,
+    error = function(e) NA_real_)
+  list(achieved_power = as.numeric(pt$power), sd_used = sd, n_needed = n_needed)
+}
+
+cohend_power <- function(n, cohend, alpha, target_power) {
+  pt <- power.t.test(n = n, delta = abs(cohend), sd = 1, sig.level = alpha)
+  n_needed <- tryCatch(
+    power.t.test(delta = abs(cohend), sd = 1, sig.level = alpha, power = target_power)$n,
+    error = function(e) NA_real_)
+  list(achieved_power = as.numeric(pt$power), n_needed = n_needed)
+}
+
+capture_probability <- function(n_units, freq, k_min) 1 - pbinom(k_min - 1, size = n_units, prob = freq)
+
+capture_n_needed <- function(freq, k_min, target_prob, n_max = 5e6) {
+  n <- k_min
+  while (n <= n_max) {
+    if (capture_probability(n, freq, k_min) >= target_prob) return(n)
+    n <- ceiling(n * 1.08) + 1
+  }
+  NA_real_
+}
+
+depth_n_needed <- function(af, k_min, target_prob, n_max = 2000) capture_n_needed(af, k_min, target_prob, n_max)
+
+assoc_power <- function(n_cases, n_controls, p_cases, p_controls, alpha, target_power) {
+  n_use <- min(n_cases, n_controls)
+  pt <- power.prop.test(n = n_use, p1 = p_cases, p2 = p_controls, sig.level = alpha)
+  n_needed <- tryCatch(
+    power.prop.test(p1 = p_cases, p2 = p_controls, sig.level = alpha, power = target_power)$n,
+    error = function(e) NA_real_)
+  list(achieved_power = as.numeric(pt$power), n_per_group_used = n_use, n_needed = n_needed)
+}
+
+# ---- Four-criteria assessment (ported from the JS version) ----
+
+assess_signal <- function(worst_batch_v, pc_result) {
+  reasons <- c()
+  if (!is.na(worst_batch_v) && worst_batch_v >= 0.6) {
+    return(list(cls = "poor", tier = "unfixable",
+      reasons = "Condition is strongly confounded with a batch/technical variable — no amount of replication recovers a signal that can't be separated from batch."))
+  }
+  if (!is.na(worst_batch_v) && worst_batch_v >= 0.3) {
+    reasons <- c(reasons, "Partial confounding with batch will inflate uncertainty around the effect of interest — factor this in when reading the power result below.")
+  }
+  if (!is.null(pc_result)) {
+    reasons <- c(reasons, sprintf("Power calculator (%s): achieved power %.2f against your target of %.2f.",
+                                  pc_result$assay_label, pc_result$achieved_power, pc_result$target_power))
+    if (pc_result$achieved_power >= pc_result$target_power) { cls <- "good"; tier <- "clean" }
+    else if (pc_result$achieved_power >= pc_result$target_power - 0.15) { cls <- "caution"; tier <- "fixable" }
+    else { cls <- "poor"; tier <- "fixable" }
+  } else {
+    cls <- "neutral"; tier <- "not_checked"
+    reasons <- c(reasons, "Run the Power calculator tab for this data type to assess signal detection properly — there is no fixed threshold here.")
+  }
+  list(cls = cls, tier = tier, reasons = reasons)
+}
+
+assess_resource <- function(worst_cv, rep_df) {
+  sizes <- rep_df$n
+  max_ratio <- if (min(sizes) > 0) max(sizes) / min(sizes) else Inf
+  reasons <- c()
+  if (!is.na(worst_cv) && (worst_cv > 0.4 || max_ratio > 3)) {
+    cls <- "poor"; tier <- "fixable"
+    if (!is.na(worst_cv) && worst_cv > 0.4) reasons <- c(reasons, "Samples are very unevenly spread across batches — some batches carry little unique information.")
+    if (max_ratio > 3) reasons <- c(reasons, "Condition group sizes are highly imbalanced, which wastes power relative to the total sample collected.")
+  } else if (!is.na(worst_cv) && (worst_cv > 0.15 || max_ratio > 1.5)) {
+    cls <- "caution"; tier <- "fixable"
+    reasons <- "Some imbalance across batches or condition groups — not fatal, but resources aren't optimally spent."
+  } else {
+    cls <- "good"; tier <- "clean"
+    reasons <- "Samples are evenly spread across batches and condition groups, so every sample is pulling its weight."
+  }
+  list(cls = cls, tier = tier, reasons = reasons)
+}
+
+assess_interpretability <- function(worst_batch_v, worst_covariate_v) {
+  worst <- suppressWarnings(max(c(worst_batch_v, worst_covariate_v), na.rm = TRUE))
+  if (!is.finite(worst)) worst <- 0
+  if (worst >= 0.5) {
+    cls <- "poor"; tier <- "fixable"
+    reasons <- "Batch and/or a covariate is strongly entangled with condition — an observed effect could belong to any of them. See the Rank / aliasing check above for whether this is exact (unfixable) or partial (adjustable at a cost)."
+  } else if (worst >= 0.25) {
+    cls <- "caution"; tier <- "fixable"
+    reasons <- "Some entanglement present — findings should be reported with an explicit caveat about what can and can't be disentangled."
+  } else {
+    cls <- "good"; tier <- "clean"
+    reasons <- "Condition is reasonably independent of batch and known covariates, so an effect can be attributed with more confidence."
+  }
+  list(cls = cls, tier = tier, reasons = reasons)
+}
+
+assess_generalisability <- function(covariates) {
+  if (length(covariates) == 0) {
+    return(list(cls = "neutral", tier = "not_checked",
+      reasons = "No covariates marked — add columns like sex, age, or site to assess how broadly this cohort is represented."))
+  }
+  narrow_count <- 0
+  reasons <- c()
+  for (cov in covariates) {
+    if (cov$n_levels <= 1) {
+      narrow_count <- narrow_count + 1
+      reasons <- c(reasons, sprintf('"%s" has only one value represented — findings may not extend beyond this %s.', cov$covariate, cov$covariate))
+    }
+  }
+  if (narrow_count == 0) {
+    cls <- "good"; tier <- "clean"
+    reasons <- c(reasons, "The covariates provided show some spread.")
+  } else if (narrow_count < length(covariates)) { cls <- "caution"; tier <- "fixable" }
+  else { cls <- "poor"; tier <- "fixable" }
+  reasons <- c(reasons, "Remember: this can only speak to the covariates you've included, not to populations absent from the metadata entirely.")
+  list(cls = cls, tier = tier, reasons = reasons)
+}
+
+# ============================================================================
+# Example datasets 
+# ============================================================================
+
+examples <- list(
+  siteConfound = "sample_id,condition,site,sex,age
+S01,disease,SiteX,F,58
+S02,disease,SiteX,M,62
+S03,disease,SiteX,F,49
+S04,disease,SiteX,M,55
+S05,disease,SiteX,F,67
+S06,disease,SiteX,M,71
+S07,control,SiteY,F,52
+S08,control,SiteY,M,60
+S09,control,SiteY,F,45
+S10,control,SiteY,M,58
+S11,control,SiteY,F,63
+S12,control,SiteY,M,50",
+  batchConfound = "sample_id,condition,batch,sex,age
+S01,early,Batch1,F,34
+S02,early,Batch1,M,29
+S03,early,Batch1,F,41
+S04,early,Batch1,M,37
+S05,early,Batch1,F,45
+S06,early,Batch1,M,31
+S07,late,Batch2,F,38
+S08,late,Batch2,M,44
+S09,late,Batch2,F,29
+S10,late,Batch2,M,50
+S11,late,Batch2,F,33
+S12,late,Batch2,M,40",
+  balanced = "sample_id,condition,batch,sex,age
+S01,disease,Batch1,F,55
+S02,disease,Batch2,M,61
+S03,disease,Batch3,F,49
+S04,disease,Batch1,M,58
+S05,disease,Batch2,F,63
+S06,disease,Batch3,M,52
+S07,control,Batch1,M,57
+S08,control,Batch2,F,60
+S09,control,Batch3,M,50
+S10,control,Batch1,F,64
+S11,control,Batch2,M,53
+S12,control,Batch3,F,59"
+)
+
+ASSAY_LABELS <- c(
+  bulk_rna = "Bulk RNA-seq", atac = "ATAC-seq", scrna = "scRNA-seq",
+  prot_dia = "Proteomics (DIA)", prot_tmt = "Proteomics (TMT)",
+  metabolomics = "Metabolomics", wgs = "WGS / WES", other = "Other"
+)
+
+# ============================================================================
+# Explainer content (Design diagnostics tab)
+# ============================================================================
+
+explainer_html <- r"-----(
+<p>Given a sample metadata sheet, these diagnostic tests will tell you if your experimental design is likely to produce a statistically valid result. Provide a sample metadata sheet with group assignment, batch/technical variables, and biological covariates.
+
+<h3>Diagnostic tests</h3>
+<h4>Rank/aliasing check</h4>
+Build the statistical design matrix implied by your model (group + batch + covariates) and check whether it has full rank. If two terms are perfectly aliased every sample in Batch A is also every sample in Group X and no statistical method can distinguish batch effect from biological effect in that comparison. This identifies confounding in your dataset. 
+<br>
+<p><strong>Interpretation:</strong><br>
+<code>d = 0</code> means the design is estimable (every term's coefficient is identifiable given the others). <code>d > 0</code> means at least one term is fully confounded with another.
+
+<h4>Variance Inflation Factor (VIF) per term</h4>
+For each predictor <code>X_j</code> in the design, regress it on all other predictors: <code>X_j ~ X_1 + ... + X_{j-1} + X_{j+1} + ... + X_k</code>. Take the R² of that regression. For each term X_j in the design matrix (group, batch, age, sex, etc.), VIF asks how well can X_j be predicted from all the other terms in the model?
+<br>
+<p><strong>Interpretation:</strong><br>
+VIF = 1 means X_j is independent of all other terms. VIF = 2 means <code>X_j</code> is 50% predictable from the others, VIF = 5 means 80% predictable, and VIF = 10 means 90% predictable. A high VIF indicates that the model is over-parameterised and that the coefficient for <code>X_j</code> will be unstable.
+
+<h4>Group &times; batch contingency table</h4>
+Cross-tabulate every categorical design variable against every other. Zero cells mean structural, unfixable confounding for that combination. Cells with a single sample mean there is no within-cell variance to distinguish batch noise from a genuine data point &mdash; that sample's value is indistinguishable from a batch artifact.</p>
+
+<p><strong>4. Balance index</strong><br>
+Beyond presence/absence, how evenly are groups distributed across batches? An entropy or chi-square measure against the proportional-allocation expectation distinguishes &ldquo;slightly uneven, adjustment will cost a little power&rdquo; from &ldquo;batch is essentially a proxy for group.&rdquo;</p>
+<p><strong>5. Full covariate screening</strong><br>
+Every column in the metadata sheet &mdash; not just the ones the researcher pre-declared as covariates &mdash; gets tested against the group variable (chi-square for categorical, Kruskal-Wallis/ANOVA for continuous). Unlabelled fields like extraction date or operator ID are exactly the ones that turn out to be the real batch effect, and they are missed if the tool only checks what the user thought to name.</p>
+<p><strong>6. Collinearity among covariates</strong><br>
+Continuous covariates correlated with each other (e.g., age and disease duration) compete for the same variance in the model. Flagging this prevents a design that looks adjusted on paper from actually being over-parameterized.</p>
+<p><strong>7. Missingness vs. group</strong><br>
+If covariate data is missing preferentially within one group, imputation cannot repair the resulting bias &mdash; the missingness itself is informative and violates the assumption imputation methods rely on.</p>
+<p><strong>8. Repeated-measures / subject integrity</strong><br>
+For any design with repeated sampling of the same subject (timepoints, paired tissue, longitudinal follow-up), verify that subject identifiers are consistent and that each subject's expected observations are actually present. Broken pairing silently converts a paired design into an unpaired one with far less power.</p>
+
+)-----"
+
+# ============================================================================
+# UI
+# ============================================================================
+
+ui <- fluidPage(
+  tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")),
+  div(class = "top-navbar",
+      span(class = "navbar-brand", "Omics experiment calculator")
+  ),
+  div(class = "app-container",
+    tabsetPanel(
+      id = "mainTabs",
+
+      tabPanel("Design diagnostics",
+        br(),
+        div(class = "card-panel",
+          tags$details(class = "explainer",
+            tags$summary("Design diagnostics explainer"),
+            div(class = "explainer-content", HTML(explainer_html))
+          )
+        ),
+        div(class = "card-row",
+          div(class = "card-panel",
+            h4("1. Load metadata"),
+            div(
+              actionButton("loadSite", "Load: site confound", class = "btn-default example-btn"),
+              actionButton("loadBatch", "Load: batch confound", class = "btn-default example-btn"),
+              actionButton("loadBalanced", "Load: balanced design", class = "btn-default example-btn")
+            ),
+            textAreaInput("csvText", NULL, rows = 10, width = "100%",
+                          placeholder = "sample_id,condition,batch,sex,age\nS01,disease,batch1,F,54\n..."),
+            fileInput("csvFile", "...or upload a CSV file", accept = ".csv"),
+            actionButton("parseBtn", "Parse data →", class = "btn-primary")
+          ),
+          div(class = "card-panel",
+            h4("Preview"),
+            tableOutput("previewTable")
+          )
+        ),
+        div(class = "card-panel",
+          uiOutput("mappingUI"),
+          uiOutput("diagnoseButtonUI")
+        ),
+        div(class = "card-panel",
+          uiOutput("diagnosisResults")
+        )
+      ),
+
+      tabPanel("Power calculator",
+        br(),
+        div(class = "card-panel",
+          div(class = "hint", "TODO explain this "),
+          selectInput("pcAssay", "Sequencing / assay type",
+                      choices = c("Bulk RNA-seq" = "bulk_rna", "ATAC-seq" = "atac", "scRNA-seq" = "scrna",
+                                  "Proteomics — DIA" = "prot_dia", "Proteomics — TMT" = "prot_tmt",
+                                  "Metabolomics" = "metabolomics", "WGS / WES cohort" = "wgs", "Other / not sure" = "other")),
+          uiOutput("pcModeUI"),
+          uiOutput("pcFormUI"),
+          br(),
+          actionButton("pcRunBtn", "Check power →", class = "btn-primary"),
+          uiOutput("pcResults")
+        )
+      )
+    )
+  ),
+  tags$footer(class = "app-footer",
+    span("© 2026 Sydney Informatics Hub, University of Sydney"),
+    a(href = "https://github.com/Sydney-Informatics-Hub/omics-calculator", target = "_blank", "GitHub")
+  )
+)
+
+# ============================================================================
+# Server
+# ============================================================================
+
+server <- function(input, output, session) {
+
+  rv <- reactiveValues(df = NULL, col_ids = NULL, diag_result = NULL, pc_result = NULL, pc_mode = list())
+
+  # ---- Load examples ----
+  observeEvent(input$loadSite, updateTextAreaInput(session, "csvText", value = examples$siteConfound))
+  observeEvent(input$loadBatch, updateTextAreaInput(session, "csvText", value = examples$batchConfound))
+  observeEvent(input$loadBalanced, updateTextAreaInput(session, "csvText", value = examples$balanced))
+
+  observeEvent(input$csvFile, {
+    txt <- paste(readLines(input$csvFile$datapath, warn = FALSE), collapse = "\n")
+    updateTextAreaInput(session, "csvText", value = txt)
+  })
+
+  # ---- Parse ----
+  observeEvent(input$parseBtn, {
+    txt <- input$csvText
+    validate(need(nchar(trimws(txt)) > 0, "Paste or load some CSV data first."))
+    df <- tryCatch(read.csv(text = txt, stringsAsFactors = FALSE, check.names = FALSE),
+                    error = function(e) NULL)
+    validate(need(!is.null(df), "Could not parse this as CSV."))
+    rv$df <- df
+    rv$col_ids <- setNames(make.names(names(df), unique = TRUE), names(df))
+    rv$diag_result <- NULL
+    rv$pc_result <- NULL
+  })
+
+  output$previewTable <- renderTable({
+    req(rv$df)
+    head(rv$df, 8)
+  })
+
+  # ---- Column role mapping UI ----
+  output$mappingUI <- renderUI({
+    req(rv$df)
+    cols <- names(rv$df)
+    tagList(
+      h4("2. Map columns"),
+      div(class = "hint", "Mark exactly one column as Condition (the biological variable of interest); mark technical variables as Batch and demographic/clinical variables as Covariate."),
+      lapply(cols, function(col) {
+        id <- paste0("role_", rv$col_ids[[col]])
+        selectInput(id, label = col, width = "100%",
+                    choices = c("Ignore" = "ignore", "Sample ID" = "sample_id",
+                                "Condition (biological variable)" = "condition",
+                                "Batch / technical variable" = "batch",
+                                "Covariate" = "covariate"),
+                    selected = guess_role(col))
+      })
+    )
+  })
+
+  output$diagnoseButtonUI <- renderUI({
+    req(rv$df)
+    tagList(h4("3. Diagnose"), actionButton("diagnoseBtn", "Diagnose this design →", class = "btn-primary"))
+  })
+
+  get_roles <- function() {
+    req(rv$df)
+    cols <- names(rv$df)
+    roles <- vapply(cols, function(col) {
+      id <- paste0("role_", rv$col_ids[[col]])
+      val <- input[[id]]
+      if (is.null(val)) "ignore" else val
+    }, character(1))
+    names(roles) <- cols
+    roles
+  }
+
+  # ---- Run diagnosis ----
+  observeEvent(input$diagnoseBtn, {
+    req(rv$df)
+    roles <- get_roles()
+    condition_col <- names(roles)[roles == "condition"]
+    validate(need(length(condition_col) >= 1, 'Please mark one column as "Condition (biological variable)" to run diagnostics.'))
+    condition_col <- condition_col[1]
+    batch_cols <- names(roles)[roles == "batch"]
+    covariate_cols <- names(roles)[roles == "covariate"]
+    sample_id_cols <- names(roles)[roles == "sample_id"]
+
+    df <- rv$df
+    batches <- lapply(batch_cols, function(b) diagnose_batch(df, condition_col, b))
+    covariates <- lapply(covariate_cols, function(cv) diagnose_covariate(df, condition_col, cv))
+    replicates <- replicate_adequacy(df, condition_col)
+    balance <- lapply(batch_cols, function(b) batch_balance(df, b))
+    rank_check <- check_design_rank(df, condition_col, batch_cols, covariate_cols)
+    vif_result <- tryCatch(compute_vif(df, condition_col, batch_cols, covariate_cols), error = function(e) list())
+    full_screen <- tryCatch(full_covariate_screen(df, condition_col, sample_id_cols, roles), error = function(e) list())
+    collinearity <- tryCatch(covariate_collinearity(df, covariate_cols), error = function(e) list())
+    missingness <- tryCatch(missingness_screen(df, condition_col), error = function(e) list())
+
+    rv$diag_result <- list(condition_col = condition_col, batches = batches,
+                            covariates = covariates, replicates = replicates, balance = balance,
+                            rank_check = rank_check, vif_result = vif_result,
+                            full_screen = full_screen, collinearity = collinearity,
+                            missingness = missingness)
+  })
+
+  # ---- Render diagnosis results ----
+  output$diagnosisResults <- renderUI({
+    req(rv$diag_result)
+    res <- rv$diag_result
+
+    worst_batch_v <- if (length(res$batches) == 0) NA_real_ else max(sapply(res$batches, function(b) b$v), na.rm = TRUE)
+    worst_cov_v <- if (length(res$covariates) == 0) NA_real_ else max(sapply(res$covariates, function(c) c$association), na.rm = TRUE)
+    worst_cv <- if (length(res$balance) == 0) NA_real_ else max(sapply(res$balance, function(b) b$cv), na.rm = TRUE)
+
+    signal <- assess_signal(worst_batch_v, rv$pc_result)
+    resource <- assess_resource(worst_cv, res$replicates)
+    interpret <- assess_interpretability(worst_batch_v, worst_cov_v)
+    general <- assess_generalisability(res$covariates)
+    rank_assess <- assess_rank(res$rank_check, res$condition_col)
+
+    card <- function(title, a) {
+      div(class = "result-card",
+          h5(title),
+          span(class = paste0("flag flag-", a$cls), tier_label(a$tier)),
+          tags$ul(lapply(a$reasons, tags$li)))
+    }
+
+    batch_rows <- if (length(res$batches) > 0) {
+      do.call(rbind, lapply(res$batches, function(b) data.frame(
+        Batch = b$batch_col, `Cramers V` = round(b$v, 3), Severity = tier_label(b$severity),
+        `p value` = signif(b$p_value, 3), check.names = FALSE)))
+    } else NULL
+
+    cov_rows <- if (length(res$covariates) > 0) {
+      do.call(rbind, lapply(res$covariates, function(c) data.frame(
+        Covariate = c$covariate, Method = c$method, Association = round(c$association, 3),
+        Severity = tier_label(c$severity), `N levels` = c$n_levels, check.names = FALSE)))
+    } else NULL
+
+    vif_rows <- if (length(res$vif_result) > 0) {
+      do.call(rbind, lapply(res$vif_result, function(v) {
+        a <- assess_vif(v)
+        data.frame(Term = v$term, GVIF = round(v$gvif, 2),
+                   `GVIF (df-adj.)` = round(v$gvif_std, 2),
+                   `Effective n` = if (is.na(v$n_effective)) "—" else round(v$n_effective, 1),
+                   Severity = tier_label(a$tier), check.names = FALSE)
+      }))
+    } else NULL
+
+    screen_rows <- if (length(res$full_screen) > 0) {
+      do.call(rbind, lapply(res$full_screen, function(s) data.frame(
+        Column = s$covariate, `Declared as` = s$declared_role, Method = s$method,
+        Association = round(s$association, 3), Severity = tier_label(s$severity),
+        Flag = if (!s$declared && !is.na(s$association) && s$association >= 0.3) "not declared as batch/covariate" else "",
+        check.names = FALSE)))
+    } else NULL
+
+    collin_rows <- if (length(res$collinearity) > 0) {
+      do.call(rbind, lapply(res$collinearity, function(cpair) data.frame(
+        `Covariate A` = cpair$a, `Covariate B` = cpair$b, Method = cpair$method,
+        Association = round(cpair$value, 3), Severity = tier_label(cpair$severity), check.names = FALSE)))
+    } else NULL
+
+    missing_rows <- if (length(res$missingness) > 0) {
+      do.call(rbind, lapply(res$missingness, function(m) data.frame(
+        Column = m$column, `N missing` = m$n_missing, `% missing` = m$pct_missing,
+        `Assoc. w/ condition` = if (is.na(m$v)) "—" else round(m$v, 3),
+        Severity = tier_label(m$severity), check.names = FALSE)))
+    } else NULL
+
+    tagList(
+      h4("Criteria assessment"),
+      div(class = "assessment-row",
+        card("Rank / aliasing check", rank_assess),
+        card("Resource usage", resource),
+        card("Interpretability", interpret),
+        card("Generalisability", general)
+      ),
+
+      h4("Variance Inflation Factor (VIF) per term"),
+      div(class = "hint", "How much each term's estimate is inflated by its correlation with the rest of the design — quantifies a partial confound as an effective loss of sample size."),
+      if (!is.null(vif_rows)) renderTable(vif_rows, rownames = FALSE) else p("Need at least two design terms (condition + batch/covariate) to compute VIF."),
+
+      h4("Batch / condition association"),
+      if (!is.null(batch_rows)) renderTable(batch_rows, rownames = FALSE) else p("No batch columns marked."),
+
+      h4("Covariate association"),
+      if (!is.null(cov_rows)) renderTable(cov_rows, rownames = FALSE) else p("No covariate columns marked."),
+
+      h4("Full covariate screen (every column, not just declared ones)"),
+      div(class = "hint", "Tests every column in the sheet against condition — not just the ones marked Batch or Covariate — so an unlabelled field (e.g. extraction date) that's actually driving the association doesn't get missed."),
+      if (!is.null(screen_rows)) renderTable(screen_rows, rownames = FALSE) else p("No other columns to screen."),
+
+      h4("Collinearity among covariates"),
+      div(class = "hint", "Are any two covariates carrying the same information? Both competing for the same variance over-parameterizes the model even when neither is aliased with condition."),
+      if (!is.null(collin_rows)) renderTable(collin_rows, rownames = FALSE) else p("Need at least two covariates marked to check collinearity."),
+
+      h4("Missingness vs. group"),
+      div(class = "hint", "Only columns with at least one missing value are listed. A significant association means data is missing preferentially within one condition group — imputation can't fix that bias."),
+      if (!is.null(missing_rows)) renderTable(missing_rows, rownames = FALSE) else p("No missing data detected in this sheet."),
+
+      h4("Samples per condition group"),
+      renderTable(res$replicates, rownames = FALSE)
+    )
+  })
+
+  # ==========================================================================
+  # Power calculator
+  # ==========================================================================
+
+  output$pcModeUI <- renderUI({
+    a <- input$pcAssay
+    if (a == "scrna") {
+      radioButtons("pcScrnaMode", NULL,
+                   choices = c("Rare population capture" = "capture", "Differential expression (pseudobulk)" = "de"),
+                   selected = "capture", inline = TRUE)
+    } else if (a == "wgs") {
+      radioButtons("pcWgsMode", NULL,
+                   choices = c("Variant-calling depth adequacy" = "depth", "Case-control association power" = "assoc"),
+                   selected = "depth", inline = TRUE)
+    } else NULL
+  })
+
+  output$pcFormUI <- renderUI({
+    a <- input$pcAssay
+    count_fields <- function(n_label = "Samples per group (n)") {
+      tagList(
+        fluidRow(
+          column(4, numericInput("pc_n", n_label, value = 3)),
+          column(4, numericInput("pc_depth", "Per-feature read depth (normalised mean count)", value = 10)),
+          column(4, numericInput("pc_cv", "Biological coefficient of variation (CV)", value = 0.4, step = 0.05))
+        ),
+        fluidRow(
+          column(4, numericInput("pc_log2fc", "Minimum log2 fold-change of interest", value = 1, step = 0.1)),
+          column(4, numericInput("pc_alpha", "Significance threshold (alpha)", value = 0.05, step = 0.001)),
+          column(4, numericInput("pc_target", "Your target power", value = 0.8, step = 0.05))
+        ),
+        div(class = "hint", "Depth guide: a typical moderately-expressed feature at standard bulk-seq depth sits around 10-20. CV guide: ~0.1-0.2 for cell lines/inbred model organisms, ~0.4 for outbred human cohorts (Hart et al. 2013).")
+      )
+    }
+    cohend_fields <- function() {
+      tagList(
+        fluidRow(
+          column(4, numericInput("pc_n", "Samples per group (n)", value = 4)),
+          column(4, numericInput("pc_cohend", "Effect size (Cohen's d)", value = 0.8, step = 0.1)),
+          column(4, numericInput("pc_alpha", "Significance threshold (alpha)", value = 0.05, step = 0.001))
+        ),
+        numericInput("pc_target", "Your target power", value = 0.8, step = 0.05),
+        div(class = "hint", "Convention: small d ~0.2, medium ~0.5, large ~0.8.")
+      )
+    }
+
+    if (a %in% c("bulk_rna", "atac")) {
+      count_fields()
+    } else if (a == "scrna") {
+      mode <- input$pcScrnaMode %||% "capture"
+      if (identical(mode, "capture")) {
+        tagList(
+          fluidRow(
+            column(4, numericInput("pc_ncells", "Total cells planned (across the group)", value = 5000)),
+            column(4, numericInput("pc_freq", "Expected population frequency (0-1)", value = 0.02, step = 0.005)),
+            column(4, numericInput("pc_kmin", "Minimum cells needed to call it detected", value = 10))
+          ),
+          numericInput("pc_target", "Your target capture probability", value = 0.95, step = 0.01)
+        )
+      } else {
+        tagList(count_fields(n_label = "Independent samples/individuals per group"),
+                div(class = "hint", "Aggregate cells to pseudobulk per sample first — cells from the same individual are not independent replicates."))
+      }
+    } else if (a %in% c("prot_dia", "metabolomics", "other")) {
+      cohend_fields()
+    } else if (a == "prot_tmt") {
+      tagList(cohend_fields(), checkboxInput("pc_multiplex", "Samples split across multiple TMT plexes", value = FALSE))
+    } else if (a == "wgs") {
+      mode <- input$pcWgsMode %||% "depth"
+      if (identical(mode, "depth")) {
+        tagList(
+          fluidRow(
+            column(4, numericInput("pc_depth2", "Mean sequencing depth (x)", value = 30)),
+            column(4, numericInput("pc_af", "Expected allele fraction", value = 0.5, step = 0.05)),
+            column(4, numericInput("pc_kmin2", "Minimum supporting reads to call confidently", value = 3))
+          ),
+          numericInput("pc_target", "Your target confidence", value = 0.99, step = 0.005)
+        )
+      } else {
+        tagList(
+          fluidRow(
+            column(3, numericInput("pc_ncases", "Number of cases", value = 500)),
+            column(3, numericInput("pc_ncontrols", "Number of controls", value = 500)),
+            column(3, numericInput("pc_pcontrols", "Risk allele frequency in controls", value = 0.2, step = 0.01)),
+            column(3, numericInput("pc_pcases", "Risk allele frequency in cases", value = 0.26, step = 0.01))
+          ),
+          fluidRow(
+            column(6, numericInput("pc_alpha", "Significance threshold (alpha)", value = 5e-8)),
+            column(6, numericInput("pc_target", "Your target power", value = 0.8, step = 0.05))
+          ),
+          div(class = "hint", "Genome-wide significance is conventionally 5e-8 — adjust if this is a targeted/candidate-gene test instead.")
+        )
+      }
+    }
+  })
+
+  `%||%` <- function(a, b) if (is.null(a)) b else a
+
+  verdict <- function(achieved, target) {
+    if (achieved >= target) list(cls = "good", label = "meets your target")
+    else if (achieved >= target - 0.15) list(cls = "caution", label = "below target")
+    else list(cls = "poor", label = "well below target")
+  }
+
+  observeEvent(input$pcRunBtn, {
+    a <- input$pcAssay
+    result <- NULL
+
+    if (a %in% c("bulk_rna", "atac") || (a == "scrna" && identical(input$pcScrnaMode, "de"))) {
+      r <- count_power(input$pc_n, input$pc_depth, input$pc_cv, input$pc_log2fc, input$pc_alpha, input$pc_target)
+      v <- verdict(r$achieved_power, input$pc_target)
+      result <- list(
+        assay_label = ASSAY_LABELS[[a]], achieved_power = r$achieved_power, target_power = input$pc_target,
+        cls = v$cls, label = v$label,
+        big = sprintf("%.2f", r$achieved_power), big_label = sprintf("achieved power at n=%s/group", input$pc_n),
+        lines = c(sprintf("Effective SD of log2 fold-change at this depth/CV: %.3f.", r$sd_used),
+                  if (is.finite(r$n_needed)) sprintf("Samples per group needed for power >= %.2f: %d.", input$pc_target, ceiling(r$n_needed))
+                  else "Could not solve for a required n at this target — try a larger effect size or lower target."),
+        caution = "Approximation in the spirit of Hart et al. (2013, J Comput Biol): Poisson shot noise + biological CV, tested via a t-test on the log2 scale. Not the literal RNASeqPower package."
+      )
+    } else if (a %in% c("prot_dia", "metabolomics", "other", "prot_tmt")) {
+      r <- cohend_power(input$pc_n, input$pc_cohend, input$pc_alpha, input$pc_target)
+      v <- verdict(r$achieved_power, input$pc_target)
+      multiplex_note <- if (identical(a, "prot_tmt") && isTRUE(input$pc_multiplex))
+        " Samples span multiple plexes: this treats variance as one pooled number. If plex assignment lines up with your condition groups, check that in the Design diagnostics tab first." else ""
+      result <- list(
+        assay_label = ASSAY_LABELS[[a]], achieved_power = r$achieved_power, target_power = input$pc_target,
+        cls = v$cls, label = v$label,
+        big = sprintf("%.2f", r$achieved_power), big_label = sprintf("achieved power at n=%s/group", input$pc_n),
+        lines = if (is.finite(r$n_needed)) sprintf("Samples per group needed for power >= %.2f: %d.", input$pc_target, ceiling(r$n_needed))
+                else "Could not solve for a required n at this target.",
+        caution = paste0("Standard two-sample t-test power on Cohen's d (Oberg & Vitek 2009; Blaise et al. 2016 for why metabolomics effect sizes are hard to state a priori).", multiplex_note)
+      )
+    } else if (a == "scrna" && identical(input$pcScrnaMode, "capture")) {
+      p <- capture_probability(input$pc_ncells, input$pc_freq, input$pc_kmin)
+      nn <- capture_n_needed(input$pc_freq, input$pc_kmin, input$pc_target)
+      v <- verdict(p, input$pc_target)
+      result <- list(
+        assay_label = ASSAY_LABELS[["scrna"]], achieved_power = p, target_power = input$pc_target,
+        cls = v$cls, label = v$label,
+        big = sprintf("%.3f", p), big_label = sprintf("probability of capturing >= %s cells at n=%s", input$pc_kmin, input$pc_ncells),
+        lines = if (is.finite(nn)) sprintf("Total cells needed for >= %.0f%% confidence: %d.", input$pc_target * 100, ceiling(nn))
+                else "Could not solve for a required cell count — try a lower confidence target.",
+        caution = "Exact binomial coverage calculation, not a hypothesis test — this only asks 'will I see enough of it,' not 'is the difference real.'"
+      )
+    } else if (a == "wgs" && identical(input$pcWgsMode, "depth")) {
+      p <- capture_probability(input$pc_depth2, input$pc_af, input$pc_kmin2)
+      nn <- depth_n_needed(input$pc_af, input$pc_kmin2, input$pc_target)
+      v <- verdict(p, input$pc_target)
+      result <- list(
+        assay_label = ASSAY_LABELS[["wgs"]], achieved_power = p, target_power = input$pc_target,
+        cls = v$cls, label = v$label,
+        big = sprintf("%.3f", p), big_label = sprintf("confidence of >= %s supporting reads at %sx", input$pc_kmin2, input$pc_depth2),
+        lines = if (is.finite(nn)) sprintf("Depth needed for >= %.0f%% confidence: %dx.", input$pc_target * 100, ceiling(nn))
+                else "Could not solve for a required depth.",
+        caution = "Binomial read-sampling model (Sims et al. 2014, Nat Rev Genet) — assumes reads sample alleles independently at the stated fraction; real mapping bias will shift this."
+      )
+    } else if (a == "wgs" && identical(input$pcWgsMode, "assoc")) {
+      r <- assoc_power(input$pc_ncases, input$pc_ncontrols, input$pc_pcases, input$pc_pcontrols, input$pc_alpha, input$pc_target)
+      v <- verdict(r$achieved_power, input$pc_target)
+      result <- list(
+        assay_label = ASSAY_LABELS[["wgs"]], achieved_power = r$achieved_power, target_power = input$pc_target,
+        cls = v$cls, label = v$label,
+        big = sprintf("%.2f", r$achieved_power), big_label = sprintf("achieved power (n/group used: %d)", r$n_per_group_used),
+        lines = if (is.finite(r$n_needed)) sprintf("Per-group n needed for power >= %.2f: %d.", input$pc_target, ceiling(r$n_needed))
+                else "Could not solve for a required n at this alpha/effect size.",
+        caution = "Two-proportion test on allele frequency — same statistical shape as the confounding chi-square check in the Design diagnostics tab. Uses the smaller of cases/controls as a conservative per-group n."
+      )
+    }
+
+    rv$pc_result <- result
+  })
+
+  output$pcResults <- renderUI({
+    req(rv$pc_result)
+    r <- rv$pc_result
+    div(class = "result-card",
+        span(class = paste0("flag flag-", r$cls), r$label),
+        span(style = "font-size:28px; margin-left:12px;", r$big),
+        span(style = "color:#777; margin-left:8px;", r$big_label),
+        tags$ul(lapply(r$lines, tags$li)),
+        div(class = "caution-note", r$caution))
+  })
+}
+
+shinyApp(ui, server)
