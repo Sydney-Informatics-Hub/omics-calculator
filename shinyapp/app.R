@@ -89,6 +89,13 @@ full_covariate_screen <- function(df, condition_col, sample_id_cols, roles) {
   })
 }
 
+# Undeclared-but-associated columns from the full screen -- used both to
+# register their dynamic plots (server) and to lay them out (renderUI), via
+# this one shared definition so the two can't drift apart.
+screen_undeclared_flagged <- function(full_screen) {
+  Filter(function(s) !s$declared && !is.na(s$association) && s$association >= 0.3, full_screen)
+}
+
 # Collinearity among covariates: do any two covariates carry (nearly) the
 # same information, so including both over-parameterizes the model even
 # though neither is aliased with condition itself? |r| > 0.8 is the
@@ -150,6 +157,140 @@ missingness_screen <- function(df, condition_col) {
          v = cv$v, p_value = cv$p_value, severity = severity_from_v(cv$v))
   })
   results[vapply(results, function(r) r$n_missing > 0, logical(1))]
+}
+
+# ============================================================================
+# Plotting helpers -- base R graphics only (barplot/boxplot/plot), so these
+# run under webR/shinylive with no extra package dependencies. Each function
+# renders one plot for one check result; wired up as dynamic renderPlot()
+# outputs in the server, one per batch/covariate/pair/column found.
+# ============================================================================
+
+PALETTE <- c("#1A345E", "#E64626", "#BDDC96", "#FFB800", "#91BDE5", "#ded4b9")
+
+# Shared plot-output-id builder -- used identically when registering a
+# renderPlot() in the server and when creating the matching plotOutput() in
+# the UI, so the two never drift apart.
+plot_id <- function(prefix, ...) {
+  parts <- vapply(list(...), make.names, character(1))
+  paste0(prefix, "_", paste(parts, collapse = "_"))
+}
+
+plot_condition_by_batch <- function(df, condition_col, batch_col) {
+  tab <- table(df[[batch_col]], df[[condition_col]])
+  m <- t(tab)
+  cols <- PALETTE[((seq_len(nrow(m)) - 1) %% length(PALETTE)) + 1]
+  op <- graphics::par(mar = c(4, 4, 3, 1)); on.exit(graphics::par(op))
+  graphics::barplot(m, beside = TRUE, col = cols, ylab = "samples", las = 1,
+                     main = paste0(condition_col, " within each ", batch_col),
+                     legend.text = rownames(m),
+                     args.legend = list(x = "topright", bty = "n", cex = 0.8, title = condition_col))
+}
+
+plot_covariate_by_condition <- function(df, condition_col, covariate_col) {
+  if (is.numeric(df[[covariate_col]])) {
+    op <- graphics::par(mfrow = c(2, 1), mar = c(2, 4, 3, 1)); on.exit(graphics::par(op))
+    f <- stats::as.formula(paste0("`", covariate_col, "` ~ `", condition_col, "`"))
+    graphics::boxplot(f, data = df, col = "#91BDE5", ylab = covariate_col, xlab = "",
+                       main = paste0(covariate_col, " by ", condition_col), las = 1)
+    graphics::par(mar = c(4, 4, 1, 1))
+    graphics::stripchart(f, data = df, vertical = TRUE, method = "jitter", jitter = 0.15,
+                          pch = 19, col = "#1A345E", ylab = covariate_col, xlab = condition_col, las = 1)
+  } else {
+    op <- graphics::par(mar = c(4, 4, 3, 1)); on.exit(graphics::par(op))
+    tab <- table(df[[condition_col]], df[[covariate_col]])
+    m <- t(tab)
+    cols <- PALETTE[((seq_len(nrow(m)) - 1) %% length(PALETTE)) + 1]
+    graphics::barplot(m, beside = TRUE, col = cols, ylab = "samples", las = 1,
+                       main = paste0(covariate_col, " by ", condition_col),
+                       legend.text = rownames(m), args.legend = list(x = "topright", bty = "n", cex = 0.8))
+  }
+}
+
+plot_vif_bar <- function(vif_result) {
+  if (length(vif_result) == 0) return(invisible(NULL))
+  terms_v <- vapply(vif_result, function(v) v$term, character(1))
+  vals <- vapply(vif_result, function(v) if (is.finite(v$gvif_std)) v$gvif_std else NA_real_, numeric(1))
+  op <- graphics::par(mar = c(6, 4, 3, 1)); on.exit(graphics::par(op))
+  finite_vals <- vals[is.finite(vals)]
+  ymax <- if (length(finite_vals)) max(c(finite_vals, sqrt(10))) * 1.15 else sqrt(10) * 1.15
+  bar_vals <- ifelse(is.finite(vals), vals, 0)
+  bp <- graphics::barplot(bar_vals, names.arg = terms_v, col = "#1A345E", ylim = c(0, ymax),
+                           ylab = "GVIF (df-adjusted)", las = 2, main = "VIF per term")
+  graphics::abline(h = sqrt(5), col = "#FFB800", lty = 2)
+  graphics::abline(h = sqrt(10), col = "#E64626", lty = 2)
+  na_idx <- which(!is.finite(vals))
+  if (length(na_idx)) graphics::text(bp[na_idx], ymax * 0.5, "Inf", col = "#E64626", font = 2)
+}
+
+plot_collinearity_pair <- function(df, a, b) {
+  op <- graphics::par(mar = c(4, 4, 3, 1)); on.exit(graphics::par(op))
+  a_num <- is.numeric(df[[a]]); b_num <- is.numeric(df[[b]])
+  if (a_num && b_num) {
+    graphics::plot(df[[a]], df[[b]], pch = 19, col = "#1A345E",
+                   xlab = a, ylab = b, main = paste(a, "vs", b), las = 1)
+    ok <- stats::complete.cases(df[[a]], df[[b]])
+    if (sum(ok) >= 2) {
+      fit <- tryCatch(stats::lm(df[[b]][ok] ~ df[[a]][ok]), error = function(e) NULL)
+      if (!is.null(fit)) graphics::abline(fit, col = "#E64626", lwd = 2)
+    }
+  } else if (a_num != b_num) {
+    num_col <- if (a_num) a else b
+    cat_col <- if (a_num) b else a
+    f <- stats::as.formula(paste0("`", num_col, "` ~ `", cat_col, "`"))
+    graphics::boxplot(f, data = df, col = "#91BDE5", xlab = cat_col, ylab = num_col,
+                       main = paste(a, "vs", b), las = 1)
+  } else {
+    tab <- table(df[[a]], df[[b]])
+    cols <- PALETTE[((seq_len(nrow(tab)) - 1) %% length(PALETTE)) + 1]
+    graphics::barplot(tab, beside = TRUE, col = cols, ylab = "samples", las = 1,
+                       main = paste(a, "vs", b),
+                       legend.text = rownames(tab), args.legend = list(x = "topright", bty = "n", cex = 0.8))
+  }
+}
+
+plot_missingness_by_group <- function(df, condition_col, column) {
+  op <- graphics::par(mar = c(4, 4, 3, 1)); on.exit(graphics::par(op))
+  v <- df[[column]]
+  is_missing <- is.na(v) | (is.character(v) & trimws(v) == "")
+  pct <- tapply(is_missing, df[[condition_col]], function(x) 100 * mean(x))
+  graphics::barplot(pct, col = "#E64626", ylab = "% missing", las = 1, ylim = c(0, 100),
+                     main = paste0("Missingness of ", column, " by ", condition_col))
+}
+
+# PCA on the batch + covariate design (one-hot encoded, zero-variance columns
+# dropped), colored by condition -- an exploratory visual complement to the
+# rank/VIF/association checks, since the app has no molecular data to run a
+# "real" PCA on. Base R only (prcomp).
+compute_pca <- function(df, batch_cols, covariate_cols) {
+  design_cols <- unique(c(batch_cols, covariate_cols))
+  if (length(design_cols) == 0) return(NULL)
+  f <- stats::as.formula(paste("~ 0 +", paste(sprintf("`%s`", design_cols), collapse = " + ")))
+  mm <- tryCatch(stats::model.matrix(f, data = df), error = function(e) NULL)
+  if (is.null(mm) || nrow(mm) < 3) return(NULL)
+  vars <- apply(mm, 2, stats::var)
+  mm <- mm[, vars > 1e-8, drop = FALSE]
+  if (ncol(mm) < 2) return(NULL)
+  pca <- tryCatch(stats::prcomp(mm, center = TRUE, scale. = TRUE), error = function(e) NULL)
+  if (is.null(pca)) return(NULL)
+  var_explained <- (pca$sdev^2) / sum(pca$sdev^2)
+  list(scores = pca$x, var_explained = var_explained, n = nrow(mm))
+}
+
+plot_pca <- function(pca_result, condition_vec) {
+  if (is.null(pca_result) || ncol(pca_result$scores) < 2) return(invisible(NULL))
+  op <- graphics::par(mar = c(4, 4, 3, 8), xpd = TRUE); on.exit(graphics::par(op))
+  scores <- pca_result$scores
+  cond_f <- factor(condition_vec)
+  cols <- PALETTE[as.integer(cond_f)]
+  ve <- pca_result$var_explained
+  graphics::plot(scores[, 1], scores[, 2], col = cols, pch = 19, cex = 1.3,
+                 xlab = sprintf("PC1 (%.0f%% var)", ve[1] * 100),
+                 ylab = sprintf("PC2 (%.0f%% var)", ve[2] * 100),
+                 main = "PCA of batch/covariate design", las = 1)
+  graphics::legend("topright", inset = c(-0.3, 0), legend = levels(cond_f),
+                    col = PALETTE[seq_along(levels(cond_f))], pch = 19, bty = "n",
+                    title = "condition", cex = 0.85, xpd = TRUE)
 }
 
 replicate_adequacy <- function(df, condition_col) {
@@ -375,28 +516,6 @@ assoc_power <- function(n_cases, n_controls, p_cases, p_controls, alpha, target_
 
 # ---- Four-criteria assessment (ported from the JS version) ----
 
-assess_signal <- function(worst_batch_v, pc_result) {
-  reasons <- c()
-  if (!is.na(worst_batch_v) && worst_batch_v >= 0.6) {
-    return(list(cls = "poor", tier = "unfixable",
-      reasons = "Condition is strongly confounded with a batch/technical variable — no amount of replication recovers a signal that can't be separated from batch."))
-  }
-  if (!is.na(worst_batch_v) && worst_batch_v >= 0.3) {
-    reasons <- c(reasons, "Partial confounding with batch will inflate uncertainty around the effect of interest — factor this in when reading the power result below.")
-  }
-  if (!is.null(pc_result)) {
-    reasons <- c(reasons, sprintf("Power calculator (%s): achieved power %.2f against your target of %.2f.",
-                                  pc_result$assay_label, pc_result$achieved_power, pc_result$target_power))
-    if (pc_result$achieved_power >= pc_result$target_power) { cls <- "good"; tier <- "clean" }
-    else if (pc_result$achieved_power >= pc_result$target_power - 0.15) { cls <- "caution"; tier <- "fixable" }
-    else { cls <- "poor"; tier <- "fixable" }
-  } else {
-    cls <- "neutral"; tier <- "not_checked"
-    reasons <- c(reasons, "Run the Power calculator tab for this data type to assess signal detection properly — there is no fixed threshold here.")
-  }
-  list(cls = cls, tier = tier, reasons = reasons)
-}
-
 assess_resource <- function(worst_cv, rep_df) {
   sizes <- rep_df$n
   max_ratio <- if (min(sizes) > 0) max(sizes) / min(sizes) else Inf
@@ -573,7 +692,7 @@ ui <- fluidPage(
       tabPanel("Power calculator",
         br(),
         div(class = "card-panel",
-          div(class = "hint", "TODO explain this "),
+          div(class = "hint", "No fixed replicate-number thresholds — this runs a real closed-form power calculation (power.t.test, power.prop.test, or exact binomial coverage) against a target power ", tags$b("you"), " set."),
           selectInput("pcAssay", "Sequencing / assay type",
                       choices = c("Bulk RNA-seq" = "bulk_rna", "ATAC-seq" = "atac", "scRNA-seq" = "scrna",
                                   "Proteomics — DIA" = "prot_dia", "Proteomics — TMT" = "prot_tmt",
@@ -686,12 +805,73 @@ server <- function(input, output, session) {
     full_screen <- tryCatch(full_covariate_screen(df, condition_col, sample_id_cols, roles), error = function(e) list())
     collinearity <- tryCatch(covariate_collinearity(df, covariate_cols), error = function(e) list())
     missingness <- tryCatch(missingness_screen(df, condition_col), error = function(e) list())
+    pca_result <- tryCatch(compute_pca(df, batch_cols, covariate_cols), error = function(e) NULL)
+    undeclared_flagged <- screen_undeclared_flagged(full_screen)
 
     rv$diag_result <- list(condition_col = condition_col, batches = batches,
                             covariates = covariates, replicates = replicates, balance = balance,
                             rank_check = rank_check, vif_result = vif_result,
                             full_screen = full_screen, collinearity = collinearity,
-                            missingness = missingness)
+                            missingness = missingness, has_pca = !is.null(pca_result))
+
+    # ---- Dynamic plots: one output per batch/covariate/pair/flagged column,
+    # registered here and matched to plotOutput() ids built the same way
+    # (via plot_id()) in the renderUI below. ----
+    failed_plot <- function() { graphics::plot.new(); graphics::text(0.5, 0.5, "Could not render this plot") }
+
+    lapply(batch_cols, function(b) {
+      local({
+        bb <- b
+        output[[plot_id("plot_batch", bb)]] <- renderPlot({
+          tryCatch(plot_condition_by_batch(df, condition_col, bb), error = function(e) failed_plot())
+        })
+      })
+    })
+
+    lapply(covariate_cols, function(cv) {
+      local({
+        cvcv <- cv
+        output[[plot_id("plot_cov", cvcv)]] <- renderPlot({
+          tryCatch(plot_covariate_by_condition(df, condition_col, cvcv), error = function(e) failed_plot())
+        })
+      })
+    })
+
+    lapply(undeclared_flagged, function(s) {
+      local({
+        col <- s$covariate
+        output[[plot_id("plot_screen", col)]] <- renderPlot({
+          tryCatch(plot_covariate_by_condition(df, condition_col, col), error = function(e) failed_plot())
+        })
+      })
+    })
+
+    output$plot_vif <- renderPlot({
+      tryCatch(plot_vif_bar(vif_result), error = function(e) failed_plot())
+    })
+
+    lapply(collinearity, function(cpair) {
+      local({
+        aa <- cpair$a; bb <- cpair$b
+        output[[plot_id("plot_collin", aa, bb)]] <- renderPlot({
+          tryCatch(plot_collinearity_pair(df, aa, bb), error = function(e) failed_plot())
+        })
+      })
+    })
+
+    lapply(missingness, function(m) {
+      local({
+        col <- m$column
+        output[[plot_id("plot_missing", col)]] <- renderPlot({
+          tryCatch(plot_missingness_by_group(df, condition_col, col), error = function(e) failed_plot())
+        })
+      })
+    })
+
+    output$plot_pca <- renderPlot({
+      req(pca_result)
+      tryCatch(plot_pca(pca_result, df[[condition_col]]), error = function(e) failed_plot())
+    })
   })
 
   # ---- Render diagnosis results ----
@@ -703,7 +883,6 @@ server <- function(input, output, session) {
     worst_cov_v <- if (length(res$covariates) == 0) NA_real_ else max(sapply(res$covariates, function(c) c$association), na.rm = TRUE)
     worst_cv <- if (length(res$balance) == 0) NA_real_ else max(sapply(res$balance, function(b) b$cv), na.rm = TRUE)
 
-    signal <- assess_signal(worst_batch_v, rv$pc_result)
     resource <- assess_resource(worst_cv, res$replicates)
     interpret <- assess_interpretability(worst_batch_v, worst_cov_v)
     general <- assess_generalisability(res$covariates)
@@ -759,6 +938,12 @@ server <- function(input, output, session) {
         Severity = tier_label(m$severity), check.names = FALSE)))
     } else NULL
 
+    undeclared_flagged <- screen_undeclared_flagged(res$full_screen)
+
+    plot_grid <- function(ids, height = "260px") {
+      div(class = "plot-grid", lapply(ids, function(id) plotOutput(id, height = height)))
+    }
+
     tagList(
       div(class = "card-panel",
         h4("Criteria assessment"),
@@ -770,34 +955,70 @@ server <- function(input, output, session) {
         )
       ),
 
+      if (isTRUE(res$has_pca)) div(class = "card-panel",
+        h4("PCA of batch/covariate design", info_tip("Principal components of the one-hot-encoded batch + covariate design (not molecular data — the app has none), colored by condition. If condition separates cleanly along PC1/PC2, that's a visual echo of the same confounding the checks above quantify numerically.")),
+        plotOutput("plot_pca", height = "320px")
+      ),
+
       div(class = "card-panel",
         h4("Variance Inflation Factor (VIF) per term", info_tip(tip_vif)),
-        if (!is.null(vif_rows)) renderTable(vif_rows, rownames = FALSE) else p("Need at least two design terms (condition + batch/covariate) to compute VIF.")
+        div(class = "box-with-plot",
+          div(class = "box-table",
+            if (!is.null(vif_rows)) renderTable(vif_rows, rownames = FALSE) else p("Need at least two design terms (condition + batch/covariate) to compute VIF.")
+          ),
+          if (!is.null(vif_rows)) plotOutput("plot_vif", height = "280px")
+        )
       ),
 
       div(class = "card-panel",
         h4("Batch / condition association", info_tip(tip_batch_assoc)),
-        if (!is.null(batch_rows)) renderTable(batch_rows, rownames = FALSE) else p("No batch columns marked.")
+        div(class = "box-with-plot",
+          div(class = "box-table",
+            if (!is.null(batch_rows)) renderTable(batch_rows, rownames = FALSE) else p("No batch columns marked.")
+          ),
+          plot_grid(vapply(res$batches, function(b) plot_id("plot_batch", b$batch_col), character(1)))
+        )
       ),
 
       div(class = "card-panel",
         h4("Covariate association", info_tip(tip_covariate_assoc)),
-        if (!is.null(cov_rows)) renderTable(cov_rows, rownames = FALSE) else p("No covariate columns marked.")
+        div(class = "box-with-plot",
+          div(class = "box-table",
+            if (!is.null(cov_rows)) renderTable(cov_rows, rownames = FALSE) else p("No covariate columns marked.")
+          ),
+          plot_grid(vapply(res$covariates, function(c) plot_id("plot_cov", c$covariate), character(1)), height = "440px")
+        )
       ),
 
       div(class = "card-panel",
         h4("Full covariate screen (every column, not just declared ones)", info_tip(tip_full_screen)),
-        if (!is.null(screen_rows)) renderTable(screen_rows, rownames = FALSE) else p("No other columns to screen.")
+        div(class = "box-with-plot",
+          div(class = "box-table",
+            if (!is.null(screen_rows)) renderTable(screen_rows, rownames = FALSE) else p("No other columns to screen."),
+            if (length(undeclared_flagged) > 0) div(class = "hint", "Plots below are only for undeclared columns flagged here — declared batch/covariate columns are already plotted in their own box above.")
+          ),
+          plot_grid(vapply(undeclared_flagged, function(s) plot_id("plot_screen", s$covariate), character(1)), height = "440px")
+        )
       ),
 
       div(class = "card-panel",
         h4("Collinearity among covariates", info_tip(tip_collinearity)),
-        if (!is.null(collin_rows)) renderTable(collin_rows, rownames = FALSE) else p("Need at least two covariates marked to check collinearity.")
+        div(class = "box-with-plot",
+          div(class = "box-table",
+            if (!is.null(collin_rows)) renderTable(collin_rows, rownames = FALSE) else p("Need at least two covariates marked to check collinearity.")
+          ),
+          plot_grid(vapply(res$collinearity, function(cpair) plot_id("plot_collin", cpair$a, cpair$b), character(1)))
+        )
       ),
 
       div(class = "card-panel",
         h4("Missingness vs. group", info_tip(tip_missingness)),
-        if (!is.null(missing_rows)) renderTable(missing_rows, rownames = FALSE) else p("No missing data detected in this sheet.")
+        div(class = "box-with-plot",
+          div(class = "box-table",
+            if (!is.null(missing_rows)) renderTable(missing_rows, rownames = FALSE) else p("No missing data detected in this sheet.")
+          ),
+          plot_grid(vapply(res$missingness, function(m) plot_id("plot_missing", m$column), character(1)))
+        )
       ),
 
       div(class = "card-panel",
