@@ -42,13 +42,14 @@ table.diag-table{ width:100%; border-collapse: collapse; margin-bottom: 12px; }
 table.diag-table th, table.diag-table td{ border: 1px solid var(--gray-table-border); padding: 6px 10px; text-align:left; font-size: 13px; }
 table.diag-table th{ background: var(--peach); color: var(--black); }
 .caution-note{ font-size: 12px; color: var(--gray-soft); margin-top: 8px; border-top: 1px dashed var(--gray-dashed); padding-top: 8px; }
-details.explainer summary{ cursor: pointer; font-weight: 600; color: var(--brand); font-size: 15px; list-style: none; }
-details.explainer summary::-webkit-details-marker{ display: none; }
-details.explainer summary::before{ content: "▸ "; }
-details.explainer[open] summary::before{ content: "▾ "; }
-.explainer-content{ margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--charcoal); }
-.explainer-content h4{ margin: 20px 0 6px; font-size: 15px; }
-.explainer-content h4:first-child{ margin-top: 0; }
-.explainer-content p{ margin: 0 0 10px; }
-.explainer-content ul{ margin: 0 0 10px 0; padding-left: 20px; }
-.explainer-content li{ margin-bottom: 6px; }
+.info-tip{ position: relative; display: inline-block; cursor: help; color: var(--brand); font-size: 15px; margin-left: 6px; vertical-align: middle; }
+.info-tip .tip-bubble{
+  visibility: hidden; opacity: 0; position: absolute; z-index: 30;
+  left: 50%; transform: translateX(-50%); top: 135%;
+  width: 300px; max-width: 80vw; background: var(--black); color: var(--white);
+  font-size: 12.5px; font-weight: normal; line-height: 1.5; text-align: left;
+  padding: 10px 12px; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  transition: opacity .15s ease, visibility .15s ease;
+}
+.info-tip:hover .tip-bubble, .info-tip:focus .tip-bubble{ visibility: visible; opacity: 1; }
+h4 .info-tip, h5 .info-tip{ font-size: 0.85em; }

@@ -31,6 +31,17 @@ tier_cls <- function(tier) {
   switch(tier, unfixable = "poor", fixable = "caution", clean = "good", "neutral")
 }
 
+# Red/yellow/green-style risk labels for the top-level Criteria assessment
+# cards (a plain-language summary view) -- the detailed tables below keep
+# the more precise Unfixable/Fixable/Clean vocabulary via tier_label().
+tier_label_risk <- function(tier) {
+  switch(tier,
+    unfixable = "High risk",
+    fixable = "Moderate risk",
+    clean = "Low risk",
+    "Not checked")
+}
+
 # Association-strength tier shared by every Cramer's V / eta-squared based
 # check (batch confounding, covariate screening, interpretability,
 # collinearity, missingness) so the whole app applies one consistent rule.
@@ -80,7 +91,16 @@ full_covariate_screen <- function(df, condition_col, sample_id_cols, roles) {
 
 # Collinearity among covariates: do any two covariates carry (nearly) the
 # same information, so including both over-parameterizes the model even
-# though neither is aliased with condition itself?
+# though neither is aliased with condition itself? |r| > 0.8 is the
+# conventional threshold for continuous-continuous redundancy; categorical/
+# mixed pairs fall back to the app's general association-tier thresholds,
+# since there's no single agreed-upon cutoff for those statistics here.
+severity_from_r_collinearity <- function(r) {
+  if (is.na(r)) return("not_checked")
+  if (r >= 0.8) return("fixable")
+  return("clean")
+}
+
 covariate_collinearity <- function(df, covariate_cols) {
   if (length(covariate_cols) < 2) return(list())
   pairs <- utils::combn(covariate_cols, 2, simplify = FALSE)
@@ -90,15 +110,18 @@ covariate_collinearity <- function(df, covariate_cols) {
     if (a_num && b_num) {
       val <- suppressWarnings(as.numeric(stats::cor(df[[a]], df[[b]], use = "pairwise.complete.obs")))
       val <- abs(val); method <- "pearson_r"
+      severity <- severity_from_r_collinearity(val)
     } else if (!a_num && !b_num) {
       tab <- table(df[[a]], df[[b]])
       val <- cramers_v(tab)$v; method <- "cramers_v"
+      severity <- severity_from_v(val)
     } else {
       grp <- if (a_num) b else a
       value_col <- if (a_num) a else b
       val <- eta_squared(df, grp, value_col); method <- "eta_squared"
+      severity <- severity_from_v(val)
     }
-    list(a = a, b = b, method = method, value = val, severity = severity_from_v(val))
+    list(a = a, b = b, method = method, value = val, severity = severity)
   })
 }
 
@@ -486,37 +509,23 @@ ASSAY_LABELS <- c(
 # Explainer content (Design diagnostics tab)
 # ============================================================================
 
-explainer_html <- r"-----(
-<p>Given a sample metadata sheet, these diagnostic tests will tell you if your experimental design is likely to produce a statistically valid result. Provide a sample metadata sheet with group assignment, batch/technical variables, and biological covariates.
+explainer_intro <- "Input: a sample metadata sheet with group assignment, batch/technical variables, and covariates. Every check below runs on metadata alone, before any molecular data exists — it tells you whether your design will let you draw valid conclusions, while the design is still fixable. Hover the ⓘ next to any check for its test, statistic, and how to read it."
 
-<h3>Diagnostic tests</h3>
-<h4>Rank/aliasing check</h4>
-Build the statistical design matrix implied by your model (group + batch + covariates) and check whether it has full rank. If two terms are perfectly aliased every sample in Batch A is also every sample in Group X and no statistical method can distinguish batch effect from biological effect in that comparison. This identifies confounding in your dataset. 
-<br>
-<p><strong>Interpretation:</strong><br>
-<code>d = 0</code> means the design is estimable (every term's coefficient is identifiable given the others). <code>d > 0</code> means at least one term is fully confounded with another.
+# Per-check explanations, surfaced as hover tooltips directly on the result
+# that they explain (rather than as a separate wall of text up top).
+info_tip <- function(text) {
+  tags$span(class = "info-tip", HTML("&#9432;"),
+    tags$span(class = "tip-bubble", text))
+}
 
-<h4>Variance Inflation Factor (VIF) per term</h4>
-For each predictor <code>X_j</code> in the design, regress it on all other predictors: <code>X_j ~ X_1 + ... + X_{j-1} + X_{j+1} + ... + X_k</code>. Take the R² of that regression. For each term X_j in the design matrix (group, batch, age, sex, etc.), VIF asks how well can X_j be predicted from all the other terms in the model?
-<br>
-<p><strong>Interpretation:</strong><br>
-VIF = 1 means X_j is independent of all other terms. VIF = 2 means <code>X_j</code> is 50% predictable from the others, VIF = 5 means 80% predictable, and VIF = 10 means 90% predictable. A high VIF indicates that the model is over-parameterised and that the coefficient for <code>X_j</code> will be unstable.
-
-<h4>Group &times; batch contingency table</h4>
-Cross-tabulate every categorical design variable against every other. Zero cells mean structural, unfixable confounding for that combination. Cells with a single sample mean there is no within-cell variance to distinguish batch noise from a genuine data point &mdash; that sample's value is indistinguishable from a batch artifact.</p>
-
-<p><strong>4. Balance index</strong><br>
-Beyond presence/absence, how evenly are groups distributed across batches? An entropy or chi-square measure against the proportional-allocation expectation distinguishes &ldquo;slightly uneven, adjustment will cost a little power&rdquo; from &ldquo;batch is essentially a proxy for group.&rdquo;</p>
-<p><strong>5. Full covariate screening</strong><br>
-Every column in the metadata sheet &mdash; not just the ones the researcher pre-declared as covariates &mdash; gets tested against the group variable (chi-square for categorical, Kruskal-Wallis/ANOVA for continuous). Unlabelled fields like extraction date or operator ID are exactly the ones that turn out to be the real batch effect, and they are missed if the tool only checks what the user thought to name.</p>
-<p><strong>6. Collinearity among covariates</strong><br>
-Continuous covariates correlated with each other (e.g., age and disease duration) compete for the same variance in the model. Flagging this prevents a design that looks adjusted on paper from actually being over-parameterized.</p>
-<p><strong>7. Missingness vs. group</strong><br>
-If covariate data is missing preferentially within one group, imputation cannot repair the resulting bias &mdash; the missingness itself is informative and violates the assumption imputation methods rely on.</p>
-<p><strong>8. Repeated-measures / subject integrity</strong><br>
-For any design with repeated sampling of the same subject (timepoints, paired tissue, longitudinal follow-up), verify that subject identifiers are consistent and that each subject's expected observations are actually present. Broken pairing silently converts a paired design into an unpaired one with far less power.</p>
-
-)-----"
+tip_rank <- "Test: builds the design matrix X implied by condition + batch + covariates and computes rank(X) via QR/SVD. Statistic: rank deficiency d = ncol(X) − rank(X). Interpretation: d = 0 means every term is estimable given the others; d > 0 means at least one term is an exact linear combination of another (e.g. batch = A for every case sample). Necessary but not sufficient — full rank means the model is estimable, not that estimates are precise (that's what VIF is for)."
+tip_vif <- "Test: regresses each term on all other terms in the design and takes VIF = 1/(1 − R²) (generalized VIF for multi-level factors, Fox & Monette 1992, so it's comparable across terms with different degrees of freedom). Interpretation: VIF = 1 means orthogonal to the rest of the design; VIF > 5 warrants attention, VIF > 10 is severe. Equivalent to estimating that term's effect with an effective sample size of n / VIF."
+tip_batch_assoc <- "Test: cross-tabulates condition against each batch/technical variable (chi-square test of independence, or Cramer's V as effect size). Interpretation: a zero cell (a condition/batch combination with no samples) is a structural, unfixable confound — there's no data to estimate the batch effect independently of condition in that stratum. A singleton cell (n = 1) has no within-cell variance to separate batch noise from a genuine data point. A significant result with all cells reasonably populated is the fixable, partial-confounding case."
+tip_balance <- "Test: how evenly is condition distributed within each batch, versus what proportional allocation would predict (entropy or chi-square goodness-of-fit). Interpretation: even spread means batch behaves like a random block; condition-homogeneous batches are the imbalance pattern that produces the confounding/VIF problems above — this is a fast per-batch scan before drilling into the full contingency table."
+tip_full_screen <- "Test: every column in the sheet — not just ones marked Batch or Covariate — tested against condition (chi-square/Fisher for categorical columns, ANOVA/eta-squared for continuous ones). Interpretation: a flagged column is a candidate confounder whether or not anyone intended to model it — unlabelled fields like processing date or operator ID surface here even when nobody thought to flag them as batch."
+tip_covariate_assoc <- "Test: association between each declared covariate and condition (Cramer's V for categorical, eta-squared from ANOVA for continuous). Interpretation: a high association means that covariate is a candidate confounder and should be included as an adjustment in any model, at some cost to power."
+tip_collinearity <- "Test: pairwise correlation among covariates (Pearson r for continuous pairs, Cramer's V / eta-squared for categorical or mixed pairs). Interpretation: |r| > 0.8 between two continuous covariates means they carry substantially redundant information — including both inflates variance for both without adding independent explanatory power. This is a special case of the VIF problem, restricted to covariate-covariate pairs rather than covariate-vs-condition."
+tip_missingness <- "Test: chi-square test on a 2×k table of (missing/present) × condition, for each column with missing data. Interpretation: a significant association means data isn't missing completely at random with respect to condition — standard imputation does not correct for group-dependent missingness, it will reproduce or amplify the bias rather than remove it."
 
 # ============================================================================
 # UI
@@ -534,10 +543,7 @@ ui <- fluidPage(
       tabPanel("Design diagnostics",
         br(),
         div(class = "card-panel",
-          tags$details(class = "explainer",
-            tags$summary("Design diagnostics explainer"),
-            div(class = "explainer-content", HTML(explainer_html))
-          )
+          div(class = "hint", explainer_intro)
         ),
         div(class = "card-row",
           div(class = "card-panel",
@@ -561,9 +567,7 @@ ui <- fluidPage(
           uiOutput("mappingUI"),
           uiOutput("diagnoseButtonUI")
         ),
-        div(class = "card-panel",
-          uiOutput("diagnosisResults")
-        )
+        uiOutput("diagnosisResults")
       ),
 
       tabPanel("Power calculator",
@@ -705,10 +709,10 @@ server <- function(input, output, session) {
     general <- assess_generalisability(res$covariates)
     rank_assess <- assess_rank(res$rank_check, res$condition_col)
 
-    card <- function(title, a) {
+    card <- function(title, a, tip = NULL) {
       div(class = "result-card",
-          h5(title),
-          span(class = paste0("flag flag-", a$cls), tier_label(a$tier)),
+          h5(title, if (!is.null(tip)) info_tip(tip)),
+          span(class = paste0("flag flag-", a$cls), tier_label_risk(a$tier)),
           tags$ul(lapply(a$reasons, tags$li)))
     }
 
@@ -756,38 +760,50 @@ server <- function(input, output, session) {
     } else NULL
 
     tagList(
-      h4("Criteria assessment"),
-      div(class = "assessment-row",
-        card("Rank / aliasing check", rank_assess),
-        card("Resource usage", resource),
-        card("Interpretability", interpret),
-        card("Generalisability", general)
+      div(class = "card-panel",
+        h4("Criteria assessment"),
+        div(class = "assessment-row",
+          card("Rank / aliasing check", rank_assess, tip_rank),
+          card("Resource usage", resource, tip_balance),
+          card("Interpretability", interpret),
+          card("Generalisability", general)
+        )
       ),
 
-      h4("Variance Inflation Factor (VIF) per term"),
-      div(class = "hint", "How much each term's estimate is inflated by its correlation with the rest of the design — quantifies a partial confound as an effective loss of sample size."),
-      if (!is.null(vif_rows)) renderTable(vif_rows, rownames = FALSE) else p("Need at least two design terms (condition + batch/covariate) to compute VIF."),
+      div(class = "card-panel",
+        h4("Variance Inflation Factor (VIF) per term", info_tip(tip_vif)),
+        if (!is.null(vif_rows)) renderTable(vif_rows, rownames = FALSE) else p("Need at least two design terms (condition + batch/covariate) to compute VIF.")
+      ),
 
-      h4("Batch / condition association"),
-      if (!is.null(batch_rows)) renderTable(batch_rows, rownames = FALSE) else p("No batch columns marked."),
+      div(class = "card-panel",
+        h4("Batch / condition association", info_tip(tip_batch_assoc)),
+        if (!is.null(batch_rows)) renderTable(batch_rows, rownames = FALSE) else p("No batch columns marked.")
+      ),
 
-      h4("Covariate association"),
-      if (!is.null(cov_rows)) renderTable(cov_rows, rownames = FALSE) else p("No covariate columns marked."),
+      div(class = "card-panel",
+        h4("Covariate association", info_tip(tip_covariate_assoc)),
+        if (!is.null(cov_rows)) renderTable(cov_rows, rownames = FALSE) else p("No covariate columns marked.")
+      ),
 
-      h4("Full covariate screen (every column, not just declared ones)"),
-      div(class = "hint", "Tests every column in the sheet against condition — not just the ones marked Batch or Covariate — so an unlabelled field (e.g. extraction date) that's actually driving the association doesn't get missed."),
-      if (!is.null(screen_rows)) renderTable(screen_rows, rownames = FALSE) else p("No other columns to screen."),
+      div(class = "card-panel",
+        h4("Full covariate screen (every column, not just declared ones)", info_tip(tip_full_screen)),
+        if (!is.null(screen_rows)) renderTable(screen_rows, rownames = FALSE) else p("No other columns to screen.")
+      ),
 
-      h4("Collinearity among covariates"),
-      div(class = "hint", "Are any two covariates carrying the same information? Both competing for the same variance over-parameterizes the model even when neither is aliased with condition."),
-      if (!is.null(collin_rows)) renderTable(collin_rows, rownames = FALSE) else p("Need at least two covariates marked to check collinearity."),
+      div(class = "card-panel",
+        h4("Collinearity among covariates", info_tip(tip_collinearity)),
+        if (!is.null(collin_rows)) renderTable(collin_rows, rownames = FALSE) else p("Need at least two covariates marked to check collinearity.")
+      ),
 
-      h4("Missingness vs. group"),
-      div(class = "hint", "Only columns with at least one missing value are listed. A significant association means data is missing preferentially within one condition group — imputation can't fix that bias."),
-      if (!is.null(missing_rows)) renderTable(missing_rows, rownames = FALSE) else p("No missing data detected in this sheet."),
+      div(class = "card-panel",
+        h4("Missingness vs. group", info_tip(tip_missingness)),
+        if (!is.null(missing_rows)) renderTable(missing_rows, rownames = FALSE) else p("No missing data detected in this sheet.")
+      ),
 
-      h4("Samples per condition group"),
-      renderTable(res$replicates, rownames = FALSE)
+      div(class = "card-panel",
+        h4("Samples per condition group"),
+        renderTable(res$replicates, rownames = FALSE)
+      )
     )
   })
 
