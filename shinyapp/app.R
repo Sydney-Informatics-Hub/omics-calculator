@@ -658,7 +658,10 @@ S12,control,Batch3,F,59"
 # Explainer content (Design diagnostics tab)
 # ============================================================================
 
-explainer_intro <- "This tool checks your experimental design for potential issues that may compromise the validity of your analyses. The checks are based solely on the metadata you provide, no molecular data is needed. Each check evaluates a different aspect of your design, such as whether your condition groups are confounded with batch effects or covariates, whether there are missing data patterns that could bias your results, and whether all terms in your model are estimable.Input: a sample metadata sheet with group assignment, batch/technical variables, and covariates. Every check below runs on metadata alone, before any molecular data exists. Hover the ⓘ next to any check for its test, statistic, and how to read it."
+explainer_intro <- c(
+  "This tool checks your experimental design for potential issues that may compromise the validity of your analyses. The checks are based solely on the metadata you provide, no molecular data is needed. Each check evaluates a different aspect of your design, like whether your condition groups are confounded with batch effects or covariates, whether there are missing data patterns that could bias your results, and whether all terms in your model are estimable.",
+  "Input: a sample metadata sheet with group assignment, batch/technical variables, and covariates. Every check below runs on metadata alone, before any molecular data exists. Hover the ⓘ next to any check for its test, statistic, and how to read it."
+)
 
 # Per-check explanations, surfaced as hover tooltips directly on the result
 # that they explain (rather than as a separate wall of text up top).
@@ -680,10 +683,44 @@ tip_missingness <- "Test: chi-square test on a 2×k table of (missing/present) �
 # UI
 # ============================================================================
 
+theme_toggle_script <- r"-----(
+(function() {
+  var STORAGE_KEY = 'omics-calculator-theme';
+  function systemPrefersDark() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+  function initTheme() {
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    applyTheme(saved || (systemPrefersDark() ? 'dark' : 'light'));
+  }
+  initTheme();
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest ? e.target.closest('#themeToggleBtn') : null;
+    if (!btn) return;
+    var current = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem(STORAGE_KEY, next); } catch (e) {}
+  });
+})();
+)-----"
+
 ui <- fluidPage(
-  tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")),
+  title = "Omics Experiment Calculator",
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
+    tags$script(HTML(theme_toggle_script))
+  ),
   div(class = "top-navbar",
-      span(class = "navbar-brand", "Sydney Informatics Hub - Omics Experiment Calculator")
+      span(class = "navbar-brand", "Sydney Informatics Hub - Omics Experiment Calculator"),
+      tags$button(id = "themeToggleBtn", class = "theme-toggle-btn", type = "button",
+        tags$span(class = "icon-light", "\U0001F319 Dark"),
+        tags$span(class = "icon-dark", "\U00002600 Light")
+      )
   ),
   div(class = "app-container",
     tabsetPanel(
@@ -692,7 +729,7 @@ ui <- fluidPage(
       tabPanel("Design diagnostics",
         br(),
         div(class = "card-panel",
-          div(class = "hint", explainer_intro)
+          div(class = "intro-text", lapply(explainer_intro, p))
         ),
         div(class = "card-row",
           div(class = "card-panel",

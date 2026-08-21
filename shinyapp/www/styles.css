@@ -1,36 +1,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
 
+/* --white and --black are FIXED constants (not theme-swapped): they mean
+   "text on a colored badge/button/tooltip", a role that stays the same
+   regardless of light/dark mode since those backgrounds don't change.
+   --bg-page/--bg-panel/--heading/--charcoal/--panel-border/--gray-* are the
+   theme-aware tokens, redefined for dark mode further down. */
 :root{
-  --brand:#1A345E; --brand-dark:#0f2036; --white:#FFFFFF; --charcoal:#424242; --black:#000000;
+  --brand:#1A345E; --brand-dark:#0f2036; --white:#FFFFFF; --black:#000000;
   --gold:#FFB800; --green:#BDDC96; --blue:#91BDE5;
   --status-poor:#E64626;
+  --bg-page:#FFFFFF; --bg-panel:#FFFFFF; --heading:#000000; --charcoal:#424242;
   --panel-border:#e2e2e2; --gray-mid:#666666; --gray-soft:#777777;
   --gray-dashed:#cccccc;
 }
-body{ font-family: 'Source Sans Pro', Arial, sans-serif; color: var(--charcoal); }
-h1, h2, h3, h4, h5 { color: var(--black); }
+:root[data-theme="dark"]{
+  --brand:#3f5f95; --brand-dark:#2e4a78;
+  --bg-page:#14171b; --bg-panel:#20242b; --heading:#FFFFFF; --charcoal:#d7dadd;
+  --panel-border:#383d45; --gray-mid:#9aa0a6; --gray-soft:#868c92; --gray-dashed:#4a4f57;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]):not([data-theme="dark"]){
+    --brand:#3f5f95; --brand-dark:#2e4a78;
+    --bg-page:#14171b; --bg-panel:#20242b; --heading:#FFFFFF; --charcoal:#d7dadd;
+    --panel-border:#383d45; --gray-mid:#9aa0a6; --gray-soft:#868c92; --gray-dashed:#4a4f57;
+  }
+}
+body{ font-family: 'Source Sans Pro', Arial, sans-serif; color: var(--charcoal); background: var(--bg-page); }
+h1, h2, h3, h4, h5 { color: var(--heading); }
 a, a:hover { color: var(--brand); }
-.top-navbar{ background: var(--brand); color: var(--white); padding: 10px 24px; margin: -15px -15px 24px -15px; display: flex; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
-.top-navbar .navbar-brand{ font-size: 18px; font-weight: 600; color: var(--white); }
+.top-navbar{ background: var(--brand); color: var(--white); padding: 10px 24px; margin: -15px -15px 24px -15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+.top-navbar .navbar-brand{ font-size: 20px; font-weight: 600; color: var(--white); }
+.theme-toggle-btn{ background: rgba(255,255,255,0.15); color: var(--white); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 5px 14px; font-size: 13px; cursor: pointer; }
+.theme-toggle-btn:hover{ background: rgba(255,255,255,0.25); }
+.theme-toggle-btn .icon-dark{ display: none; }
+:root[data-theme="dark"] .theme-toggle-btn .icon-light{ display: none; }
+:root[data-theme="dark"] .theme-toggle-btn .icon-dark{ display: inline; }
 .app-container{ max-width: 1400px; margin: 0 auto; padding: 0 4px; }
 .card-row{ display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; align-items: flex-start; }
 .card-row > div{ flex: 1 1 480px; min-width: 0; }
-.card-panel{ background: var(--white); border: 1px solid var(--panel-border); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.06); padding: 18px 20px; margin-bottom: 16px; }
+.card-panel{ background: var(--bg-panel); border: 1px solid var(--panel-border); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.06); padding: 18px 20px; margin-bottom: 16px; }
 .app-footer{ max-width: 900px; margin: 40px auto 0; padding: 20px 24px; border-top: 1px solid var(--panel-border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--gray-mid); }
 .app-footer a{ color: var(--brand); }
 .hint{ font-size: 13px; color: var(--gray-mid); margin-bottom: 10px; }
+.intro-text{ font-size: 16px; line-height: 1.6; color: var(--charcoal); }
+.intro-text p{ margin: 0 0 12px; }
+.intro-text p:last-child{ margin-bottom: 0; }
 .nav-tabs{ background: var(--brand); border-radius: 4px 4px 0 0; border: none; padding: 4px 4px 0 4px; }
 .nav-tabs > li > a{ color: var(--white); border: none; border-radius: 4px 4px 0 0; }
 .nav-tabs > li > a:hover{ background: rgba(255,255,255,0.15); color: var(--white); border-color: transparent; }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
-  color: var(--brand); background: var(--white); border: none; font-weight: 600;
+  color: var(--brand); background: var(--bg-panel); border: none; font-weight: 600;
 }
 .tab-content{ border: 1px solid var(--panel-border); border-top: none; padding: 20px 20px 10px 20px; border-radius: 0 0 4px 4px; }
 .btn-primary{ background: var(--brand); border-color: var(--brand); }
 .btn-primary:hover, .btn-primary:focus{ background: var(--brand-dark); border-color: var(--brand-dark); }
-.example-btn{ margin-right: 6px; margin-bottom: 10px; color: var(--brand); border-color: var(--brand); background: var(--white); }
+.example-btn{ margin-right: 6px; margin-bottom: 10px; color: var(--brand); border-color: var(--brand); background: var(--bg-panel); }
 .example-btn:hover{ background: var(--brand); color: var(--white); }
-.result-card{ background: var(--white); border: 1px solid var(--panel-border); border-left: 5px solid var(--brand); border-radius: 4px; padding: 14px 18px; margin-bottom: 14px; }
+.result-card{ background: var(--bg-panel); border: 1px solid var(--panel-border); border-left: 5px solid var(--brand); border-radius: 4px; padding: 14px 18px; margin-bottom: 14px; }
 .assessment-row{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
 .assessment-row .result-card{ margin-bottom: 0; }
 .flag{ display:inline-block; padding: 3px 10px; border-radius: 3px; font-weight:bold; font-size: 12px; }
