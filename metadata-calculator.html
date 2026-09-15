@@ -466,13 +466,27 @@ body {overflow:auto} .app{display:block;max-width:1150px;margin:auto} main{paddi
 .auto-badge.auto-high{background:#e0f2e9;color:#1f7a4d}
 .auto-badge.auto-mid{background:#fdf2d8;color:#8a6416}
 .auto-badge.auto-low{background:#eef1f4;color:#526575}
-.auto-badge.auto-unknown{background:#eef1f4;color:var(--ink-3)}</style></head><body>
+.auto-badge.auto-unknown{background:#eef1f4;color:var(--ink-3)}
+.balance-panel{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2)}
+.balance-panel h3{margin-bottom:6px}
+.balance-panel h4{margin:10px 0 4px;font-size:12.5px;color:var(--ink-2)}
+.miss-list{margin-top:4px}
+.miss-row{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:8px;padding:3px 0;font-size:12px}
+.miss-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+.miss-bar{position:relative;height:8px;background:var(--line-2);border-radius:4px;overflow:hidden}
+.miss-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;display:block}
+.miss-bar i.miss-low{background:var(--sev0)}
+.miss-bar i.miss-mid{background:var(--sev2)}
+.miss-bar i.miss-high{background:var(--sev3)}
+.miss-bar i.bal-bar{background:var(--accent)}
+.miss-pct{text-align:right;color:var(--ink-3);font-size:11px}
+.miss-warn{color:var(--sev2)!important}</style></head><body>
 <div class="boot" id="boot"><div class="card"><h2>Starting the metadata activity</h2><p id="bootMsg">Loading webR…</p><p id="bootSub">Your data are analysed in this browser.</p></div></div>
 <header class="sample-guide-header"><h1>Sample Sheet guide: a guided design check on the sample sheet, before anything is processed</h1><span class="busy" id="busy" role="status"></span></header>
 <div class="app"><main><nav class="progress" id="progress" aria-label="Activity steps"></nav><div id="werror" role="alert"></div>
 <section class="step on" id="step-1"><div class="panel"><h2>1 · Upload your metadata</h2><div id="thresholdInfo" hidden><h3>Screening thresholds</h3><table><thead><tr><th>Q1 comparison</th><th>Association measure</th><th>Priority</th></tr></thead><tbody><tr><td>Categorical–categorical</td><td>Cramér’s V</td><td>≥ 0.40</td></tr><tr><td>Categorical–continuous</td><td>Eta</td><td>≥ 0.40</td></tr><tr><td>Continuous–continuous</td><td>Absolute Spearman correlation</td><td>≥ 0.40</td></tr></tbody></table><p>If no variable meets the main threshold, associations from 0.20 to below 0.40 are shown. These are teaching priorities, not proof of confounding. SMD and Duncan do not select variables at Q1.</p><p>After Q2/Q3 flag a potential confounder, examine shared categories and distributions/ranges. SMD and Duncan support imbalance assessment. High imbalance or correlation alone does not establish complete confounding.</p><p>Q1 is descriptive: related specimens remain in the screen, so subjects contributing more specimens may influence it more. Technical repeats are counted once using specimen ID where available. When “Same specimen” is selected without specimen IDs, the subject ID is used.</p></div><div class="wform"><button class="btn primary" id="demoBtn">Load example</button><label for="fileIn">Upload CSV or TSV</label><input type="file" id="fileIn" accept=".csv,.tsv,.txt"><label for="pasteIn">Or paste a table, including its header</label><textarea id="pasteIn" rows="4"></textarea><button class="btn" id="pasteBtn">Load pasted text</button></div><p id="dataNote" role="status">No sheet loaded.</p><div id="preview"></div></div></section>
 <section class="step" id="step-2"><div class="panel"><h2>2 · Map the key columns</h2><div class="wform"><label for="specimenMap">Sample / specimen ID<br><small style="font-weight:normal;color:#888;">the row-level measurement identifier (e.g. SampleID, RNA_ID). Can repeat if one specimen was processed twice. Leave blank if not separately recorded.</small></label><select id="specimenMap"></select><label for="mapUnit">Subject / donor ID<br><small style="font-weight:normal;color:#888;">the individual being studied (e.g. PatientID, MouseID, DonorID). Multiple rows share this ID when one subject has several specimens.</small></label><select id="mapUnit"></select><label for="mapCond">Phenotype / outcome<br><small style="font-weight:normal;color:#888;">the column defining your comparison groups (e.g. Disease_status, Treatment, Age_group).</small></label><select id="mapCond"></select></div></div></section>
-<section class="step" id="step-3"><div class="panel"><h2>3 · Choose variables to screen<button type="button" class="info-icon" data-tip="Categorical &#8212; named groups with no meaningful order, e.g. sex, tissue site, treatment arm. Tested with a group-difference statistic.&#10;&#10;Ordinal &#8212; ordered categories where the gaps between levels may not be equal, e.g. disease stage (I, II, III), severity score. Tested with a rank-based statistic.&#10;&#10;Continuous &#8212; numeric values on a real scale, e.g. age, BMI, library size. Tested with a correlation statistic.&#10;&#10;Types are auto-detected from your data. Change a type if it has been misassigned &#8212; for example, a column of integers 1/2/3 representing ordered severity should be ordinal not continuous." aria-label="What do Categorical, Ordinal and Continuous mean?">i</button></h2><p id="step3intro"></p><button class="btn" id="allOn">Select all</button> <button class="btn" id="allOff">Clear selection</button><div class="varlist" id="varList"></div></div></section>
+<section class="step" id="step-3"><div class="panel"><h2>3 · Choose variables to screen<button type="button" class="info-icon" data-tip="Categorical &#8212; named groups with no meaningful order, e.g. sex, tissue site, treatment arm. Tested with a group-difference statistic.&#10;&#10;Ordinal &#8212; ordered categories where the gaps between levels may not be equal, e.g. disease stage (I, II, III), severity score. Tested with a rank-based statistic.&#10;&#10;Continuous &#8212; numeric values on a real scale, e.g. age, BMI, library size. Tested with a correlation statistic.&#10;&#10;Types are auto-detected from your data. Change a type if it has been misassigned &#8212; for example, a column of integers 1/2/3 representing ordered severity should be ordinal not continuous." aria-label="What do Categorical, Ordinal and Continuous mean?">i</button></h2><p id="step3intro"></p><div id="varBalance"></div><button class="btn" id="allOn">Select all</button> <button class="btn" id="allOff">Clear selection</button><div class="varlist" id="varList"></div></div></section>
 <section class="step" id="step-4"><div class="panel"><h2>4 · How are your samples related?</h2><div id="sampling"></div></div></section>
 <section class="step" id="step-5"><div class="panel"><h2>5 · Assess possible variable roles</h2><div id="assessment"></div></div></section>
 <section class="step" id="step-6"><div class="panel"><h2>6 · Review your study summary</h2><div class="export-actions"><button class="btn primary" id="reportExport">Download report</button> <button class="btn" id="reportPrint">Print / Save as PDF</button></div><div id="report"></div></div></section>
@@ -1661,6 +1675,19 @@ ss_counts <- function(f) {
  ok(list(rowlev=jarr(rownames(tb)),collev=jarr(colnames(tb)),counts=lapply(seq_len(nrow(tb)),function(i)jarr(as.numeric(tb[i,])))))
 }
 
+## a compact histogram used to show the shape of a continuous outcome,
+## since listing every distinct value is unreadable once there are many
+ss_hist <- function(f, bins = 8) {
+ tryCatch({
+  if (is.na(f) || !nzchar(f) || !(f %in% names(SS$sheet))) return(ok(list(counts = list(), mids = list(), breaks = list(), n = 0)))
+  x <- suppressWarnings(as.numeric(SS$sheet[[f]])); x <- x[is.finite(x)]
+  if (!length(x)) return(ok(list(counts = list(), mids = list(), breaks = list(), n = 0)))
+  if (length(unique(x)) == 1) return(ok(list(counts = list(length(x)), mids = list(x[1]), breaks = list(x[1], x[1]), n = length(x))))
+  h <- hist(x, breaks = bins, plot = FALSE)
+  ok(list(counts = jarr(h$counts), mids = jarr(h$mids), breaks = jarr(h$breaks), n = length(x)))
+ }, error = function(e) err(conditionMessage(e)))
+}
+
 ss_repeat_info <- function(specimen = '') {
  df <- SS$sheet; u <- SS$cfg$unit
  if(is.na(u)) return(ok(list(mapped=FALSE)))
@@ -1690,7 +1717,7 @@ const REPEAT_INFO={technical:{label:'Technical replicates',note:'Related rows ar
 
 const S = { meta:[], fields:[], types:{}, map:{id:'',unit:'',cond:''}, include:new Set(),
             corr:'spearman', name:'', nrow:0, unitOK:false, repeatKind:'', sheetSort:'', sheetDesc:false,
-            screen:null, pairs:null, design:null, conflicts:null, ready:false,
+            screen:null, pairs:null, design:null, conflicts:null, ready:false, outcomeHist:null,
             /* one page, revealed as you go. q2 is the tick list, q3 the
                follow-up on whatever was ticked. */
             reveal:1, q2done:false, q2:{}, q3:{} };
@@ -1844,6 +1871,7 @@ async function refresh(){
  await bindVal('cfg_id',S.map.id||'');await bindVal('cfg_unit',effectiveUnit());await bindVal('cfg_cond',S.map.cond||'');await bindVal('cfg_level','row');await bindVal('cfg_repeat',W.sample.repeat||'');await bindVal('cfg_specimen',W.sample.specimen||'');await bindVal('cfg_corr','spearman');
  await bindVal('cfg_vars',S.fields.filter(f=>S.include.has(f)&&f!==W.sample.specimen));await bindVal('cfg_tnames',S.fields);await bindVal('cfg_tvals',S.fields.map(f=>S.types[f]));await webR.evalRVoid('ss_apply()');
  S.design=await rjson('ss_design()'); S.counts=await rjson('ss_repeat_info('+JSON.stringify(W.sample.specimen||'')+')');if(S.counts.mapped&&S.counts.extra===0)W.sample.repeat='none'; S.screen=W.confirmed&&S.map.cond?await rjson('ss_screen()'):null;
+ S.outcomeHist=S.map.cond&&numeric(S.map.cond)?await rjson('ss_hist('+JSON.stringify(S.map.cond)+',8)'):null;
  await renderAll();busy('');
 }
 function gate(page){
@@ -1877,8 +1905,55 @@ function renderVariables(){
  const outcome = S.map.cond ? '<b>'+esc(S.map.cond)+'</b>' : 'your outcome';
  $('#step3intro').innerHTML = 'Which columns in your sample sheet describe characteristics of your samples or subjects — things like age, sex, batch, tissue site, or collection date? Select all that might be relevant to your study. The app will check whether any of these vary with '+outcome+' and flag them as potential covariates for your model.';
  const excluded=[S.map.id,effectiveUnit(),S.map.cond,W.sample.specimen].filter(Boolean);
- const screenable=S.fields.filter(f=>!excluded.includes(f)&&S.types[f]!=='exclude');
- $('#varList').innerHTML=screenable.map(f=>{const m=S.meta.find(m=>m.name===f);return '<div class="varrow"><input aria-label="Screen '+esc(f)+'" type="checkbox" data-include="'+esc(f)+'" '+(S.include.has(f)?'checked':'')+'><span class="nm">'+esc(f)+'<small>'+m.distinct+' values · '+fmt(m.missing*100,0)+'% missing</small></span><div class="type-cell"><span class="type-label">Type</span><select aria-label="Type of '+esc(f)+'" data-type="'+esc(f)+'">'+TYPES.filter(t=>t!=='exclude').map(t=>'<option value="'+t+'"'+(S.types[f]===t?' selected':'')+(['continuous','ordinal'].includes(t)&&!m.numeric?' disabled':'')+'>'+t+'</option>').join('')+'</select></div></div>';}).join('');
+ /* only hide columns that cannot be screened at all: constant values, or a value unique to every row (an identifier). High-cardinality categorical columns (e.g. many breeds) stay selectable. */
+ const screenable=S.fields.filter(f=>{
+  if(excluded.includes(f))return false;
+  const m=S.meta.find(m=>m.name===f);
+  if(!m)return false;
+  if(m.distinct<=1)return false;
+  if(m.distinct===S.nrow&&S.nrow>6)return false;
+  return true;
+ });
+ screenable.forEach(f=>{if(S.types[f]==='exclude'){const m=S.meta.find(m=>m.name===f);S.types[f]=m.numeric?'continuous':'categorical';}});
+ $('#varBalance').innerHTML=balanceSummary(screenable);
+ $('#varList').innerHTML=screenable.map(f=>{const m=S.meta.find(m=>m.name===f);return '<div class="varrow"><input aria-label="Screen '+esc(f)+'" type="checkbox" data-include="'+esc(f)+'" '+(S.include.has(f)?'checked':'')+'><span class="nm">'+esc(f)+'<small'+(m.missing>=.2?' class="miss-warn"':'')+'>'+m.distinct+' values · '+fmt(m.missing*100,0)+'% missing</small></span><div class="type-cell"><span class="type-label">Type</span><select aria-label="Type of '+esc(f)+'" data-type="'+esc(f)+'">'+TYPES.filter(t=>t!=='exclude').map(t=>'<option value="'+t+'"'+(S.types[f]===t?' selected':'')+(['continuous','ordinal'].includes(t)&&!m.numeric?' disabled':'')+'>'+t+'</option>').join('')+'</select></div></div>';}).join('');
+}
+function balanceSummary(screenable){
+ const HIGH=.2,MID=.05;
+ const rows=screenable.map(f=>S.meta.find(m=>m.name===f)).filter(Boolean);
+ if(!rows.length&&!S.map.cond)return '';
+ const flagged=rows.filter(m=>m.missing>=HIGH);
+ const missBars=rows.slice().sort((a,b)=>b.missing-a.missing).map(m=>{
+  const pct=Math.round(m.missing*100);
+  const cls=m.missing>=HIGH?'miss-high':(m.missing>=MID?'miss-mid':'miss-low');
+  return '<div class="miss-row"><span class="miss-name">'+esc(m.name)+'</span><div class="miss-bar"><i class="'+cls+'" style="width:'+pct+'%"></i></div><span class="miss-pct">'+pct+'%</span></div>';
+ }).join('');
+ let balanceHTML='';
+ const perCond=arr(S.design?.perCond);
+ if(S.map.cond&&numeric(S.map.cond)&&S.outcomeHist?.counts?.length){
+  const h=S.outcomeHist,counts=arr(h.counts),breaks=arr(h.breaks);
+  const mids=arr(h.mids),total=counts.reduce((a,b)=>a+b,0),maxN=Math.max(...counts,1);
+  const mean=total?mids.reduce((s,m,i)=>s+m*counts[i],0)/total:0;
+  const variance=total?mids.reduce((s,m,i)=>s+counts[i]*Math.pow(m-mean,2),0)/total:0;
+  const sd=Math.sqrt(variance);
+  const skew=sd>0&&total?mids.reduce((s,m,i)=>s+counts[i]*Math.pow((m-mean)/sd,3),0)/total:0;
+  const skewed=Math.abs(skew)>=.75;
+  balanceHTML='<h4>Outcome distribution ('+esc(S.map.cond)+')</h4><div class="miss-list">'+counts.map((n,i)=>{
+   const pct=Math.round((n/maxN)*100);
+   const label=fmt(breaks[i],1)+'\u2013'+fmt(breaks[i+1],1);
+   return '<div class="miss-row"><span class="miss-name">'+esc(label)+'</span><div class="miss-bar"><i class="bal-bar" style="width:'+pct+'%"></i></div><span class="miss-pct">'+n+'</span></div>';
+  }).join('')+'</div><p class="whelp">'+h.n+' recorded values across '+counts.length+' bins.</p>'+(skewed?'<p class="warnbox">The distribution is skewed, with a longer tail toward '+(skew>0?'higher':'lower')+' values of '+esc(S.map.cond)+'. Keep this in mind when interpreting associations.</p>':'');
+ }else if(S.map.cond&&perCond.length){
+  const counts=perCond.map(g=>g.rows);
+  const maxN=Math.max(...counts,1),minN=Math.min(...counts);
+  const ratio=maxN>0?minN/maxN:1;
+  const imbalanced=ratio<.5;
+  balanceHTML='<h4>Outcome balance ('+esc(S.map.cond)+')</h4><div class="miss-list">'+perCond.map(g=>{
+   const pct=Math.round((g.rows/maxN)*100);
+   return '<div class="miss-row"><span class="miss-name">'+esc(g.level)+'</span><div class="miss-bar"><i class="bal-bar" style="width:'+pct+'%"></i></div><span class="miss-pct">'+g.rows+'</span></div>';
+  }).join('')+'</div>'+(imbalanced?'<p class="warnbox">Outcome groups are imbalanced — the smallest group is only '+Math.round(ratio*100)+'% the size of the largest. Keep this in mind when interpreting associations.</p>':'');
+ }
+ return '<div class="balance-panel"><h3>Missingness and balance</h3>'+(flagged.length?'<p class="warnbox">'+flagged.length+' variable'+(flagged.length===1?'':'s')+' '+(flagged.length===1?'has':'have')+' high missingness (≥'+Math.round(HIGH*100)+'%): '+flagged.map(m=>esc(m.name)).join(', ')+'.</p>':'')+(rows.length?'<h4>Missing data per variable</h4><div class="miss-list">'+missBars+'</div>':'')+balanceHTML+'</div>';
 }
 function selectHTML(id,label,choices,value){return '<label for="'+id+'">'+label+'</label><select id="'+id+'"><option value="">— choose —</option>'+choices.map(([v,l])=>'<option value="'+v+'"'+(value===v?' selected':'')+'>'+l+'</option>').join('')+'</select>';}
 function renderSampling(){
@@ -1995,6 +2070,9 @@ function reportHTML(){
  const counts=[['Subjects (unique '+effectiveUnit()+' values)',c.units??'Not mapped'],['Subjects represented in the outcome comparison; '+(d.noCond||0)+' have no known outcome',d.comparisonUnits??'—'],['Rows with known outcome / total rows; '+(d.missingCond||0)+' excluded for missing outcome',(S.nrow-(d.missingCond||0))+'/'+S.nrow],['Technical/process replicate rows beyond the first',technical],['Repeated/nested observation rows beyond the first',repeated],['Repeated-row handling (from step 4)',repeatInfo.label]];
  function group(title,list,description){return '<section class="summary-group"><h3>'+title+'<span class="group-count">'+list.length+'</span></h3><p>'+description+'</p>'+(list.length?'<ul>'+list.map(r=>'<li>'+esc(r.field)+'</li>').join('')+'</ul>':'<p>None flagged.</p>')+'</section>';}
  const missing=rr.filter(r=>Number.isFinite(r.missGap)&&r.missGap>=.15);
+ const missingSummary=rr.map(r=>{const m=S.meta.find(x=>x.name===r.field);return {field:r.field,missing:Number.isFinite(m?.missing)?m.missing:0};}).filter(r=>r.missing>0).sort((a,b)=>b.missing-a.missing);
+ const missingBars = missingSummary.length ? '<div class="miss-list">'+missingSummary.slice(0,8).map(r=>{const pct=Math.round(r.missing*100);const cls=r.missing>=.2?'miss-high':(r.missing>=.05?'miss-mid':'miss-low');return '<div class="miss-row"><span class="miss-name">'+esc(r.field)+'</span><div class="miss-bar"><i class="'+cls+'" style="width:'+pct+'%"></i></div><span class="miss-pct">'+pct+'%</span></div>'}).join('')+'</div>' : '<p>None flagged.</p>';
+ const outcomeDistSummary = S.map.cond && numeric(S.map.cond) && S.outcomeHist?.counts?.length ? (()=>{const h=S.outcomeHist,counts=arr(h.counts),breaks=arr(h.breaks),mids=arr(h.mids),maxN=Math.max(...counts,1),total=counts.reduce((a,b)=>a+b,0);const mean=total?mids.reduce((s,m,i)=>s+m*counts[i],0)/total:0;const variance=total?mids.reduce((s,m,i)=>s+counts[i]*Math.pow(m-mean,2),0)/total:0;const sd=Math.sqrt(variance);const skew=sd>0&&total?mids.reduce((s,m,i)=>s+counts[i]*Math.pow((m-mean)/sd,3),0)/total:0;const skewText=typeof skew==='number'&&Math.abs(skew)>=.75?'<p class="warnbox">The continuous outcome is skewed, with a longer tail toward '+(skew>0?'higher':'lower')+' values. This may affect how you interpret contrasts and variation in the sample.</p>':'';return '<div class="miss-list">'+counts.map((n,i)=>{const pct=Math.round((n/maxN)*100);const label=fmt(breaks[i],1)+'\u2013'+fmt(breaks[i+1],1);return '<div class="miss-row"><span class="miss-name">'+esc(label)+'</span><div class="miss-bar"><i class="bal-bar" style="width:'+pct+'%"></i></div><span class="miss-pct">'+n+'</span></div>'}).join('')+'</div><p class="whelp">'+h.n+' recorded values across '+counts.length+' bins.</p>'+skewText;})() : (S.map.cond && arr(S.design?.perCond).length ? (()=>{const perCond=arr(S.design.perCond),counts=perCond.map(g=>g.rows),maxN=Math.max(...counts,1),minN=Math.min(...counts),ratio=maxN>0?minN/maxN:1,imbalanced=ratio<.5;return '<div class="miss-list">'+perCond.map(g=>{const pct=Math.round((g.rows/maxN)*100);return '<div class="miss-row"><span class="miss-name">'+esc(g.level)+'</span><div class="miss-bar"><i class="bal-bar" style="width:'+pct+'%"></i></div><span class="miss-pct">'+g.rows+'</span></div>'}).join('')+'</div>'+(imbalanced?'<p class="warnbox">Outcome groups are imbalanced — the smallest group is only '+Math.round(ratio*100)+'% the size of the largest. Keep this in mind when interpreting associations.</p>':'');})() : '<p>No outcome distribution summary is available yet.</p>' );
  let h='<p><b>Sheet:</b> '+esc(S.name)+' · <b>Outcome:</b> '+esc(S.map.cond)+'</p><h2>1 · How many subjects and observations are represented? <small>Module 1</small></h2><table><thead><tr><th>Design element</th><th>Result</th></tr></thead><tbody>'+counts.map(([k,v])=>'<tr><td>'+esc(k)+'</td><td><b>'+esc(v)+'</b></td></tr>').join('')+'</tbody></table>'+(c.missingUnit?'<p>'+c.missingUnit+' records have missing subject IDs and cannot be assigned to a subject.</p>':'')+(repeatInfo.note?'<p>'+esc(repeatInfo.note)+'</p>':'')+'<p>'+esc(S.screen?.note||'')+' Subjects contributing more specimens may influence this descriptive screen more. Related samples need to be accounted for in later analysis.</p><h2>2 · What may complicate the comparison <small>Module 2</small></h2><div class="stats">'+[['aligned','Complete alignment'],['overlap','Potential confounders: no separation flagged'],['poor','Potential confounders with limited overlap'],['mediator','Possible mediators'],['covariate','Outcome-associated covariates'],['unresolved','Unresolved']].map(([k,l])=>'<div><b>'+groups[k].length+'</b>'+l+'</div>').join('')+'</div><h3 class="confounding-heading">Confounding problems</h3>';
  h+=group('Complete alignment: potential complete confounding',groups.aligned,'The metadata variable is completely aligned with the outcome groups and your answers flag potential confounding.');
  h+=group('Potential confounders: no separation flagged',groups.overlap,'Your answers flag potential confounding. No complete alignment or limited-separability warning was detected by these checks. Review the distributions before deciding whether adjustment is appropriate.');
@@ -2002,7 +2080,7 @@ function reportHTML(){
  h+='<h3 class="interpretations-heading">Other interpretations</h3>'+group('Possible mediators',groups.mediator,'You judged the pathway omics → variable → outcome plausible. Adjustment could remove part of the total causal effect.');
  h+=group('Outcome-associated covariates',groups.covariate,'These variables passed outcome screening but were not judged to be associated with the omics measurement in Criteria 1. They may be considered as covariates; appropriate inclusion may improve precision.');
  h+=group('Uncertain or unfinished: needs review',groups.unresolved,'Do not adjust automatically. Record the uncertainty or complete the outstanding questions.');
- h+='<h2>3 · What needs review or could not be assessed</h2><h3>Not assessed</h3>'+(groups.unassessed.length?'<ul>'+groups.unassessed.map(r=>'<li><b>'+esc(r.field)+'</b>'+(' — '+esc(reason(r)))+'</li>').join('')+'</ul>':'<p>None.</p>')+'<h3>Missing values that differ between outcome groups</h3>'+(missing.length?'<ul>'+missing.map(r=>'<li><b>'+esc(r.field)+'</b> — '+arr(r.missByGrp).filter(g=>Number.isFinite(g.miss)).map(g=>Math.round(g.miss*100)+'% missing in '+esc(g.level)).join('; ')+'.</li>').join('')+'</ul>':'<p>None flagged.</p>');
+ h+='<h2>3 · What needs review or could not be assessed</h2><h3>Not assessed</h3>'+(groups.unassessed.length?'<ul>'+groups.unassessed.map(r=>'<li><b>'+esc(r.field)+'</b>'+(' — '+esc(reason(r)))+'</li>').join('')+'</ul>':'<p>None.</p>')+'<h3>Missingness and data distribution</h3><p class="whelp">These summaries reflect the variables selected in step 3 and the mapped outcome. Use them to spot data that may distort comparisons or reduce support for a model.</p>'+(missingSummary.length?'<h4>Missingness by variable</h4>'+missingBars:'<p>No missing values were flagged.</p>')+'<h4>Outcome distribution</h4>'+outcomeDistSummary+'<h3>Missing values that differ between outcome groups</h3>'+(missing.length?'<ul>'+missing.map(r=>'<li><b>'+esc(r.field)+'</b> — '+arr(r.missByGrp).filter(g=>Number.isFinite(g.miss)).map(g=>Math.round(g.miss*100)+'% missing in '+esc(g.level)).join('; ')+'.</li>').join('')+'</ul>':'<p>None flagged.</p>');
  h+=group('No notable association flagged',groups.quiet,'These variables did not pass the initial screen.');
  h+='<h3>Working with what is above</h3><p>Review each flagged variable against your biological question. Before collection, consider recruitment, matching or balanced sampling. During processing, consider balanced allocation or blocking. After collection, some variables may be included in a model and others reported as limitations. Possible mediators should not be adjusted for automatically when estimating a total causal effect.</p><p><b>Scope.</b> This activity screens recorded metadata. It does not assess unrecorded variables, statistical power, population representativeness or every assumption of a later analysis. These classifications are provisional.</p><div class="takeaway"><b>Takeaway</b>A sample sheet cannot prove a design is free from confounding. It can show where the design deserves closer attention — early enough to improve the design, choose an appropriate analysis, or state limitations clearly.</div>';
  return formatReport(h);
@@ -2018,7 +2096,7 @@ $('#demoBtn').onclick=safe(loadDemo);
 $('#fileIn').onchange=safe(async e=>{const f=e.target.files[0];if(f)await loadCSV(await f.text(),f.name,false);});
 $('#pasteBtn').onclick=safe(async()=>{const text=$('#pasteIn').value.trim();if(!text)throw Error('Paste a table with column headers first.');await loadCSV(text,'pasted-sheet',false);});
 ['mapUnit','mapCond'].forEach((id,i)=>$('#'+id).onchange=safe(async e=>{const key=['unit','cond'][i];S.map[key]=e.target.value;if(key==='cond'&&S.types[S.map.cond]==='exclude')S.types[S.map.cond]='categorical';[S.map.id,S.map.unit,S.map.cond].forEach(f=>S.include.delete(f));invalidate('Column mapping changed');await refresh();}));
-$('#allOn').onclick=safe(async()=>{S.fields.filter(f=>![S.map.id,effectiveUnit(),S.map.cond,W.sample.specimen].includes(f)&&S.types[f]!=='exclude').forEach(f=>S.include.add(f));invalidate('Selection changed');await refresh();});
+$('#allOn').onclick=safe(async()=>{const excluded=[S.map.id,effectiveUnit(),S.map.cond,W.sample.specimen].filter(Boolean);S.fields.filter(f=>{if(excluded.includes(f))return false;const m=S.meta.find(m=>m.name===f);if(!m)return false;if(m.distinct<=1)return false;if(m.distinct===S.nrow&&S.nrow>6)return false;return true;}).forEach(f=>S.include.add(f));invalidate('Selection changed');await refresh();});
 $('#allOff').onclick=safe(async()=>{S.include.clear();invalidate('Selection changed');await refresh();});
 document.addEventListener('change',safe(async e=>{
  const t=e.target;
