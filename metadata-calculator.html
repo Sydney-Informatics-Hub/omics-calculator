@@ -2050,7 +2050,7 @@ function critBlock(r){
 }
 function varCard(r){
  const f=r.field;
- return '<div class="assess-card"><details data-plot="'+esc(f)+'" class="assess-head"><summary><b>'+esc(f)+'</b></summary><div class="wplot">'+(unavailable(r)?'Comparison unavailable for this sampling structure.':'Open to generate the plot.')+'</div></details>'+critBlock(r)+'</div>';
+ return '<div class="assess-card"><details data-plot="'+esc(f)+'" class="assess-head" open><summary><b>'+esc(f)+'</b></summary><div class="wplot">'+(unavailable(r)?'Comparison unavailable for this sampling structure.':'Open to generate the plot.')+'</div></details>'+critBlock(r)+'</div>';
 }
 function renderAssessment(){
  const items=rows();
