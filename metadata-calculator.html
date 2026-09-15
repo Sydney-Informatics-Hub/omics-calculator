@@ -111,9 +111,9 @@ select:focus,input:focus,textarea:focus,button:focus-visible{outline:2px solid v
 .seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .seg button{flex:1;background:var(--surface-2);border:0;padding:5px 6px;font-size:12px;cursor:pointer;color:var(--ink-2)}
 .seg button[aria-pressed=true]{background:var(--accent);color:#fff}
-.varlist{border:1px solid var(--line-2);border-radius:3px;max-height:340px;overflow:auto}
-.varrow{display:grid;grid-template-columns:18px minmax(0,1fr) 88px;gap:6px;align-items:center;padding:4px 6px;border-bottom:1px solid var(--line-2)}
-.varrow:last-child{border-bottom:0}
+.varlist{border:1px solid var(--line-2);border-radius:3px;max-height:340px;overflow:auto;display:grid;grid-template-columns:1fr 1fr;column-gap:14px}
+.varrow{display:grid;grid-template-columns:18px minmax(0,1fr) 92px;gap:6px;align-items:center;padding:4px 6px;border-bottom:1px solid var(--line-2)}
+.varlist>.varrow:nth-last-of-type(-n+2){border-bottom:0}
 .varrow .nm{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .varrow .nm small{display:block;color:var(--ink-3);font-size:11px}
 .varrow select{padding:2px 4px;font-size:11.5px}
@@ -439,16 +439,40 @@ tr.detrow.on{display:table-row}
 
 body {overflow:auto} .app{display:block;max-width:1150px;margin:auto} main{padding:24px;overflow:visible;height:auto} header{position:static} .step{display:none!important}.step.on{display:block!important}
 .progress{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}.progress button{flex:1;min-width:125px;padding:12px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer}.progress button[aria-current=step]{background:var(--accent);color:white}.progress button:disabled{opacity:.5;cursor:default}
-.wform{max-width:760px}.wform label{display:block;margin-top:16px;font-weight:600}.wform input,.wform textarea,.wform select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)} .wform input[type=checkbox]{width:auto}.varlist{max-height:none}.varrow{grid-template-columns:24px 1fr 160px}.review-card{border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}.answer{display:flex;gap:8px;flex-wrap:wrap}.answer label{padding:8px 12px;border:1px solid var(--line);border-radius:7px;cursor:pointer}.answer input{margin-right:6px}.qblock{margin:18px 0}.qblock p{margin-bottom:8px}.wplot{max-width:100%;overflow:auto}.summary-table{min-width:1050px}.summary-table td{vertical-align:top;white-space:normal}.werror{padding:12px;background:#fee2e2;color:#7f1d1d;border-radius:8px;margin:10px 0}.wnote{width:100%;min-height:55px;background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:8px}.stats{display:flex;gap:28px;flex-wrap:wrap;margin:18px 0}.stats b{font-size:26px;display:block}.whelp{color:var(--ink-3);font-size:13px;line-height:1.5}.step h2{margin-bottom:12px}.wnav{display:flex;justify-content:space-between;margin-top:24px}.review-card summary{cursor:pointer}.badge{display:inline-block;padding:4px 8px;background:#edf2f7;border-radius:6px;color:#273449}.guide svg{width:100%;max-width:820px;height:auto}.guide text{font-family:system-ui,sans-serif}.guide{margin:18px 0}.block{border:0;padding:0}.scroll{overflow:auto}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}@media(max-width:650px){main{padding:12px}.progress button{min-width:90px}.varrow{grid-template-columns:24px 1fr}.varrow select{grid-column:2}.review-card{padding:12px}}@media print{header,.progress,.wnav,.export-actions{display:none!important}.step{display:none!important}#step-6{display:block!important} .summary-table{min-width:0;font-size:9px}.scroll{overflow:visible}}
+.wform{max-width:760px}.wform label{display:block;margin-top:16px;font-weight:600}.wform input,.wform textarea,.wform select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)} .wform input[type=checkbox]{width:auto}.varlist{max-height:none;display:grid;grid-template-columns:1fr 1fr;column-gap:16px}.varrow{grid-template-columns:20px minmax(0,1fr) 96px}.review-card{border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}.answer{display:flex;gap:8px;flex-wrap:wrap}.answer label{padding:8px 12px;border:1px solid var(--line);border-radius:7px;cursor:pointer}.answer input{margin-right:6px}.qblock{margin:18px 0}.qblock p{margin-bottom:8px}.wplot{max-width:100%;overflow:auto}.summary-table{min-width:1050px}.summary-table td{vertical-align:top;white-space:normal}.werror{padding:12px;background:#fee2e2;color:#7f1d1d;border-radius:8px;margin:10px 0}.wnote{width:100%;min-height:55px;background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:8px}.stats{display:flex;gap:28px;flex-wrap:wrap;margin:18px 0}.stats b{font-size:26px;display:block}.whelp{color:var(--ink-3);font-size:13px;line-height:1.5}.step h2{margin-bottom:12px}.wnav{display:flex;justify-content:space-between;margin-top:24px}.review-card summary{cursor:pointer}.badge{display:inline-block;padding:4px 8px;background:#edf2f7;border-radius:6px;color:#273449}.guide svg{width:100%;max-width:820px;height:auto}.guide text{font-family:system-ui,sans-serif}.guide{margin:18px 0}.guide ol{margin:10px 0;padding-left:22px;line-height:1.6}.guide ol li{margin:4px 0}.block{border:0;padding:0}.scroll{overflow:auto}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}@media(max-width:650px){main{padding:12px}.progress button{min-width:90px}.varlist{grid-template-columns:1fr}.varrow{grid-template-columns:24px 1fr}.varrow select{grid-column:2}.review-card{padding:12px}}@media print{header,.progress,.wnav,.export-actions{display:none!important}.step{display:none!important}#step-6{display:block!important} .summary-table{min-width:0;font-size:9px}.scroll{overflow:visible}}
 
 .design-report{max-width:1000px;margin:20px auto;color:#20313e;font:15px/1.55 system-ui,-apple-system,sans-serif}.design-report *{box-sizing:border-box}.report-title{margin:0 0 24px}.report-title>span{font-size:12px;font-weight:750;letter-spacing:.12em;color:#bd492d}.report-title h1{font-size:28px;margin:5px 0 0}.design-report>p{color:#526575;margin:0 0 20px}.report-panel{background:#fff;border:1px solid #ccd8df;border-top:4px solid #338f9d;border-radius:8px;padding:22px;margin:20px 0}.report-panel.findings{border-top-color:#e56d45}.report-panel.review{border-top-color:#9b7bbb}.report-panel.action{border-top-color:#638671}.design-report h2{font-size:19px;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid #d9e2e8;line-height:1.4}.design-report h2 small{display:inline-block;background:#e2f0f2;color:#26636b;font-size:11px;padding:3px 8px;border-radius:12px;margin-left:8px;white-space:nowrap}.design-report h3{font-size:15px;line-height:1.45;margin:20px 0 10px}.design-report table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}.design-report th{text-align:left;background:#f2f6f8;color:#526575;font-weight:600}.design-report th,.design-report td{padding:12px 10px;border-bottom:1px solid #dbe3e8;vertical-align:top;white-space:normal}.design-report td:last-child{min-width:85px}.design-report p{margin:10px 0}.design-report .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 24px}.design-report .stats>div{padding:14px;border:1px solid #d2dce3;border-radius:6px;background:#f7f9fb;font-size:12px;line-height:1.4}.design-report .stats b{display:block;font-size:27px;line-height:1.2;color:#20313e;margin-bottom:6px}.design-report .summary-group{padding:14px 16px;margin:12px 0;border:1px solid #d5dfe5;border-left:4px solid #7da2ad;border-radius:5px;break-inside:avoid}.design-report .summary-group h3{display:flex;justify-content:space-between;gap:14px;align-items:start;margin:0 0 8px}.group-count{display:inline-block;padding:1px 9px;background:#e7eef2;border-radius:12px;font-size:12px;flex:none}.design-report .summary-group p{font-size:13px;color:#536a7b}.design-report ul{padding-left:22px;margin:8px 0}.design-report li{margin:4px 0}.design-report .summary-group li{font-weight:600}.design-report .takeaway{padding:16px;background:#edf6f4;border-left:4px solid #468274;border-radius:4px;margin-top:20px}.design-report .takeaway b{display:block;text-transform:uppercase;font-size:11px;letter-spacing:.08em;margin-bottom:6px}.print-report{display:block;margin:20px auto;padding:10px 18px;border:1px solid #aebfc9;border-radius:6px;background:white;cursor:pointer}@media(max-width:650px){.design-report .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.report-panel{padding:14px}.design-report h2{font-size:17px}}@media print{@page{size:A4;margin:14mm}.print-report{display:none!important}.design-report{max-width:none;margin:0;font-size:10pt;line-height:1.4;print-color-adjust:exact;-webkit-print-color-adjust:exact}.report-title h1{font-size:20pt}.report-panel{padding:12px;margin:12px 0;border-radius:4px}.design-report h2{font-size:13pt;break-after:avoid}.design-report h3{font-size:11pt;break-after:avoid}.design-report .stats{grid-template-columns:repeat(3,minmax(0,1fr))}.design-report .stats>div{padding:9px}.design-report .stats b{font-size:20pt}.design-report table{font-size:10pt}.design-report thead{display:table-header-group}.design-report tr{break-inside:avoid}.design-report .summary-group{break-inside:avoid}.design-report p,.design-report li{orphans:3;widows:3}}
-.role-row{max-width:590px;display:grid;grid-template-columns:minmax(120px,1fr) auto;gap:12px;padding:8px 0}.role-row>strong{min-width:0}.role-row .qblock{margin:0}.role-row .qblock>p{display:none}.role-row .answer{gap:5px}.role-row .answer label{padding:6px 10px}@media(max-width:460px){.role-row{grid-template-columns:1fr}}.sample-guide-header{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 20px;gap:8px;height:auto;min-height:0}.sample-guide-header h1{max-width:1050px;margin:0;font:600 clamp(18px,2.2vw,26px)/1.4 system-ui,sans-serif;text-wrap:balance}.sample-guide-header .busy{margin:0;align-self:center}.threshold-guide{display:inline-block;max-width:900px;margin:4px 0 18px}.threshold-guide summary{cursor:pointer;font-size:13px;color:var(--ink-3)}.threshold-guide[open]{display:block}.threshold-guide p{margin:12px 0}.sample-guide-header{width:100%;box-sizing:border-box}#thresholdToggle{all:unset;font:inherit;color:inherit;cursor:pointer}#thresholdToggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}#thresholdInfo[hidden]{display:none}#thresholdInfo{margin:16px 0;max-width:900px}#thresholdInfo p{margin:12px 0}.question-hint,.plot-caption{color:var(--ink-3);font-size:14px;line-height:1.5;margin:10px 0}.guide h3{margin-bottom:8px}.design-report h3.confounding-heading{color:#a43823}.design-report h3.interpretations-heading{color:#176b7a}.outcome-question{background:#f3eafa;color:#442466;border:1px solid #dfc9f0;border-left:4px solid #9b6bc2;border-radius:8px;padding:14px 16px;line-height:1.5}.outcome-question .mapped-outcome{display:block;margin-top:5px;font-size:14px;font-weight:400;color:#593478}.outcome-question .mapped-outcome strong{font-weight:650}.sample-guide-header{background:#f1e8fa;border-bottom:1px solid #ddc9ee;color:#43295c;padding:28px 24px}.sample-guide-header h1{color:#43295c}.question-panel{padding:16px 20px;border:1px solid;border-left-width:4px;border-radius:10px;margin:18px 0}.question-purple{background:#f4edfb;border-color:#decced;border-left-color:#9767bd;color:#472861}.question-teal{background:#eaf6f4;border-color:#c5e4df;border-left-color:#45998a;color:#205e55}.question-panel h3,.question-panel h3.outcome-question{background:none;border:0;border-radius:0;padding:0;margin:0 0 8px;color:inherit;line-height:1.5}.question-panel p,.question-panel .question-hint{color:inherit;margin:8px 0 0;font-size:14px;line-height:1.6}.question-panel .mapped-outcome{display:block;margin-top:6px;font-size:14px;color:inherit}.question-panel>p:last-child{margin-bottom:0}@media(max-width:650px){.question-panel{padding:14px}.sample-guide-header{padding:22px 16px}}.map-example{margin:0 0 14px;font-size:13px;color:var(--ink-3,#64748b)}.map-example summary{cursor:pointer;color:var(--accent,#338f9d);font-size:13px;padding:4px 0}.map-example[open] summary{margin-bottom:8px}.map-example p{margin:8px 0 0;font-size:12px;color:var(--ink-3,#64748b);line-height:1.5}.eg-table{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}.eg-table th,.eg-table td{padding:5px 10px;border:1px solid var(--border,#ccd5dd);text-align:left}.eg-table th{background:var(--paper,#eef1f3);font-weight:600;color:var(--ink-2,#3d5060)}.eg-table td{background:var(--surface,#fff);color:var(--ink,#20313e)}.type-explainer{margin:12px 0 16px;font-size:13px;color:var(--ink-3)}.type-explainer summary{cursor:pointer;color:var(--accent);font-size:13px;padding:4px 0}.type-explainer[open] summary{margin-bottom:10px}.type-explainer dl{margin:0}.type-explainer dt{font-weight:600;color:var(--ink);margin-top:8px}.type-explainer dd{margin:2px 0 0 12px;line-height:1.5}.type-explainer p{margin:10px 0 0;font-size:12px}.type-cell{display:flex;flex-direction:column;gap:2px}.type-label{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}.excl-details{margin-top:10px;font-size:12px;color:var(--ink-3);border-top:1px solid var(--line-2);padding-top:8px}.excl-details summary{cursor:pointer;padding:4px 0}.excl-row{display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid var(--line-2)}.excl-note{font-style:italic;color:var(--ink-3)}.guide-table-wrap{overflow-x:auto;margin:12px 0}.guide-table{width:100%;border-collapse:collapse;font-size:13px}.guide-table th{background:var(--surface);padding:8px 10px;text-align:left;border-bottom:2px solid var(--line);font-weight:600;line-height:1.3}.guide-table th small{font-weight:400;color:var(--ink-3);font-size:11px}.guide-table td{padding:7px 10px;border-bottom:1px solid var(--line-2);vertical-align:top}.guide-table .tick{color:#4caf7d;font-size:16px;text-align:center}.guide-table .cross{color:var(--ink-3);font-size:16px;text-align:center}.guide-table tr:last-child td{border-bottom:0}</style></head><body>
+.role-row{max-width:590px;display:grid;grid-template-columns:minmax(120px,1fr) auto;gap:12px;padding:8px 0}.role-row>strong{min-width:0}.role-row .qblock{margin:0}.role-row .qblock>p{display:none}.role-row .answer{gap:5px}.role-row .answer label{padding:6px 10px}@media(max-width:460px){.role-row{grid-template-columns:1fr}}.sample-guide-header{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 20px;gap:8px;height:auto;min-height:0}.sample-guide-header h1{max-width:1050px;margin:0;font:600 clamp(18px,2.2vw,26px)/1.4 system-ui,sans-serif;text-wrap:balance}.sample-guide-header .busy{margin:0;align-self:center}.threshold-guide{display:inline-block;max-width:900px;margin:4px 0 18px}.threshold-guide summary{cursor:pointer;font-size:13px;color:var(--ink-3)}.threshold-guide[open]{display:block}.threshold-guide p{margin:12px 0}.sample-guide-header{width:100%;box-sizing:border-box}#thresholdToggle{all:unset;font:inherit;color:inherit;cursor:pointer}#thresholdToggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}#thresholdInfo[hidden]{display:none}#thresholdInfo{margin:16px 0;max-width:900px}#thresholdInfo p{margin:12px 0}.question-hint,.plot-caption{color:var(--ink-3);font-size:14px;line-height:1.5;margin:10px 0}.guide h3{margin-bottom:8px}.design-report h3.confounding-heading{color:#a43823}.design-report h3.interpretations-heading{color:#176b7a}.outcome-question{background:#f3eafa;color:#442466;border:1px solid #dfc9f0;border-left:4px solid #9b6bc2;border-radius:8px;padding:14px 16px;line-height:1.5}.outcome-question .mapped-outcome{display:block;margin-top:5px;font-size:14px;font-weight:400;color:#593478}.outcome-question .mapped-outcome strong{font-weight:650}.sample-guide-header{background:#f1e8fa;border-bottom:1px solid #ddc9ee;color:#43295c;padding:28px 24px}.sample-guide-header h1{color:#43295c}.question-panel{padding:16px 20px;border:1px solid;border-left-width:4px;border-radius:10px;margin:18px 0}.question-purple{background:#f4edfb;border-color:#decced;border-left-color:#9767bd;color:#472861}.question-teal{background:#eaf6f4;border-color:#c5e4df;border-left-color:#45998a;color:#205e55}.question-panel h3,.question-panel h3.outcome-question{background:none;border:0;border-radius:0;padding:0;margin:0 0 8px;color:inherit;line-height:1.5}.question-panel p,.question-panel .question-hint{color:inherit;margin:8px 0 0;font-size:14px;line-height:1.6}.question-panel .mapped-outcome{display:block;margin-top:6px;font-size:14px;color:inherit}.question-panel>p:last-child{margin-bottom:0}@media(max-width:650px){.question-panel{padding:14px}.sample-guide-header{padding:22px 16px}}.map-example{margin:0 0 14px;font-size:13px;color:var(--ink-3,#64748b)}.map-example summary{cursor:pointer;color:var(--accent,#338f9d);font-size:13px;padding:4px 0}.map-example[open] summary{margin-bottom:8px}.map-example p{margin:8px 0 0;font-size:12px;color:var(--ink-3,#64748b);line-height:1.5}.eg-table{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}.eg-table th,.eg-table td{padding:5px 10px;border:1px solid var(--border,#ccd5dd);text-align:left}.eg-table th{background:var(--paper,#eef1f3);font-weight:600;color:var(--ink-2,#3d5060)}.eg-table td{background:var(--surface,#fff);color:var(--ink,#20313e)}.type-explainer{margin:12px 0 16px;font-size:13px;color:var(--ink-3)}.type-explainer summary{cursor:pointer;color:var(--accent);font-size:13px;padding:4px 0}.type-explainer[open] summary{margin-bottom:10px}.type-explainer dl{margin:0}.type-explainer dt{font-weight:600;color:var(--ink);margin-top:8px}.type-explainer dd{margin:2px 0 0 12px;line-height:1.5}.type-explainer p{margin:10px 0 0;font-size:12px}.type-cell{display:flex;flex-direction:column;gap:2px}.type-label{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}.excl-details{grid-column:1/-1;margin-top:10px;font-size:12px;color:var(--ink-3);border-top:1px solid var(--line-2);padding-top:8px}.excl-details summary{cursor:pointer;padding:4px 0}.excl-row{display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid var(--line-2)}.excl-note{font-style:italic;color:var(--ink-3)}.guide-table-wrap{overflow-x:auto;margin:12px 0}.guide-table{width:100%;border-collapse:collapse;font-size:13px}.guide-table th{background:var(--surface);padding:8px 10px;text-align:left;border-bottom:2px solid var(--line);font-weight:600;line-height:1.3}.guide-table th small{font-weight:400;color:var(--ink-3);font-size:11px}.guide-table td{padding:7px 10px;border-bottom:1px solid var(--line-2);vertical-align:top}.guide-table .tick{color:#4caf7d;font-size:16px;text-align:center}.guide-table .cross{color:var(--ink-3);font-size:16px;text-align:center}.guide-table tr:last-child td{border-bottom:0}
+.assess-card{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:14px 0}
+.assess-head{margin-bottom:8px}
+.assess-head summary{cursor:pointer}
+.crit-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;border-top:1px solid var(--line-2);padding-top:10px;margin-top:10px}
+.crit-col{display:flex;flex-direction:column;gap:8px;padding:0 12px;border-left:1px solid var(--line-2)}
+.crit-col:first-child{border-left:0;padding-left:0}
+.crit-col:last-child{padding-right:0}
+.crit-col .qblock{margin:0}
+.crit-col .answer{gap:6px;flex-direction:column;align-items:stretch}
+.crit-col .answer label{justify-content:flex-start}
+.crit-col-empty{color:var(--ink-3);font-size:12px;font-style:italic;padding-top:2px}
+@media(max-width:760px){.crit-cols{grid-template-columns:1fr}.crit-col{border-left:0;padding:10px 0 0;border-top:1px solid var(--line-2)}.crit-col:first-child{border-top:0;padding-top:0}}
+.crit-title{font-weight:600}
+.auto-tag{display:inline-flex;align-items:center;gap:4px;width:fit-content;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--accent-soft);color:var(--accent)}
+.auto-tag::before{content:'\21bb'}
+.info-icon{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border:1.5px solid var(--accent);border-radius:50%;background:none;padding:0;margin-left:6px;font-size:11px;line-height:14px;font-style:italic;font-weight:700;color:var(--accent);cursor:help;vertical-align:middle}
+.info-icon:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.info-icon:hover::after,.info-icon:focus::after{content:attr(data-tip);position:absolute;left:50%;bottom:130%;transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:8px 10px;border-radius:6px;font-size:12px;font-weight:400;font-style:normal;line-height:1.4;white-space:pre-line;width:max-content;max-width:320px;box-shadow:0 4px 14px rgba(0,0,0,.3);z-index:30;text-align:left}
+.info-icon:hover::before,.info-icon:focus::before{content:'';position:absolute;left:50%;bottom:120%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink);z-index:30}
+.auto-badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:12px;font-weight:600;width:fit-content}
+.auto-badge.auto-high{background:#e0f2e9;color:#1f7a4d}
+.auto-badge.auto-mid{background:#fdf2d8;color:#8a6416}
+.auto-badge.auto-low{background:#eef1f4;color:#526575}
+.auto-badge.auto-unknown{background:#eef1f4;color:var(--ink-3)}</style></head><body>
 <div class="boot" id="boot"><div class="card"><h2>Starting the metadata activity</h2><p id="bootMsg">Loading webR…</p><p id="bootSub">Your data are analysed in this browser.</p></div></div>
 <header class="sample-guide-header"><h1>Sample Sheet guide: a guided design check on the sample sheet, before anything is processed</h1><span class="busy" id="busy" role="status"></span></header>
 <div class="app"><main><nav class="progress" id="progress" aria-label="Activity steps"></nav><div id="werror" role="alert"></div>
-<section class="step on" id="step-1"><div class="panel"><h2>1 · Upload your metadata</h2><div id="thresholdInfo" hidden><h3>Screening thresholds</h3><table><thead><tr><th>Q1 comparison</th><th>Association measure</th><th>Priority</th></tr></thead><tbody><tr><td>Categorical–categorical</td><td>Cramér’s V</td><td>≥ 0.40</td></tr><tr><td>Categorical–continuous</td><td>Eta</td><td>≥ 0.40</td></tr><tr><td>Continuous–continuous</td><td>Absolute Spearman correlation</td><td>≥ 0.40</td></tr></tbody></table><p>If no variable meets the main threshold, associations from 0.20 to below 0.40 are shown. These are teaching priorities, not proof of confounding. SMD and Duncan do not select variables at Q1.</p><p>After Q2/Q3 flag a potential confounder, examine shared categories and distributions/ranges. SMD and Duncan support imbalance assessment. High imbalance or correlation alone does not establish complete confounding.</p><p>Q1 is descriptive: related specimens remain in the screen, so biological units contributing more specimens may influence it more. Technical repeats are counted once using specimen ID where available. When “Same specimen” is selected without specimen IDs, the biological-unit ID is used.</p></div><div class="wform"><button class="btn primary" id="demoBtn">Load example</button><label for="fileIn">Upload CSV or TSV</label><input type="file" id="fileIn" accept=".csv,.tsv,.txt"><label for="pasteIn">Or paste a table, including its header</label><textarea id="pasteIn" rows="4"></textarea><button class="btn" id="pasteBtn">Load pasted text</button></div><p id="dataNote" role="status">No sheet loaded.</p><div id="preview"></div></div></section>
+<section class="step on" id="step-1"><div class="panel"><h2>1 · Upload your metadata</h2><div id="thresholdInfo" hidden><h3>Screening thresholds</h3><table><thead><tr><th>Q1 comparison</th><th>Association measure</th><th>Priority</th></tr></thead><tbody><tr><td>Categorical–categorical</td><td>Cramér’s V</td><td>≥ 0.40</td></tr><tr><td>Categorical–continuous</td><td>Eta</td><td>≥ 0.40</td></tr><tr><td>Continuous–continuous</td><td>Absolute Spearman correlation</td><td>≥ 0.40</td></tr></tbody></table><p>If no variable meets the main threshold, associations from 0.20 to below 0.40 are shown. These are teaching priorities, not proof of confounding. SMD and Duncan do not select variables at Q1.</p><p>After Q2/Q3 flag a potential confounder, examine shared categories and distributions/ranges. SMD and Duncan support imbalance assessment. High imbalance or correlation alone does not establish complete confounding.</p><p>Q1 is descriptive: related specimens remain in the screen, so subjects contributing more specimens may influence it more. Technical repeats are counted once using specimen ID where available. When “Same specimen” is selected without specimen IDs, the subject ID is used.</p></div><div class="wform"><button class="btn primary" id="demoBtn">Load example</button><label for="fileIn">Upload CSV or TSV</label><input type="file" id="fileIn" accept=".csv,.tsv,.txt"><label for="pasteIn">Or paste a table, including its header</label><textarea id="pasteIn" rows="4"></textarea><button class="btn" id="pasteBtn">Load pasted text</button></div><p id="dataNote" role="status">No sheet loaded.</p><div id="preview"></div></div></section>
 <section class="step" id="step-2"><div class="panel"><h2>2 · Map the key columns</h2><div class="wform"><label for="specimenMap">Sample / specimen ID<br><small style="font-weight:normal;color:#888;">the row-level measurement identifier (e.g. SampleID, RNA_ID). Can repeat if one specimen was processed twice. Leave blank if not separately recorded.</small></label><select id="specimenMap"></select><label for="mapUnit">Subject / donor ID<br><small style="font-weight:normal;color:#888;">the individual being studied (e.g. PatientID, MouseID, DonorID). Multiple rows share this ID when one subject has several specimens.</small></label><select id="mapUnit"></select><label for="mapCond">Phenotype / outcome<br><small style="font-weight:normal;color:#888;">the column defining your comparison groups (e.g. Disease_status, Treatment, Age_group).</small></label><select id="mapCond"></select></div></div></section>
-<section class="step" id="step-3"><div class="panel"><h2>3 · Choose variables to screen</h2><p id="step3intro"></p><div class="type-explainer"><dl><dt>Categorical</dt><dd>Named groups with no meaningful order — e.g. sex, tissue site, treatment arm. Tested with a group-difference statistic.</dd><dt>Ordinal</dt><dd>Ordered categories where the gaps between levels may not be equal — e.g. disease stage (I, II, III), severity score. Tested with a rank-based statistic.</dd><dt>Continuous</dt><dd>Numeric values on a real scale — e.g. age, BMI, library size. Tested with a correlation statistic.</dd></dl><p>Types are auto-detected from your data. Change a type if it has been misassigned — for example, a column of integers 1/2/3 representing ordered severity should be ordinal not continuous.</p></div><button class="btn" id="allOn">Select all</button> <button class="btn" id="allOff">Clear selection</button><div class="varlist" id="varList"></div></div></section>
+<section class="step" id="step-3"><div class="panel"><h2>3 · Choose variables to screen<button type="button" class="info-icon" data-tip="Categorical &#8212; named groups with no meaningful order, e.g. sex, tissue site, treatment arm. Tested with a group-difference statistic.&#10;&#10;Ordinal &#8212; ordered categories where the gaps between levels may not be equal, e.g. disease stage (I, II, III), severity score. Tested with a rank-based statistic.&#10;&#10;Continuous &#8212; numeric values on a real scale, e.g. age, BMI, library size. Tested with a correlation statistic.&#10;&#10;Types are auto-detected from your data. Change a type if it has been misassigned &#8212; for example, a column of integers 1/2/3 representing ordered severity should be ordinal not continuous." aria-label="What do Categorical, Ordinal and Continuous mean?">i</button></h2><p id="step3intro"></p><button class="btn" id="allOn">Select all</button> <button class="btn" id="allOff">Clear selection</button><div class="varlist" id="varList"></div></div></section>
 <section class="step" id="step-4"><div class="panel"><h2>4 · How are your samples related?</h2><div id="sampling"></div></div></section>
 <section class="step" id="step-5"><div class="panel"><h2>5 · Assess possible variable roles</h2><div id="assessment"></div></div></section>
 <section class="step" id="step-6"><div class="panel"><h2>6 · Review your study summary</h2><div class="export-actions"><button class="btn primary" id="reportExport">Download report</button> <button class="btn" id="reportPrint">Print / Save as PDF</button></div><div id="report"></div></div></section>
@@ -630,32 +654,16 @@ ss_nesting <- function() {
 }
 
 ## ---- descriptive specimen frame --------------------------------
-## Keep biological observations. Collapse only declared technical repeats.
+## Rows are kept as recorded; technical repeats are not collapsed.
 ss_frame <- function() {
-  df <- SS$sheet; held <- character(0); note <- "Specimen records retained. Related observations are not independent."
+  df <- SS$sheet; note <- "Specimen records retained. Related observations are not independent."
   mode <- if (exists("cfg_repeat")) cfg_repeat else ""
-  specimen <- if (exists("cfg_specimen")) cfg_specimen else ""
-  keyfield <- if (nzchar(specimen) && specimen %in% names(df)) specimen else NA_character_
-  if (mode == "technical" && is.na(keyfield)) keyfield <- SS$cfg$unit
-  if (mode %in% c("technical", "mixed") && !is.na(keyfield)) {
-    key <- df[[keyfield]]
-    ## Missing IDs remain separate; never merge unknown specimens.
-    ids <- match(key, unique(key)); ids[is.na(key)] <- length(unique(key)) + seq_len(sum(is.na(key)))
-    idx <- split(seq_len(nrow(df)), ids)
-    varying <- vapply(names(df), function(f) any(vapply(idx, function(i)
-      length(unique(df[[f]][i][!is.na(df[[f]][i])])) > 1, TRUE)), TRUE)
-    out <- as.data.frame(lapply(names(df), function(f) vapply(idx, function(i) {
-      z <- unique(df[[f]][i][!is.na(df[[f]][i])]); if(length(z)==1) z else NA_character_
-    }, "")), stringsAsFactors=FALSE)
-    names(out) <- names(df); df <- out
-    held <- names(df)[varying]
-    if (!is.na(SS$cfg$cond) && varying[[SS$cfg$cond]]) held <- unique(c(held, SS$cfg$vars))
-    note <- paste0("Technical repeats counted once using ", keyfield,
-      ". Conflicting metadata require review; missing IDs remain separate.")
-  } else if (mode %in% c("technical", "mixed", "unsure")) {
+  if (mode %in% c("technical", "mixed")) {
+    note <- "Technical repeats are kept as separate rows and are not collapsed; related observations are not independent and should be interpreted accordingly."
+  } else if (mode == "unsure") {
     note <- "Records retained; technical repeats could not be fully resolved. Review specimen IDs and sampling before interpreting the screen."
   }
-  list(df=df, level="specimen records", agg=character(0), held=held,
+  list(df=df, level="specimen records", agg=character(0), held=character(0),
        nkey=nrow(df), paired=FALSE, note=note)
 }
 
@@ -1678,6 +1686,7 @@ const fmtP = p => (p==null||!Number.isFinite(p)) ? '—' : (p<1e-4 ? '<0.0001' :
 const arr = x => x==null ? [] : (Array.isArray(x) ? x : [x]);
 
 const TYPES=['continuous','ordinal','categorical','exclude'];
+const REPEAT_INFO={technical:{label:'Technical replicates',note:'Related rows are not independent and are flagged in the report.'},specimens:{label:'Biological replicates (different specimens)',note:'Each row is treated as a separate biological observation; subject-level pairing is noted in the report.'},mixed:{label:'Mixed replicates',note:'Rows are kept as-is; conflicting metadata will be flagged.'},unsure:{label:'Unsure',note:'Conflicting metadata will be flagged in the report.'},none:{label:'No repeated rows',note:''}};
 
 const S = { meta:[], fields:[], types:{}, map:{id:'',unit:'',cond:''}, include:new Set(),
             corr:'spearman', name:'', nrow:0, unitOK:false, repeatKind:'', sheetSort:'', sheetDesc:false,
@@ -1804,7 +1813,7 @@ async function loadCSV(text, name, advance){
   if(S.map.cond && S.types[S.map.cond]==='exclude') S.map.cond='';
   S.include = new Set(S.fields.filter(f=>S.types[f]!=='exclude' && f!==S.map.id && f!==S.map.unit && f!==S.map.cond));
   /* a new sheet is a new screen: answers given against the old one are void */
-  W.answers={}; W.keep={}; W.confirmed=false; W.page=1; W.sample={row:'',repeat:'',specimen:'',visit:'',cluster:''}; W.phase='q2'; W.q2done=false; W.history=[]; W.sample.specimen=guess(['specimenid','sampleid','sample']); S.include.delete(W.sample.specimen);
+  W.answers={}; W.keep={}; W.confirmed=false; W.page=1; W.sample={row:'',repeat:'',specimen:'',visit:'',cluster:''}; W.history=[]; W.sample.specimen=guess(['specimenid','sampleid','sample']); S.include.delete(W.sample.specimen);
   $('#dataNote').textContent = name+': '+d.nrow+' rows, '+d.ncol+' columns.';
   await refresh();
   
@@ -1818,20 +1827,21 @@ async function loadDemo(){
 }
 
 
-const W={page:1,phase:'q2',q2done:false,question:'',omics:'',confirmed:false,sample:{row:'',repeat:'',specimen:'',visit:'',cluster:''},answers:{},keep:{},history:[],generation:0};
+const W={page:1,question:'',omics:'',confirmed:false,sample:{row:'',repeat:'',specimen:'',visit:'',cluster:''},answers:{},keep:{},history:[],generation:0};
 const titles=['Upload','Map columns','Select variables','Sampling','Variable roles','Summary'];
 const options=[['yes','Yes'],['no','No'],['unsure','Unsure']];
 let uiQueue=Promise.resolve();
 function safe(fn){return (...args)=>{const task=async()=>{try{$('#werror').innerHTML='';await fn(...args);}catch(e){$('#werror').textContent=e.message||String(e);busy('');}};uiQueue=uiQueue.then(task,task);return uiQueue;};}
-function invalidate(reason,structure=true){W.generation++;W.phase='q2';W.q2done=false; if(structure){W.confirmed=false;S.screen=null;} Object.values(W.answers).forEach(a=>a.stale=true);W.history.push(reason);}
+function invalidate(reason,structure=true){W.generation++; if(structure){W.confirmed=false;S.screen=null;} Object.values(W.answers).forEach(a=>a.stale=true);W.history.push(reason);}
 function answer(f){return W.answers[f]||(W.answers[f]={});}
 function numeric(f){return ['continuous','ordinal'].includes(S.types[f]);}
+function effectiveUnit(){return S.map.unit||W.sample.specimen||'';}
 function fieldOptions(value,blank='— choose —',fields=S.fields){return '<option value="">'+esc(blank)+'</option>'+fields.map(f=>'<option value="'+esc(f)+'"'+(f===value?' selected':'')+'>'+esc(f)+'</option>').join('');}
 function fillSelect(node,value,blank,fields){node.innerHTML=fieldOptions(value,blank,fields);}
 async function refresh(){
  if(!S.ready||!S.nrow){await renderAll();return;}
  busy('Updating study information…');
- await bindVal('cfg_id',S.map.id||'');await bindVal('cfg_unit',S.map.unit||'');await bindVal('cfg_cond',S.map.cond||'');await bindVal('cfg_level','row');await bindVal('cfg_repeat',W.sample.repeat||'');await bindVal('cfg_specimen',W.sample.specimen||'');await bindVal('cfg_corr','spearman');
+ await bindVal('cfg_id',S.map.id||'');await bindVal('cfg_unit',effectiveUnit());await bindVal('cfg_cond',S.map.cond||'');await bindVal('cfg_level','row');await bindVal('cfg_repeat',W.sample.repeat||'');await bindVal('cfg_specimen',W.sample.specimen||'');await bindVal('cfg_corr','spearman');
  await bindVal('cfg_vars',S.fields.filter(f=>S.include.has(f)&&f!==W.sample.specimen));await bindVal('cfg_tnames',S.fields);await bindVal('cfg_tvals',S.fields.map(f=>S.types[f]));await webR.evalRVoid('ss_apply()');
  S.design=await rjson('ss_design()'); S.counts=await rjson('ss_repeat_info('+JSON.stringify(W.sample.specimen||'')+')');if(S.counts.mapped&&S.counts.extra===0)W.sample.repeat='none'; S.screen=W.confirmed&&S.map.cond?await rjson('ss_screen()'):null;
  await renderAll();busy('');
@@ -1841,12 +1851,11 @@ function gate(page){
  if(!S.nrow)return 'Load a sheet first.';
  if(page<=2)return '';
  if(!S.map.cond)return 'Choose a phenotype/outcome.';
- if(S.map.cond===S.map.id||S.map.cond===S.map.unit||(S.map.id&&S.map.id===S.map.unit))return 'Use distinct column roles; leave the record ID blank if only a biological-unit ID exists.';
+ if(S.map.cond===S.map.id||S.map.cond===S.map.unit||(S.map.id&&S.map.id===S.map.unit))return 'Use distinct column roles; leave the record ID blank if only a subject ID exists.';
  if(page<=3)return '';
  if(!S.include.size)return 'Select at least one metadata variable.';
  if(page<=4)return '';
- if(!S.counts?.mapped)return 'Map the biological-unit ID in step 2.';if(S.counts.extra>0&&(!W.sample.repeat||W.sample.repeat==='none'))return 'Choose what the repeated rows represent in step 4.';
- if(page===6&&!W.q2done)return 'Complete the Q2 selection first.';
+ if(!S.counts?.mapped)return 'Map the subject ID in step 2.';if(S.counts.extra>0&&(!W.sample.repeat||W.sample.repeat==='none'))return 'Choose what the repeated rows represent in step 4.';
  if(page===6&&remainingPathways())return 'Answer Yes, No or Unsure for all '+remainingPathways()+' remaining variable'+(remainingPathways()===1?'':'s')+' before continuing.';
  return '';
 }
@@ -1854,7 +1863,7 @@ async function renderAll(){
  $('#progress').innerHTML=titles.map((t,i)=>'<button data-page="'+(i+1)+'" '+(gate(i+1)?'disabled':'')+(W.page===i+1?' aria-current="step"':'')+'>'+(i+1)+' · '+t+'</button>').join('');
  $$('#progress button').forEach(b=>b.onclick=safe(()=>go(+b.dataset.page)));
  $$('.step').forEach((s,i)=>s.classList.toggle('on',i+1===W.page));
- $('#back').disabled=W.page===1;$('#next').hidden=W.page===6;$('#next').disabled=W.page===5&&W.phase==='q2'?false:!!gate(W.page+1);$('#navHint').textContent=W.page===5&&W.phase==='q2'?'':gate(W.page+1);$('#next').textContent=W.page===5?(W.phase==='q2'?'Next: pathway question →':'Next: summary →'):'Next →';
+ $('#back').disabled=W.page===1;$('#next').hidden=W.page===6;$('#next').disabled=!!gate(W.page+1);$('#navHint').textContent=gate(W.page+1);$('#next').textContent='Next →';
  if(W.page===1&&S.nrow){const h=await rjson('ss_head('+S.nrow+', "", FALSE)');$('#preview').innerHTML='<div class="scroll"><table><thead><tr>'+arr(h.fields).map(f=>'<th>'+esc(f)+'</th>').join('')+'</tr></thead><tbody>'+arr(h.rows).map(r=>'<tr>'+arr(r).map(v=>'<td>'+esc(v??'—')+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';}
  if(W.page===2){fillSelect($('#mapUnit'),S.map.unit,'— same as sample ID —');fillSelect($('#mapCond'),S.map.cond,'— choose outcome —');fillSelect($('#specimenMap'),W.sample.specimen,'— not separately recorded —');}
 
@@ -1867,119 +1876,131 @@ async function go(n){if(gate(n))throw Error(gate(n));if(n>=5&&!W.confirmed){vali
 function renderVariables(){
  const outcome = S.map.cond ? '<b>'+esc(S.map.cond)+'</b>' : 'your outcome';
  $('#step3intro').innerHTML = 'Which columns in your sample sheet describe characteristics of your samples or subjects — things like age, sex, batch, tissue site, or collection date? Select all that might be relevant to your study. The app will check whether any of these vary with '+outcome+' and flag them as potential covariates for your model.';
- const excluded=[S.map.id,S.map.unit,S.map.cond,W.sample.specimen].filter(Boolean);
+ const excluded=[S.map.id,effectiveUnit(),S.map.cond,W.sample.specimen].filter(Boolean);
  const screenable=S.fields.filter(f=>!excluded.includes(f)&&S.types[f]!=='exclude');
- const excList=S.fields.filter(f=>excluded.includes(f)||S.types[f]==='exclude');
- $('#varList').innerHTML=screenable.map(f=>{const m=S.meta.find(m=>m.name===f);return '<div class="varrow"><input aria-label="Screen '+esc(f)+'" type="checkbox" data-include="'+esc(f)+'" '+(S.include.has(f)?'checked':'')+'><span class="nm">'+esc(f)+'<small>'+m.distinct+' values · '+fmt(m.missing*100,0)+'% missing</small></span><div class="type-cell"><span class="type-label">Type</span><select aria-label="Type of '+esc(f)+'" data-type="'+esc(f)+'">'+TYPES.filter(t=>t!=='exclude').map(t=>'<option value="'+t+'"'+(S.types[f]===t?' selected':'')+(['continuous','ordinal'].includes(t)&&!m.numeric?' disabled':'')+'>'+t+'</option>').join('')+'</select></div></div>';}).join('')+(excList.length?'<details class="excl-details"><summary>Columns excluded from screening (identifiers and constants)</summary>'+excList.map(f=>'<div class="excl-row"><span>'+esc(f)+'</span><span class="excl-note">automatically excluded</span></div>').join('')+'</details>':'');
+ $('#varList').innerHTML=screenable.map(f=>{const m=S.meta.find(m=>m.name===f);return '<div class="varrow"><input aria-label="Screen '+esc(f)+'" type="checkbox" data-include="'+esc(f)+'" '+(S.include.has(f)?'checked':'')+'><span class="nm">'+esc(f)+'<small>'+m.distinct+' values · '+fmt(m.missing*100,0)+'% missing</small></span><div class="type-cell"><span class="type-label">Type</span><select aria-label="Type of '+esc(f)+'" data-type="'+esc(f)+'">'+TYPES.filter(t=>t!=='exclude').map(t=>'<option value="'+t+'"'+(S.types[f]===t?' selected':'')+(['continuous','ordinal'].includes(t)&&!m.numeric?' disabled':'')+'>'+t+'</option>').join('')+'</select></div></div>';}).join('');
 }
 function selectHTML(id,label,choices,value){return '<label for="'+id+'">'+label+'</label><select id="'+id+'"><option value="">— choose —</option>'+choices.map(([v,l])=>'<option value="'+v+'"'+(value===v?' selected':'')+'>'+l+'</option>').join('')+'</select>';}
 function renderSampling(){
  const c=S.counts||{},s=W.sample;
- if(!c.mapped){$('#sampling').innerHTML='<p>Map a biological-unit ID in step 2 so the app can detect repeated rows.</p>';return;}
- $('#sampling').innerHTML='<p><b>'+c.units+' biological units</b> across '+c.validRows+' rows with known IDs.</p>'+(c.missingUnit?'<p>'+c.missingUnit+' rows have no biological-unit ID.</p>':'')+(c.extra===0?'<p>No biological-unit ID repeats. No follow-up is needed; select Next.</p>':'<p>'+c.repeatedUnits+' biological units have several rows ('+c.extra+' additional rows).</p><div class="wform">'+selectHTML('repeatMeaning','Why does the same subject appear in multiple rows?',[['technical','Technical replicates \u2014 the same sample was measured more than once'],['specimens','Biological replicates \u2014 different samples from the same subject (e.g. two tissues, two timepoints)'],['mixed','Mixed \u2014 some are technical replicates, some are different samples'],['unsure','Unsure']],s.repeat)+'<p id="repeatConsequence" class="whelp"></p></div>');
+ if(!c.mapped){$('#sampling').innerHTML='<p>Map a subject ID in step 2 so the app can detect repeated rows.</p>';return;}
+ $('#sampling').innerHTML='<p><b>'+c.units+' subjects</b> across '+c.validRows+' rows with known IDs.</p>'+(c.missingUnit?'<p>'+c.missingUnit+' rows have no subject ID.</p>':'')+(c.extra===0?'<p>No subject ID repeats. No follow-up is needed; select Next.</p>':'<p>'+c.repeatedUnits+' subjects have several rows ('+c.extra+' additional rows).</p><div class="wform">'+selectHTML('repeatMeaning','Why does the same subject appear in multiple rows?',[['technical','Technical replicates \u2014 the same sample was measured more than once'],['specimens','Biological replicates \u2014 different samples from the same subject (e.g. multiple tissues, multiple timepoints)'],['mixed','Mixed \u2014 some are technical replicates, some are different samples'],['unsure','Unsure']],s.repeat)+'<p id="repeatConsequence" class="whelp"></p></div>');
  const _rc=$('#repeatConsequence');
- if(_rc){const _m={technical:'Technical replicates will be collapsed to one row per specimen before association testing.',specimens:'Each row is treated as a separate biological observation; subject-level pairing is noted in the report.',mixed:'Rows are kept as-is; conflicting metadata will be flagged.',unsure:'Rows are kept as-is; conflicting metadata will be flagged.'};_rc.textContent=_m[s.repeat]||'';}
+ if(_rc)_rc.textContent=REPEAT_INFO[s.repeat]?.note||'';
 }
-function validateSampling(){const c=S.counts||{};if(!c.mapped)throw Error('Map the biological-unit ID in step 2.');if(c.extra===0){W.sample.repeat='none';return;}if(!W.sample.repeat||W.sample.repeat==='none')throw Error('Choose what the repeated rows represent.');}
+function validateSampling(){const c=S.counts||{};if(!c.mapped)throw Error('Map the subject ID in step 2.');if(c.extra===0){W.sample.repeat='none';return;}if(!W.sample.repeat||W.sample.repeat==='none')throw Error('Choose what the repeated rows represent.');}
 function rows(){return S.fields.filter(f=>S.include.has(f)&&f!==W.sample.specimen).map(f=>arr(S.screen?.rows).find(r=>r.field===f)||{field:f,metric:'',effect:null,n:0,kind:'held',cls:{code:'untestable'}});}
 function priority(r){return Number.isFinite(r.effect)&&r.effect>=.4;}
 function unavailable(r){return r.kind==='held'||!Number.isFinite(r.effect);}
 function screeningPool(){return rows().filter(r=>!unavailable(r)&&!['restricted','groupspec'].includes(r.cls?.code));}
 function passedRows(){const all=screeningPool().filter(r=>!unavailable(r)),main=all.filter(priority);return main.length?main:all.filter(r=>Number.isFinite(r.effect)&&r.effect>=.20);}
 function fallbackActive(){return passedRows().length>0&&!screeningPool().filter(r=>!unavailable(r)).some(priority);}
-function q1(r){return unavailable(r)?'unsure':passedRows().some(x=>x.field===r.field)?'yes':'no';}
-function evidence(r){if(unavailable(r))return reason(r);return q1(r)==='yes'?'Selected by outcome screening':'No notable association flagged';}
-function result(r){
- const a=answer(r.field),outcome=q1(r),omics=a.q2,path=a.q3;
- const out=(label,rec)=>({label,rec});
- if(a.stale)return out('Needs review after changes','Check your previous answers against the current study.');
- if(!omics||(omics==='yes'&&!path))return out('Not fully assessed','Not all questions were answered. No biological role has been assigned.');
- if(omics==='no')return out(outcome==='yes'?'Outcome-associated covariate':'Low priority according to this screen','Not ticked for an omics association after completing Q2. Pathway not assessed; review biological knowledge before deciding on adjustment.');
- if([outcome,omics,path].includes('unsure'))return out('Needs further assessment','Resolve uncertain evidence before deciding how to handle this variable.');
- if(path==='yes')return out(outcome==='yes'&&omics==='yes'?'Possible mediator':'Possible pathway — review association evidence','Usually avoid adjustment when estimating the total causal effect. Direct-effect estimation or prediction needs a separate decision.');
- if(omics==='yes'&&outcome==='yes')return out('Potential confounder','Consider adjustment if causal reasoning supports confounding. A No to the combined pathway question does not exclude other downstream roles; this screen is not proof.');
- if(omics==='yes')return out('Non-confounder according to this screen','No automatic reason to adjust from these answers. Review prior knowledge before excluding; inclusion does not necessarily add noise.');
- if(outcome==='yes')return out('Outcome-associated covariate','Appropriate inclusion may improve precision. It does not automatically reduce bias; covariate is a modelling role, not a distinct causal class.');
- return out('Low priority according to this screen','May omit if unrelated to both and not required by the design. Recheck when omics data are available; weak evidence is not proof of no association.');
-}
-function radios(f,key,text){const a=answer(f);return '<div class="qblock"><p><b>'+text+'</b></p><div class="answer">'+options.map(([v,l])=>'<label><input type="radio" name="'+key+'-'+S.fields.indexOf(f)+'" data-answer="'+key+'" data-field="'+esc(f)+'" value="'+v+'" '+(a[key]===v?'checked':'')+'>'+l+'</label>').join('')+'</div></div>';}
+function autoOutcome(r){return unavailable(r)?'unsure':passedRows().some(x=>x.field===r.field)?'yes':'no';}
+function effC2(r){const a=answer(r.field);return a.c2!=null?a.c2:autoOutcome(r);}
+function effC3(r){const a=answer(r.field);return a.c3!=null?a.c3:(effC2(r)==='no'?'no':null);}
+function evidence(r){if(unavailable(r))return reason(r);return autoOutcome(r)==='yes'?'Selected by outcome screening':'No notable association flagged';}
+function radios(f,key,text,opts=options,forceVal){const a=answer(f);const cur=forceVal!==undefined?forceVal:a[key];return '<div class="qblock">'+(text?'<p><b>'+text+'</b></p>':'')+'<div class="answer">'+opts.map(([v,l])=>'<label><input type="radio" name="'+key+'-'+S.fields.indexOf(f)+'" data-answer="'+key+'" data-field="'+esc(f)+'" value="'+v+'" '+(cur===v?'checked':'')+'>'+l+'</label>').join('')+'</div></div>';}
 function guide(){
   return `<section class="guide">
-    <h3>How to classify each variable</h3>
-    <p>Use your answers to Q1, Q2, and Q3 to determine each variable's likely role and whether to include it in your model.</p>
+    <h3>Three levels of inspecting your variables</h3>
+    <p>Here we explore the possible role of our variables and how they might affect the accuracy and interpretation of our research question.</p>
+    <p>We use a simple three-criteria checklist to determine the plausible effects of our variables on our outcome, and use this information to inform downstream modelling or to help redesign our study. We guide each variable's role by asking:</p>
+    <ol>
+      <li>Is the variable associated with the predictor (or molecular layer)?</li>
+      <li>Is the variable associated with the outcome (phenotype or trait of interest)?</li>
+      <li>Is the variable on the causal pathway \u2014 that is, does the predictor influence the variable, which in turn causes the outcome? This should be fairly sequential, but it is important to recognise that biology is complex. Use domain expertise and the literature to help infer this relationship.</li>
+    </ol>
+    <p>These criteria are a way to think through each variable's effect or impact on our analysis. They are not a definitive truth. Use them to spot risks and considerations worth investigating, modelling and reporting.</p>
     <div class="guide-table-wrap">
     <table class="guide-table">
       <thead>
         <tr>
-          <th>Q1<br><small>Associated with outcome?</small></th>
-          <th>Q2<br><small>Associated with omics?</small></th>
-          <th>Q3<br><small>On causal pathway?</small></th>
-          <th>Likely classification</th>
-          <th>Action for modelling</th>
+          <th>Criteria 1<br><small>Associated with the predictor (molecular layer)?</small></th>
+          <th>Criteria 2<br><small>Associated with the outcome?</small></th>
+          <th>Criteria 3<br><small>On the causal path?</small></th>
+          <th>Possible role</th>
+          <th>Something to consider</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td>
           <td><strong>Mediator</strong></td>
-          <td>Do not adjust — removing a mediator blocks the effect you are trying to measure</td>
+          <td>Adjusting could block part of the effect you are trying to measure</td>
         </tr>
         <tr>
           <td class="tick">✓</td><td class="tick">✓</td><td class="cross">✗</td>
           <td><strong>Confounder</strong></td>
-          <td>Adjust — failure to adjust can produce spurious associations</td>
+          <td>Not adjusting could produce a spurious association</td>
         </tr>
         <tr>
           <td class="cross">✗</td><td class="tick">✓</td><td class="cross">✗</td>
-          <td><strong>Non-confounder</strong></td>
-          <td>Excluding is safe — adjusting adds noise without removing confounding</td>
+          <td><strong>Covariate</strong></td>
+          <td>Adjusting is optional — may improve precision</td>
         </tr>
         <tr>
           <td class="tick">✓</td><td class="cross">✗</td><td class="cross">✗</td>
-          <td><strong>Covariate</strong></td>
-          <td>Optionally adjust — can improve power and reduce residual variance</td>
+          <td><strong>Low risk</strong></td>
+          <td>Adjusting may add noise without removing confounding</td>
         </tr>
         <tr>
           <td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td>
           <td><strong>Low risk</strong></td>
-          <td>Can exclude — verify with your data before deciding</td>
+          <td>Likely safe to exclude — confirm against your data</td>
         </tr>
       </tbody>
     </table>
     </div>
   </section>`;
 }
-function remainingPathways(){return reviewRows().filter(r=>answer(r.field).q2==='yes'&&(answer(r.field).stale||!['yes','no','unsure'].includes(answer(r.field).q3))).length;}
-function reviewRows(){return rows().filter(r=>q1(r)==='yes'||W.keep[r.field]);}
+function remainingPathways(){return rows().filter(r=>answer(r.field).c1==='yes'&&(answer(r.field).stale||!['yes','no','unsure'].includes(effC3(r)))).length;}
+function autoBadge(r){
+ if(unavailable(r))return '<span class="auto-badge auto-unknown">Not automatically testable</span>';
+ const lvl=priority(r)?'auto-high':(Number.isFinite(r.effect)&&r.effect>=.2?'auto-mid':'auto-low');
+ return '<span class="auto-badge '+lvl+'">'+(autoOutcome(r)==='yes'?'Statistically flagged':'Not flagged')+' — '+esc(r.metric||'effect size')+' = '+fmt(r.effect,2)+'</span>';
+}
+function infoIcon(text){return '<button type="button" class="info-icon" data-tip="'+esc(text)+'" aria-label="'+esc(text)+'">i</button>';}
+function autoTag(){return '<span class="auto-tag">Auto-filled</span>';}
+function critBlock(r){
+ const f=r.field,c1=answer(f).c1,auto=autoOutcome(r),c2eff=effC2(r);
+ const c1Hint='Does this variable change with, or correlate to, your predictor (the molecular layer you are studying)? You will need domain knowledge here, as it is impossible to measure this statistically before collecting your data. Think: if the omics measurement changes, would you expect this variable to differ? For example, biological sex does not change with inherited genetic variants and so would be a No, but it does associate with gene expression. If unsure, choose \u201cI don\u2019t know\u201d to skip.';
+ const c1html='<div class="crit-col"><span class="crit-title">Criteria 1 \u00b7 Is '+esc(f)+' associated with your predictor (molecular layer you are studying)?'+infoIcon(c1Hint)+'</span>'+radios(f,'c1','',[['yes','Yes'],['no','No'],['unsure','I don\u2019t know']])+'</div>';
+ const c2auto=answer(f).c2==null;
+ const c2Hint='We check this statistically for you, against your outcome ('+(S.map.cond||'not mapped')+'). System says '+(auto==='unsure'?'not determined':(auto==='yes'?'yes':'no'))+' \u2014 you can see below which statistical measure was used to make this assumption. You can correct this if you have clinical or domain knowledge.';
+ const c2html='<div class="crit-col"><span class="crit-title">Criteria 2 \u00b7 Is '+esc(f)+' associated with your outcome ('+esc(S.map.cond||'the outcome')+')?'+infoIcon(c2Hint)+'</span>'+autoBadge(r)+(c2auto?autoTag():'')+radios(f,'c2','',options,c2eff)+'</div>';
+ const c3auto=answer(f).c3==null&&c2eff==='no';
+ const c3Hint='Not always easy to answer. If a variable is on the causal pathway between the predictor (molecular layer you are studying) and the outcome you would expect the variable to be a precursor to the outcome. For example, a dilating heart precedes congestive heart failure and so would be a yes. Another question you can ask yourself is can the predictor actually change the Variable? For example genotype nor expression can actually change biological age directly and therefore would not be considered on the causal pathway. We can assume No for this unless both Criteria 1 and Criteria 2 are Yes \u2014 either of these being No breaks the causal pathway.'+(c3auto?' Automatically set to No because Criteria 2 is No \u2014 you can override this if needed.':'');
+ const c3html=c1==='yes'?'<div class="crit-col"><span class="crit-title">Criteria 3 \u00b7 Is '+esc(f)+' on the causal chain?'+infoIcon(c3Hint)+'</span>'+(c3auto?autoTag():'')+radios(f,'c3','',options,effC3(r))+'</div>':'<div class="crit-col crit-col-empty">Criteria 3 appears once Criteria 1 is answered Yes.</div>';
+ return '<div class="crit-cols">'+c1html+c2html+c3html+'</div>';
+}
+function varCard(r){
+ const f=r.field;
+ return '<div class="assess-card"><details data-plot="'+esc(f)+'" class="assess-head"><summary><b>'+esc(f)+'</b></summary><div class="wplot">'+(unavailable(r)?'Comparison unavailable for this sampling structure.':'Open to generate the plot.')+'</div></details>'+critBlock(r)+'</div>';
+}
 function renderAssessment(){
- const selected=reviewRows();
- if(W.phase==='q3'){
- const chosen=selected.filter(r=>answer(r.field).q2==='yes');
- $('#assessment').innerHTML=guide()+'<div class="question-panel question-purple"><h3 class="outcome-question">Q3 · Could the predictor change this variable, which then affects the outcome? <span class="mapped-outcome">Your outcome: <strong>'+esc(S.map.cond||'Not mapped')+'</strong></span></h3><p class="question-hint">e.g. Could protein A cause a plant to flower earlier, which then affects seed yield?<br>Protein A (omics) → flowering time (metadata variable) → seed yield (outcome)</p></div><p>Answer for the variables you ticked in Q2.</p>'+(chosen.length?chosen.map(r=>'<div class="role-row"><strong>'+esc(r.field)+'</strong>'+radios(r.field,'q3','')+'</div>').join(''):'<p>No variables were ticked in Q2. Continue to the summary or go back.</p>');
- }else{
- $('#assessment').innerHTML=guide()+'<div class="question-panel question-purple"><h3 class="outcome-question">Q1 · Variables associated with Phenotype (Outcome) <span class="mapped-outcome">Your outcome: <strong>'+esc(S.map.cond||'Not mapped')+'</strong></span></h3><p>'+selected.length+' variables selected. Click a name to view its plot.</p></div><div class="question-panel question-teal"><h3>Q2 · Which of these could be associated with the predictor (Omics)?</h3><p class="question-hint">e.g. Could protein abundance or mutation patterns differ with this variable—for example, between ages?</p></div><p>Tick the relevant variables, then select Next.</p>'+selected.map(r=>'<div class="compact-var"><input aria-label="Select '+esc(r.field)+' as associated with omics" type="checkbox" data-q2tick="'+esc(r.field)+'" '+(answer(r.field).q2==='yes'?'checked':'')+'><details data-plot="'+esc(r.field)+'"><summary><b>'+esc(r.field)+'</b></summary><p class="plot-caption">This variable is selected based on its association with the Phenotype (Outcome).</p><div class="wplot">'+(unavailable(r)?'Comparison unavailable for this sampling structure.':'Open to generate the plot.')+'</div></details></div>').join('')+(selected.length?'':'<p>No variables passed the screen. Continue to review the summary.</p>');
+ const items=rows();
+ $('#assessment').innerHTML=guide()+(items.length?items.map(varCard).join(''):'<p>No variables were selected in step 3.</p>');
  wireCards();
- }
 }
 function wireCards(){
  $$('details[data-plot]').forEach(d=>d.ontoggle=safe(async()=>{if(!d.open||d.dataset.loaded)return;const f=d.dataset.plot,r=rows().find(r=>r.field===f);if(unavailable(r))return;d.dataset.loaded='1';const host=d.querySelector('.wplot');host.textContent='Drawing in R…';const generation=W.generation;try{const code='ss_plot_pair('+JSON.stringify(f)+','+JSON.stringify(S.map.cond)+', "")';await rplot(code,host,Math.min(760,Math.max(320,host.clientWidth)),400);if(generation!==W.generation)return;if(!numeric(f)&&!numeric(S.map.cond)){const c=await rjson('ss_counts('+JSON.stringify(f)+')');host.insertAdjacentHTML('beforeend','<p>Counts; each bar is divided by its outcome-group total among complete pairs.</p><table><thead><tr><th>'+esc(f)+'</th>'+arr(c.collev).map(v=>'<th>'+esc(v)+'</th>').join('')+'</tr></thead><tbody>'+arr(c.rowlev).map((v,i)=>'<tr><th>'+esc(v)+'</th>'+arr(arr(c.counts)[i]).map(n=>'<td>'+n+'</td>').join('')+'</tr>').join('')+'</tbody></table>');}}catch(e){delete d.dataset.loaded;host.textContent='Plot unavailable: '+e.message;}}));
 }
-function combo(r){const a=answer(r.field);return 'Q1 outcome '+q1(r)+' / Q2 omics '+(a.q2||'unanswered')+' / Q3 pathway '+(a.q2==='no'?'not asked':(a.q3||'unanswered'));}
-function outcomeSummary(){const d=S.design||{};if(numeric(S.map.cond))return '<p>Continuous outcome: '+(d.nCond||0)+' distinct recorded values; no artificial groups are created.</p>';return '<h4>Outcome groups</h4><table><thead><tr><th>Group</th><th>Records</th><th>Biological units</th></tr></thead><tbody>'+arr(d.perCond).map(g=>'<tr><td>'+esc(g.level)+'</td><td>'+g.rows+'</td><td>'+g.units+'</td></tr>').join('')+'</tbody></table><p class="whelp">A biological unit may appear in multiple groups. This does not create extra independent units.</p>';}
+function outcomeSummary(){const d=S.design||{};if(numeric(S.map.cond))return '<p>Continuous outcome: '+(d.nCond||0)+' distinct recorded values; no artificial groups are created.</p>';return '<h4>Outcome groups</h4><table><thead><tr><th>Group</th><th>Records</th><th>Subjects</th></tr></thead><tbody>'+arr(d.perCond).map(g=>'<tr><td>'+esc(g.level)+'</td><td>'+g.rows+'</td><td>'+g.units+'</td></tr>').join('')+'</tbody></table><p class="whelp">A subject may appear in multiple groups. This does not create extra independent units.</p>';}
 function reportHTML(){
  const rr=rows(),d=S.design||{},c=S.counts||{},groups={aligned:[],overlap:[],poor:[],mediator:[],covariate:[],unresolved:[],unassessed:[],quiet:[],nonconf:[]};
- rr.forEach(r=>{const a=answer(r.field);if(unavailable(r)){groups.unassessed.push(r);return;}if(a.stale){groups.unresolved.push(r);return;}if(q1(r)==='no'&&!a.q2){groups.quiet.push(r);return;}if(!a.q2||(a.q2==='yes'&&(!a.q3||a.q3==='unsure'))){groups.unresolved.push(r);return;}if(a.q2==='no'){groups.covariate.push(r);return;}if(a.q3==='yes'){groups.mediator.push(r);return;}if(q1(r)==='no'){groups.nonconf.push(r);return;}groups[r.cls?.code==='entangled'?'aligned':r.cls?.code==='nooverlap'?'poor':'overlap'].push(r);});
+ rr.forEach(r=>{const a=answer(r.field),c2=effC2(r),c3=effC3(r);if(unavailable(r)&&a.c2==null){groups.unassessed.push(r);return;}if(a.stale){groups.unresolved.push(r);return;}if(c2==='no'&&!a.c1){groups.quiet.push(r);return;}if(!a.c1||a.c1==='unsure'||(a.c1==='yes'&&(!c3||c3==='unsure'))){groups.unresolved.push(r);return;}if(a.c1==='no'){groups.covariate.push(r);return;}if(c3==='yes'){groups.mediator.push(r);return;}if(c2==='no'){groups.nonconf.push(r);return;}groups[r.cls?.code==='entangled'?'aligned':r.cls?.code==='nooverlap'?'poor':'overlap'].push(r);});
  let technical='Not determined',repeated='Not determined';
  if(c.extra===0){technical=0;repeated=0;}else if(W.sample.repeat==='technical'){technical=c.extra;repeated=0;}else if(W.sample.repeat==='specimens'){technical=0;repeated=c.extra;}else if(W.sample.repeat==='mixed'&&c.specimenComplete){technical=c.withinSpecimen+' possible';repeated=c.betweenSpecimen;}else if(W.sample.repeat==='platforms'){technical='Not classified as technical repeats';repeated='Different assays: '+c.extra+' additional rows';}
- const counts=[['Biological units (unique '+S.map.unit+' values)',c.units??'Not mapped'],['Biological units represented in the outcome comparison; '+(d.noCond||0)+' have no known outcome',d.comparisonUnits??'—'],['Rows with known outcome / total rows; '+(d.missingCond||0)+' excluded for missing outcome',(S.nrow-(d.missingCond||0))+'/'+S.nrow],['Technical/process replicate rows beyond the first',technical],['Repeated/nested observation rows beyond the first',repeated]];
+ const repeatInfo=REPEAT_INFO[W.sample.repeat]||REPEAT_INFO.none;
+ const counts=[['Subjects (unique '+effectiveUnit()+' values)',c.units??'Not mapped'],['Subjects represented in the outcome comparison; '+(d.noCond||0)+' have no known outcome',d.comparisonUnits??'—'],['Rows with known outcome / total rows; '+(d.missingCond||0)+' excluded for missing outcome',(S.nrow-(d.missingCond||0))+'/'+S.nrow],['Technical/process replicate rows beyond the first',technical],['Repeated/nested observation rows beyond the first',repeated],['Repeated-row handling (from step 4)',repeatInfo.label]];
  function group(title,list,description){return '<section class="summary-group"><h3>'+title+'<span class="group-count">'+list.length+'</span></h3><p>'+description+'</p>'+(list.length?'<ul>'+list.map(r=>'<li>'+esc(r.field)+'</li>').join('')+'</ul>':'<p>None flagged.</p>')+'</section>';}
  const missing=rr.filter(r=>Number.isFinite(r.missGap)&&r.missGap>=.15);
- let h='<p><b>Sheet:</b> '+esc(S.name)+' · <b>Outcome:</b> '+esc(S.map.cond)+'</p><h2>1 · How many biological units and observations are represented? <small>Module 1</small></h2><table><thead><tr><th>Design element</th><th>Result</th></tr></thead><tbody>'+counts.map(([k,v])=>'<tr><td>'+esc(k)+'</td><td><b>'+esc(v)+'</b></td></tr>').join('')+'</tbody></table>'+(c.missingUnit?'<p>'+c.missingUnit+' records have missing biological-unit IDs and cannot be assigned to a unit.</p>':'')+'<p>'+esc(S.screen?.note||'')+' Biological units contributing more specimens may influence this descriptive screen more. Related samples need to be accounted for in later analysis.</p><h2>2 · What may complicate the comparison <small>Module 2</small></h2><div class="stats">'+[['aligned','Complete alignment'],['overlap','Potential confounders: no separation flagged'],['poor','Potential confounders with limited overlap'],['mediator','Possible mediators'],['covariate','Outcome-associated covariates'],['unresolved','Unresolved']].map(([k,l])=>'<div><b>'+groups[k].length+'</b>'+l+'</div>').join('')+'</div><h3 class="confounding-heading">Confounding problems</h3>';
+ let h='<p><b>Sheet:</b> '+esc(S.name)+' · <b>Outcome:</b> '+esc(S.map.cond)+'</p><h2>1 · How many subjects and observations are represented? <small>Module 1</small></h2><table><thead><tr><th>Design element</th><th>Result</th></tr></thead><tbody>'+counts.map(([k,v])=>'<tr><td>'+esc(k)+'</td><td><b>'+esc(v)+'</b></td></tr>').join('')+'</tbody></table>'+(c.missingUnit?'<p>'+c.missingUnit+' records have missing subject IDs and cannot be assigned to a subject.</p>':'')+(repeatInfo.note?'<p>'+esc(repeatInfo.note)+'</p>':'')+'<p>'+esc(S.screen?.note||'')+' Subjects contributing more specimens may influence this descriptive screen more. Related samples need to be accounted for in later analysis.</p><h2>2 · What may complicate the comparison <small>Module 2</small></h2><div class="stats">'+[['aligned','Complete alignment'],['overlap','Potential confounders: no separation flagged'],['poor','Potential confounders with limited overlap'],['mediator','Possible mediators'],['covariate','Outcome-associated covariates'],['unresolved','Unresolved']].map(([k,l])=>'<div><b>'+groups[k].length+'</b>'+l+'</div>').join('')+'</div><h3 class="confounding-heading">Confounding problems</h3>';
  h+=group('Complete alignment: potential complete confounding',groups.aligned,'The metadata variable is completely aligned with the outcome groups and your answers flag potential confounding.');
  h+=group('Potential confounders: no separation flagged',groups.overlap,'Your answers flag potential confounding. No complete alignment or limited-separability warning was detected by these checks. Review the distributions before deciding whether adjustment is appropriate.');
  h+=group('Potential confounders with limited overlap or separability',groups.poor,'The observed data provide limited comparable information.');
  h+='<h3 class="interpretations-heading">Other interpretations</h3>'+group('Possible mediators',groups.mediator,'You judged the pathway omics → variable → outcome plausible. Adjustment could remove part of the total causal effect.');
- h+=group('Outcome-associated covariates',groups.covariate,'These variables passed outcome screening but were not ticked for association with omics when you completed Q2. They may be considered as covariates; appropriate inclusion may improve precision.');
+ h+=group('Outcome-associated covariates',groups.covariate,'These variables passed outcome screening but were not judged to be associated with the omics measurement in Criteria 1. They may be considered as covariates; appropriate inclusion may improve precision.');
  h+=group('Uncertain or unfinished: needs review',groups.unresolved,'Do not adjust automatically. Record the uncertainty or complete the outstanding questions.');
  h+='<h2>3 · What needs review or could not be assessed</h2><h3>Not assessed</h3>'+(groups.unassessed.length?'<ul>'+groups.unassessed.map(r=>'<li><b>'+esc(r.field)+'</b>'+(' — '+esc(reason(r)))+'</li>').join('')+'</ul>':'<p>None.</p>')+'<h3>Missing values that differ between outcome groups</h3>'+(missing.length?'<ul>'+missing.map(r=>'<li><b>'+esc(r.field)+'</b> — '+arr(r.missByGrp).filter(g=>Number.isFinite(g.miss)).map(g=>Math.round(g.miss*100)+'% missing in '+esc(g.level)).join('; ')+'.</li>').join('')+'</ul>':'<p>None flagged.</p>');
  h+=group('No notable association flagged',groups.quiet,'These variables did not pass the initial screen.');
@@ -1990,23 +2011,22 @@ function reason(r){if(r.kind==='held')return 'conflicting metadata across techni
 function renderReport(){ $('#report').innerHTML=reportHTML();}
 function download(name,text,type){const a=document.createElement('a'),u=URL.createObjectURL(new Blob([text],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
 $('#reportExport').onclick=()=>download('metadata-study-summary.html','<!doctype html><html lang="en"><meta charset="utf-8"><title>Metadata study summary</title><style>'+REPORT_CSS+'</style><button class="print-report" onclick="window.print()">Print / Save as PDF</button>'+reportHTML()+'</html>','text/html');
-$('#back').onclick=safe(async()=>{if(W.page===5&&W.phase==='q3'){W.phase='q2';await renderAll();}else await go(W.page-1);});
-$('#next').onclick=safe(async()=>{if(W.page===5&&W.phase==='q2'){for(const r of reviewRows()){const a=answer(r.field);if(a.stale)delete a.q3;a.q2=a.q2==='yes'?'yes':'no';if(a.q2==='no')delete a.q3;a.stale=false;}W.q2done=true;W.phase='q3';await renderAll();window.scrollTo({top:0});return;}await go(W.page+1);});
+$('#back').onclick=safe(async()=>{await go(W.page-1);});
+$('#next').onclick=safe(async()=>{await go(W.page+1);});
 const _tt=$('#thresholdToggle');if(_tt)_tt.onclick=()=>{const info=$('#thresholdInfo'),button=$('#thresholdToggle');info.hidden=!info.hidden;button.setAttribute('aria-expanded',String(!info.hidden));};
 $('#demoBtn').onclick=safe(loadDemo);
 $('#fileIn').onchange=safe(async e=>{const f=e.target.files[0];if(f)await loadCSV(await f.text(),f.name,false);});
 $('#pasteBtn').onclick=safe(async()=>{const text=$('#pasteIn').value.trim();if(!text)throw Error('Paste a table with column headers first.');await loadCSV(text,'pasted-sheet',false);});
 ['mapUnit','mapCond'].forEach((id,i)=>$('#'+id).onchange=safe(async e=>{const key=['unit','cond'][i];S.map[key]=e.target.value;if(key==='cond'&&S.types[S.map.cond]==='exclude')S.types[S.map.cond]='categorical';[S.map.id,S.map.unit,S.map.cond].forEach(f=>S.include.delete(f));invalidate('Column mapping changed');await refresh();}));
-$('#allOn').onclick=safe(async()=>{S.fields.filter(f=>![S.map.id,S.map.unit,S.map.cond,W.sample.specimen].includes(f)&&S.types[f]!=='exclude').forEach(f=>S.include.add(f));invalidate('Selection changed');await refresh();});
+$('#allOn').onclick=safe(async()=>{S.fields.filter(f=>![S.map.id,effectiveUnit(),S.map.cond,W.sample.specimen].includes(f)&&S.types[f]!=='exclude').forEach(f=>S.include.add(f));invalidate('Selection changed');await refresh();});
 $('#allOff').onclick=safe(async()=>{S.include.clear();invalidate('Selection changed');await refresh();});
 document.addEventListener('change',safe(async e=>{
  const t=e.target;
  if(t.dataset.include){t.checked?S.include.add(t.dataset.include):S.include.delete(t.dataset.include);invalidate('Selection changed');await refresh();}
  if(t.dataset.type){S.types[t.dataset.type]=t.value;t.value==='exclude'?S.include.delete(t.dataset.type):S.include.add(t.dataset.type);invalidate('Variable type changed');await refresh();}
  const sm={rowMeaning:'row',repeatMeaning:'repeat',specimenMap:'specimen',visitMap:'visit',clusterStatus:'cluster'};
- if(sm[t.id]){W.sample[sm[t.id]]=t.value;if(t.id==='specimenMap')S.include.delete(t.value);if(t.id==='repeatMeaning'){const _rc=$('#repeatConsequence');if(_rc){const _m={technical:'Technical replicates will be collapsed to one row per specimen before association testing.',specimens:'Each row is treated as a separate biological observation; subject-level pairing is noted in the report.',mixed:'Rows are kept as-is; conflicting metadata will be flagged.',unsure:'Rows are kept as-is; conflicting metadata will be flagged.'};_rc.textContent=_m[t.value]||'';}}invalidate('Sampling changed');await refresh();}
- if(t.dataset.q2tick){answer(t.dataset.q2tick).q2=t.checked?'yes':'no';W.q2done=false;}
- if(t.dataset.answer){const a=answer(t.dataset.field);a[t.dataset.answer]=t.value;await renderAll();}
+ if(sm[t.id]){W.sample[sm[t.id]]=t.value;if(t.id==='specimenMap')S.include.delete(t.value);if(t.id==='repeatMeaning'){const _rc=$('#repeatConsequence');if(_rc)_rc.textContent=REPEAT_INFO[t.value]?.note||'';}invalidate('Sampling changed');await refresh();}
+ if(t.dataset.answer){const a=answer(t.dataset.field);a[t.dataset.answer]=t.value;a.stale=false;await renderAll();}
  if(t.dataset.keep){W.keep[t.dataset.keep]=t.checked;renderAssessment();}
 }));
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.note)answer(t.dataset.note).note=t.value;if(t.dataset.design)answer(t.dataset.design).design=t.value;});
