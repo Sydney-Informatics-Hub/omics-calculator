@@ -1,0 +1,2025 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sample Sheet guide</title><style>
+
+:root{
+  --paper:#eef1f3;
+  --surface:#ffffff;
+  --surface-2:#f7f9fa;
+  --ink:#16222c;
+  --ink-2:#4d6070;
+  --ink-3:#7b8d9b;
+  --line:#ccd6dd;
+  --line-2:#e2e9ed;
+  --accent:#0d6b73;
+  --accent-soft:#dceef0;
+  --sev0:#8ba3af;
+  --sev1:#3f8ea0;
+  --sev2:#c8862a;
+  --sev3:#b03a44;
+  --struct:#6b4fa0;
+  --g1:#0d6b73;
+  --g2:#b0603a;
+  --g3:#5b6ba8;
+  --g4:#7a8a3c;
+  --g5:#9a4a6e;
+  --shadow:0 1px 0 rgba(22,34,44,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#101820;
+    --surface:#17222b;
+    --surface-2:#1c2831;
+    --ink:#e5edf1;
+    --ink-2:#a9bcc7;
+    --ink-3:#7e93a0;
+    --line:#2e3f4b;
+    --line-2:#243440;
+    --accent:#4fb3ba;
+    --accent-soft:#153036;
+    --sev0:#6d838f;
+    --sev1:#4fb3ba;
+    --sev2:#d9a24a;
+    --sev3:#d9646f;
+    --struct:#a68ede;
+    --g1:#4fb3ba;--g2:#d98a5e;--g3:#8f9fdc;--g4:#a8b95c;--g5:#cf7fa2;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101820;--surface:#17222b;--surface-2:#1c2831;--ink:#e5edf1;--ink-2:#a9bcc7;--ink-3:#7e93a0;
+  --line:#2e3f4b;--line-2:#243440;--accent:#4fb3ba;--accent-soft:#153036;
+  --sev0:#6d838f;--sev1:#4fb3ba;--sev2:#d9a24a;--sev3:#d9646f;--struct:#a68ede;
+  --g1:#4fb3ba;--g2:#d98a5e;--g3:#8f9fdc;--g4:#a8b95c;--g5:#cf7fa2;--shadow:none;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;
+}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}
+h1{font-size:17px}
+h2{font-size:15px}
+h3{font-size:13px;color:var(--ink-2);font-weight:500}
+p{margin:0 0 10px}
+a{color:var(--accent)}
+button,select,input,textarea{font:inherit;color:inherit}
+.mono{font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+header.top{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  padding:12px 18px;
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+}
+header.top .sub{color:var(--ink-3);font-size:12.5px}
+header.top .spacer{flex:1}
+.app{display:grid;grid-template-columns:308px minmax(0,1fr);align-items:start}
+@media (max-width:900px){.app{grid-template-columns:1fr}}
+aside{
+  border-right:1px solid var(--line);
+  background:var(--surface);
+  padding:14px 16px 40px;
+  position:sticky;top:0;max-height:100vh;overflow:auto;
+}
+@media (max-width:900px){aside{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}}
+main{padding:16px 18px 60px;min-width:0}
+
+/* ---------- sidebar bits ---------- */
+.block{margin-bottom:20px}
+.block > h3{margin-bottom:7px}
+.row{display:flex;gap:6px;align-items:center}
+.row + .row{margin-top:6px}
+label.f{display:block;font-size:12px;color:var(--ink-2);margin:8px 0 3px}
+select,input[type=text],textarea{
+  width:100%;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:3px;padding:5px 7px;font-size:13px;
+}
+textarea{font-size:12px;line-height:1.45;resize:vertical}
+select:focus,input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.btn{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:3px;
+  padding:5px 10px;font-size:12.5px;cursor:pointer;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{color:#fff;opacity:.9}
+.seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.seg button{flex:1;background:var(--surface-2);border:0;padding:5px 6px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.seg button[aria-pressed=true]{background:var(--accent);color:#fff}
+.varlist{border:1px solid var(--line-2);border-radius:3px;max-height:340px;overflow:auto}
+.varrow{display:grid;grid-template-columns:18px minmax(0,1fr) 88px;gap:6px;align-items:center;padding:4px 6px;border-bottom:1px solid var(--line-2)}
+.varrow:last-child{border-bottom:0}
+.varrow .nm{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.varrow .nm small{display:block;color:var(--ink-3);font-size:11px}
+.varrow select{padding:2px 4px;font-size:11.5px}
+.note{font-size:11.5px;color:var(--ink-3);margin-top:6px}
+.warnbox{border-left:3px solid var(--sev2);background:var(--surface-2);padding:7px 9px;font-size:12px;margin-top:8px;border-radius:0 3px 3px 0}
+/* a structural finding is not an alarm: same shape, neutral rule */
+.factbox{border-left:3px solid var(--accent);background:var(--surface-2);padding:7px 9px;font-size:12px;margin-top:8px;border-radius:0 3px 3px 0}
+.askbox{border-left:3px dashed var(--struct);background:var(--surface-2);padding:7px 9px;font-size:12px;margin-top:8px;border-radius:0 3px 3px 0}
+.askbox b{color:var(--struct)}
+.tag.cls-entangled{border-color:var(--sev3);color:var(--sev3);font-weight:600}
+.tag.cls-imbalanced{border-color:var(--sev2);color:var(--sev2)}
+.tag.cls-balanced{border-color:var(--sev0);color:var(--sev0)}
+.tag.cls-nooverlap{border-color:var(--sev3);color:var(--sev3)}
+.tag.cls-groupspec{border-color:var(--struct);color:var(--struct)}
+.tag.cls-restricted{border-color:var(--struct);color:var(--struct)}
+.tag.cls-held{border-color:var(--sev1);color:var(--sev1)}
+.tag.cls-untestable{border-color:var(--line);color:var(--ink-3)}
+th[title]{cursor:help;border-bottom:1px dotted var(--ink-3)}
+.expander{margin-top:14px}
+.expander summary{cursor:pointer;font-size:12px;color:var(--accent);padding:4px 0}
+.readframe{border:1px solid var(--line);border-radius:3px;padding:10px 12px;margin-bottom:12px;background:var(--surface-2)}
+.readframe h4{margin:0 0 6px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3)}
+.readframe ol{margin:0;padding-left:18px;font-size:12.5px;color:var(--ink-2)}
+.readframe ol li{margin:3px 0}
+.readframe .nodecide{margin-top:8px;font-size:11.5px;color:var(--ink-3)}
+
+/* ---------- steps ---------- */
+.steps{display:flex;gap:0;margin:0 0 14px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--surface)}
+.steps div{flex:1;padding:8px 10px;border-right:1px solid var(--line-2);font-size:12px;color:var(--ink-2)}
+.steps div:last-child{border-right:0}
+.steps b{display:block;color:var(--ink);font-size:12.5px;font-weight:600}
+.steps .who{font-size:11px;color:var(--ink-3)}
+.steps div.tool{background:var(--accent-soft)}
+
+/* ---------- tabs ---------- */
+nav.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
+nav.tabs button{
+  background:none;border:0;border-bottom:2px solid transparent;
+  padding:7px 11px;cursor:pointer;color:var(--ink-2);font-size:13px;
+}
+nav.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent);font-weight:500}
+section.tab{display:none}
+section.tab.on{display:block}
+
+/* ---------- panels & tables ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}
+.panel > h2{margin-bottom:4px}
+.panel > h3{margin-bottom:5px}
+.panel > h2 + h3{margin-top:14px}
+.factbox,.askbox,.warnbox{line-height:1.55}
+.panel > .lede{color:var(--ink-2);font-size:12.5px;line-height:1.55;margin-bottom:12px;max-width:none;width:100%}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{color:var(--ink-3);font-weight:500;font-size:11.5px;white-space:nowrap;border-bottom:1px solid var(--line)}
+td.num,th.num{text-align:right}
+tr.clickable{cursor:pointer}
+tr.clickable:hover td{background:var(--surface-2)}
+tr.open td{background:var(--accent-soft)}
+.vname{font-weight:500}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:2px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.tag.s0{border-color:var(--sev0);color:var(--sev0)}
+.tag.s1{border-color:var(--sev1);color:var(--sev1)}
+.tag.s2{border-color:var(--sev2);color:var(--sev2)}
+.tag.s3{border-color:var(--sev3);color:var(--sev3);font-weight:600}
+.tag.st{border-color:var(--struct);color:var(--struct)}
+.bar{position:relative;height:9px;background:var(--line-2);border-radius:1px;min-width:96px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:1px;display:block}
+.bar u{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--surface);opacity:.85}
+.detail{background:var(--surface-2)}
+.detail .inner{padding:12px 4px 16px;display:grid;grid-template-columns:minmax(320px,1.15fr) minmax(260px,1fr);gap:20px}
+.detailslot{padding:12px 0 4px;display:grid;grid-template-columns:minmax(300px,1.1fr) minmax(240px,1fr);gap:18px}
+@media (max-width:820px){.detailslot{grid-template-columns:1fr}}
+@media (max-width:820px){.detail .inner{grid-template-columns:1fr}}
+.kv{font-size:12.5px}
+.kv div{display:flex;gap:8px;padding:2px 0;border-bottom:1px dotted var(--line-2)}
+.kv span:first-child{color:var(--ink-3);min-width:150px}
+.judge fieldset{border:1px solid var(--line);border-radius:3px;padding:8px 10px;margin:0 0 10px}
+.judge legend{font-size:11.5px;color:var(--ink-3);padding:0 4px}
+.judge label{display:block;font-size:12.5px;padding:2px 0;cursor:pointer}
+.judge input[type=radio]{margin-right:6px}
+figure{margin:0}
+figcaption{font-size:11.5px;color:var(--ink-3);margin-top:5px}
+svg{max-width:100%;height:auto;display:block}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-2);margin-top:6px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.summaryline{font-size:12.5px;color:var(--ink-2);margin-bottom:10px}
+.empty{color:var(--ink-3);font-size:13px;padding:18px 0}
+code{background:var(--surface-2);border:1px solid var(--line-2);border-radius:2px;padding:0 4px;font-size:12px}
+.hint{font-size:11.5px;line-height:1.5;color:var(--ink-3);max-width:none;width:100%;margin-top:8px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.stat{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.stat div{border-left:2px solid var(--accent);padding-left:9px}
+.stat b{display:block;font-size:19px;font-weight:600;line-height:1.2}
+.stat span{font-size:11.5px;color:var(--ink-3)}
+.mini-example{margin-top:6px;border:1px solid var(--line-2);border-radius:3px;background:var(--surface-2);overflow:hidden;width:max-content;max-width:100%}
+.mini-example table{width:auto;min-width:250px;font-size:11.5px}
+.mini-example th,.mini-example td{padding:3px 7px;white-space:nowrap}
+.mini-example th{font-size:10.5px;color:var(--ink-3);background:var(--surface)}
+
+/* ---------- webR additions ---------- */
+.boot{position:fixed;inset:0;background:var(--paper);z-index:50;display:flex;align-items:center;justify-content:center}
+.boot .card{max-width:520px;padding:26px 28px;background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.boot h2{margin-bottom:8px}
+.boot p{color:var(--ink-2);font-size:13px}
+.boot .prog{height:3px;background:var(--line-2);margin:16px 0 10px;overflow:hidden;border-radius:2px}
+.boot .prog i{display:block;height:100%;width:35%;background:var(--accent);animation:slide 1.3s ease-in-out infinite}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(320%)}}
+@media (prefers-reduced-motion: reduce){.boot .prog i{animation:none;width:100%}}
+.boot code{display:block;margin-top:10px;padding:6px 8px;white-space:pre-wrap;font-size:11.5px}
+.busy{font-size:11.5px;color:var(--accent)}
+canvas{max-width:100%;height:auto;display:block;border-radius:2px}
+pre.rcode{background:var(--surface-2);border:1px solid var(--line-2);border-radius:3px;padding:12px;
+  overflow:auto;max-height:640px;font-size:11.5px;line-height:1.45;white-space:pre;margin:0}
+.console-out{background:var(--surface-2);border:1px solid var(--line-2);border-radius:3px;padding:10px;
+  min-height:90px;max-height:300px;overflow:auto;font-size:12px;white-space:pre-wrap;line-height:1.45;margin-top:8px}
+.console-out .e{color:var(--sev3)}
+textarea.rin{font-family:ui-monospace,"IBM Plex Mono",Menlo,Consolas,monospace;font-size:12.5px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chips button{font-size:11.5px;padding:3px 8px;border:1px solid var(--line);border-radius:12px;
+  background:var(--surface-2);cursor:pointer;color:var(--ink-2)}
+.chips button:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- step rail ---------- */
+nav.rail{display:flex;gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden;
+  background:var(--surface);margin-bottom:16px;flex-wrap:wrap}
+nav.rail button{flex:1 1 128px;min-width:128px;background:none;border:0;border-right:1px solid var(--line-2);
+  padding:8px 10px;text-align:left;cursor:pointer;color:var(--ink-3);font-size:12.5px;line-height:1.35}
+nav.rail button:last-child{border-right:0}
+nav.rail button i{display:block;font-style:normal;font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+nav.rail button b{font-weight:500;color:var(--ink-2)}
+nav.rail button[aria-current=true]{background:var(--accent-soft)}
+nav.rail button[aria-current=true] b{color:var(--ink);font-weight:600}
+nav.rail button[aria-current=true] i{color:var(--accent)}
+nav.rail button[data-done=true] b{color:var(--ink-2)}
+nav.rail button[disabled]{cursor:not-allowed;opacity:.45}
+section.step{display:none}
+section.step.on{display:block;margin-bottom:4px}
+.report-view .app{grid-template-columns:1fr}
+.report-view aside{display:none}
+.report-view main{width:min(1100px,100%);margin:0 auto}
+
+.navbtns{display:flex;gap:8px;align-items:center;margin-top:18px;padding-top:14px;
+  border-top:1px solid var(--line-2);flex-wrap:wrap}
+.navbtns .spacer{flex:1}
+.navbtns .prog{font-size:12px;color:var(--ink-3)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:disabled:hover{border-color:var(--line);color:inherit}
+
+/* the one line the step is trying to teach */
+.takeaway{border-left:3px solid var(--accent);background:var(--accent-soft);
+  padding:10px 12px;margin-top:18px;border-radius:0 3px 3px 0;font-size:13px;line-height:1.55}
+.takeaway>b{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:4px;font-weight:600}
+.takeaway .count-summary{margin-top:6px}
+.takeaway .count-summary table{margin:0;background:var(--surface);color:var(--ink);border-color:var(--line)}
+.takeaway .count-summary td{border-color:var(--line-2)}
+.takeaway .count-summary td:first-child{color:var(--ink-2)}
+.takeaway .count-summary td:last-child,.takeaway .count-summary b{color:var(--ink)}
+.takeaway .count-note{margin-top:7px;color:var(--ink)}
+.handoff{border:1px dashed var(--line);border-radius:3px;padding:11px 13px;margin-top:16px;
+  font-size:13px;line-height:1.55;color:var(--ink-2);background:var(--surface-2)}
+
+/* ---------- block headings on the screen step ---------- */
+.blockhead{margin-top:26px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.blockhead:first-of-type{margin-top:6px}
+.blockhead h3{font-size:13.5px;color:var(--ink);font-weight:600}
+.blockhead p{margin:4px 0 0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+
+/* ---------- one variable, one card ---------- */
+.vcard{border:1px solid var(--line);border-radius:3px;background:var(--surface);
+  padding:11px 13px;margin-top:10px}
+.vcard.stop{border-left:3px solid var(--sev3)}
+.vcard.done{border-left:3px solid var(--sev1)}
+.vcard .top{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.vcard .top .who{flex:1;min-width:180px}
+.vcard .top .who b{font-size:13px;font-weight:600}
+.vcard .top .who span{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+.vcard .plain{font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.5}
+.vcard .plain em{font-style:normal;color:var(--ink)}
+.vcard .why{font-size:12px;color:var(--ink-3);margin-top:5px;line-height:1.5}
+.qline{margin-top:11px;padding-top:10px;border-top:1px solid var(--line-2)}
+.qline .qt{font-size:12.5px;color:var(--ink);font-weight:500;margin-bottom:2px}
+.qline .qh{font-size:11.5px;color:var(--ink-3);margin-bottom:7px;line-height:1.5}
+.choice{display:flex;gap:6px;flex-wrap:wrap}
+.choice label{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);
+  border-radius:3px;padding:4px 9px;font-size:12px;cursor:pointer;background:var(--surface-2);color:var(--ink-2)}
+.choice label:hover{border-color:var(--accent)}
+.choice input{margin:0}
+.choice label.sel{border-color:var(--accent);background:var(--accent-soft);color:var(--ink);font-weight:500}
+.choice.repeat-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.choice.repeat-choices label{display:flex;width:100%;min-height:42px;box-sizing:border-box;align-items:flex-start}
+@media (max-width:760px){.choice.repeat-choices{grid-template-columns:1fr}}
+.moreline{margin-top:12px}
+.moreline summary{cursor:pointer;font-size:12px;color:var(--accent);padding:3px 0}
+
+/* ---------- the tick list ---------- */
+.checkhead{margin-top:16px;font-size:13px;font-weight:600;color:var(--ink)}
+.checklist{margin-top:8px;border:1px solid var(--line);border-radius:3px;
+  max-height:320px;overflow:auto;background:var(--surface-2)}
+label.ck{display:flex;align-items:center;gap:9px;padding:7px 11px;font-size:13px;
+  border-bottom:1px solid var(--line-2);cursor:pointer}
+label.ck:last-child{border-bottom:0}
+label.ck:hover{background:var(--accent-soft)}
+label.ck.on{background:var(--accent-soft);font-weight:500}
+label.ck input{margin:0}
+.quiet-link{appearance:none;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;
+  text-decoration:none;cursor:pointer}
+.quiet-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.methods-guide{margin-top:10px;border:1px solid var(--line);border-radius:3px;background:var(--surface-2);padding:11px 13px}
+.methods-guide h4{margin:0 0 7px;font-size:12.5px}
+.methods-guide table{font-size:11.5px;margin:0}
+
+/* ---------- one question per flagged variable ---------- */
+.qtable{margin-top:8px;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.qrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:9px 11px;
+  border-bottom:1px solid var(--line-2)}
+.qrow:last-child{border-bottom:0}
+.qrow .qn{flex:1 1 170px;font-size:13px;font-weight:500}
+
+/* ---------- compact causal-question figure ---------- */
+.concept-figure{margin:12px auto 14px;max-width:720px}
+.concept-figure img{display:block;width:100%;height:auto;border:1px solid var(--line-2);
+  border-radius:4px;background:#fff}
+.module-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:10px;
+  background:var(--accent-soft);color:var(--accent);font-size:10.5px;font-weight:600;
+  letter-spacing:.02em;vertical-align:1px}
+.repeat-answer{margin-top:9px;border-left:3px solid var(--accent);background:var(--accent-soft);
+  padding:8px 10px;border-radius:0 3px 3px 0;font-size:12px;line-height:1.5}
+
+/* ---------- the collapsed evidence table ---------- */
+tr.detrow{display:none}
+tr.detrow.on{display:table-row}
+
+/* ---------- the design record ---------- */
+.rep h3{font-size:13px;color:var(--ink);font-weight:600;margin-top:22px;
+  padding-bottom:5px;border-bottom:1px solid var(--line)}
+.rep h3:first-of-type{margin-top:4px}
+.rep h4{margin:14px 0 4px;font-size:12px;color:var(--ink-2);font-weight:600}
+.rep ul{margin:4px 0 0;padding-left:18px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.rep ul li{margin:2px 0}
+.rep .none{font-size:12.5px;color:var(--ink-3);margin:4px 0 0}
+.pill{display:inline-block;font-size:10.5px;padding:0 5px;border-radius:2px;
+  border:1px solid var(--line);color:var(--ink-3);margin-left:5px;vertical-align:1px}
+.result-panel{background:var(--surface);border-top:0}
+.report-section{margin-top:14px;padding:12px 14px 14px;border:1px solid var(--line);border-radius:5px}
+.report-section>h3{margin-top:0}
+.report-count{background:var(--surface);border-top:3px solid #3f8ea0}
+.report-compare{background:var(--surface);border-top:3px solid #e64626}
+.report-review{background:var(--surface);border-top:3px solid #6f8b57}
+.result-kicker{color:#c83b20;font-size:11px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:3px}
+.result-summary{border:1px solid var(--line);background:rgba(255,255,255,.55);border-radius:3px;
+  padding:9px 11px;margin:8px 0 12px;font-size:12.5px}
+:root[data-theme="dark"] .result-summary{background:rgba(0,0,0,.10)}
+.result-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px;margin:10px 0 12px}
+.result-stat{border:1px solid var(--line);border-radius:3px;background:rgba(255,255,255,.55);padding:9px 10px}
+.result-stat b{display:block;font-size:20px;line-height:1;color:var(--ink);margin-bottom:5px}
+.result-stat span{display:block;font-size:11.5px;line-height:1.35;color:var(--ink-2)}
+:root[data-theme="dark"] .result-stat{background:rgba(0,0,0,.10)}
+.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.result-group-title{grid-column:1/-1;margin:4px 0 -2px;font-size:12.5px;font-weight:600;color:var(--ink)}
+.result-block{border:1px solid var(--line);border-radius:3px;background:rgba(255,255,255,.45);padding:10px 12px}
+.result-block h4{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin:0 0 6px;color:var(--ink)}
+.result-block h4 .result-count{flex:0 0 auto;min-width:22px;text-align:center;border-radius:10px;
+  background:var(--line-2);padding:1px 7px;color:var(--ink-2);font-size:10.5px}
+.result-rule{font-size:11.5px;line-height:1.45;color:var(--ink-3);margin:0 0 7px}
+.result-block.stop{border-top:3px solid var(--sev3)}
+.result-block.confounder{border-top:3px solid var(--sev2)}
+.result-block.consequence{border-top:3px solid var(--struct)}
+.result-block.uncertain{border-top:3px solid var(--sev1)}
+.result-block.record{border-top:3px solid var(--line)}
+.result-block.record:last-child{grid-column:1/-1}
+:root[data-theme="dark"] .result-block{background:rgba(0,0,0,.08)}
+.term-strip{margin:14px 0;padding:11px 12px;border:1px solid var(--line);border-radius:5px;background:var(--surface)}
+.term-strip>summary{cursor:pointer;color:var(--ink);font-size:12px;font-weight:600}
+.term-strip[open]>summary{margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line-2)}
+.term-grid{display:flex;flex-wrap:wrap;gap:10px}
+.term-grid div{flex:1 1 190px;font-size:11.5px;line-height:1.45;color:var(--ink-2)}
+.term-strip b{display:block;color:var(--ink);font-size:11.5px;margin-bottom:2px}
+.report-guide{margin:14px 0;text-align:center}
+.decision-strip{margin-top:14px}
+.decision-strip>summary{font-size:12.5px}
+.report-guide .concept-figure{max-width:920px;margin:0 auto}
+.decision-note{margin:8px auto 0;max-width:820px;font-size:11.5px;line-height:1.45;color:var(--ink-3);text-align:left}
+.guide-flow{display:grid;gap:7px}
+.guide-node{border:1px solid var(--line);border-radius:3px;padding:8px 10px;background:var(--surface-2);font-size:11.5px;line-height:1.45}
+.guide-node b{display:block;font-size:12px;color:var(--ink);margin-bottom:2px}
+.guide-arrow{text-align:center;color:var(--ink-3);font-size:11px;font-weight:600}
+.guide-branches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.guide-branches .guide-node{border-top:3px solid var(--line)}
+.guide-branches .complete{border-top-color:var(--sev3)}
+.guide-branches .confounder{border-top-color:var(--sev2)}
+.guide-branches .downstream{border-top-color:var(--struct)}
+.guide-branches .uncertain{border-top-color:var(--sev1)}
+.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.review-block{border:1px solid var(--line);border-radius:3px;background:rgba(255,255,255,.42);padding:10px 12px}
+.review-block h4{margin:0 0 6px;color:var(--ink)}
+:root[data-theme="dark"] .term-strip,:root[data-theme="dark"] .review-block{background:rgba(0,0,0,.08)}
+.report-actions{justify-content:space-between}
+.report-actions .spacer{display:none}
+@media (max-width:900px){.result-stats{grid-template-columns:repeat(2,minmax(120px,1fr))}}
+@media (max-width:900px){.review-grid{grid-template-columns:1fr}}
+@media (max-width:760px){.result-grid,.result-stats,.guide-branches{grid-template-columns:1fr}.result-block.record:last-child{grid-column:auto}}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  header.top,aside,.navbtns,section.step{display:none !important}
+  .app{display:block}
+  main{padding:0}
+  section#step-5{display:block !important}
+  section#step-5 .panel{display:block;border:0;box-shadow:none;padding:12mm;background:#fff}
+  body{background:#fff}
+  .decision-strip>summary{display:none}
+  .decision-strip>.report-guide{display:block !important}
+}
+.replicate-question, .replicate-question b {color:#7c3aed;}
+:root[data-theme="dark"] .replicate-question, :root[data-theme="dark"] .replicate-question b {color:#c4b5fd;}
+
+.role-row{max-width:590px;display:grid;grid-template-columns:minmax(120px,1fr) auto;gap:12px;padding:8px 0}.role-row>strong{min-width:0;overflow-wrap:anywhere}.role-row .qblock{margin:0}.role-row .qblock>p{display:none}.role-row .answer{gap:5px}.role-row .answer label{padding:6px 10px}@media(max-width:460px){.role-row{grid-template-columns:1fr}.role-row .answer{justify-content:flex-start}}
+
+#preview .scroll{max-height:340px;overflow:auto}#preview thead{position:sticky;top:0;background:var(--surface)}.compact-var{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.compact-var details{flex:1}.compact-var summary{cursor:pointer}.compact-var input{margin-top:5px}.role-row{display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}.role-row>strong{min-width:170px}.summary-group{padding:12px 0;border-bottom:1px solid var(--line)}
+
+body {overflow:auto} .app{display:block;max-width:1150px;margin:auto} main{padding:24px;overflow:visible;height:auto} header{position:static} .step{display:none!important}.step.on{display:block!important}
+.progress{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}.progress button{flex:1;min-width:125px;padding:12px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer}.progress button[aria-current=step]{background:var(--accent);color:white}.progress button:disabled{opacity:.5;cursor:default}
+.wform{max-width:760px}.wform label{display:block;margin-top:16px;font-weight:600}.wform input,.wform textarea,.wform select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)} .wform input[type=checkbox]{width:auto}.varlist{max-height:none}.varrow{grid-template-columns:24px 1fr 160px}.review-card{border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}.answer{display:flex;gap:8px;flex-wrap:wrap}.answer label{padding:8px 12px;border:1px solid var(--line);border-radius:7px;cursor:pointer}.answer input{margin-right:6px}.qblock{margin:18px 0}.qblock p{margin-bottom:8px}.wplot{max-width:100%;overflow:auto}.summary-table{min-width:1050px}.summary-table td{vertical-align:top;white-space:normal}.werror{padding:12px;background:#fee2e2;color:#7f1d1d;border-radius:8px;margin:10px 0}.wnote{width:100%;min-height:55px;background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:8px}.stats{display:flex;gap:28px;flex-wrap:wrap;margin:18px 0}.stats b{font-size:26px;display:block}.whelp{color:var(--ink-3);font-size:13px;line-height:1.5}.step h2{margin-bottom:12px}.wnav{display:flex;justify-content:space-between;margin-top:24px}.review-card summary{cursor:pointer}.badge{display:inline-block;padding:4px 8px;background:#edf2f7;border-radius:6px;color:#273449}.guide svg{width:100%;max-width:820px;height:auto}.guide text{font-family:system-ui,sans-serif}.guide{margin:18px 0}.block{border:0;padding:0}.scroll{overflow:auto}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}@media(max-width:650px){main{padding:12px}.progress button{min-width:90px}.varrow{grid-template-columns:24px 1fr}.varrow select{grid-column:2}.review-card{padding:12px}}@media print{header,.progress,.wnav,.export-actions{display:none!important}.step{display:none!important}#step-6{display:block!important} .summary-table{min-width:0;font-size:9px}.scroll{overflow:visible}}
+
+.design-report{max-width:1000px;margin:20px auto;color:#20313e;font:15px/1.55 system-ui,-apple-system,sans-serif}.design-report *{box-sizing:border-box}.report-title{margin:0 0 24px}.report-title>span{font-size:12px;font-weight:750;letter-spacing:.12em;color:#bd492d}.report-title h1{font-size:28px;margin:5px 0 0}.design-report>p{color:#526575;margin:0 0 20px}.report-panel{background:#fff;border:1px solid #ccd8df;border-top:4px solid #338f9d;border-radius:8px;padding:22px;margin:20px 0}.report-panel.findings{border-top-color:#e56d45}.report-panel.review{border-top-color:#9b7bbb}.report-panel.action{border-top-color:#638671}.design-report h2{font-size:19px;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid #d9e2e8;line-height:1.4}.design-report h2 small{display:inline-block;background:#e2f0f2;color:#26636b;font-size:11px;padding:3px 8px;border-radius:12px;margin-left:8px;white-space:nowrap}.design-report h3{font-size:15px;line-height:1.45;margin:20px 0 10px}.design-report table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}.design-report th{text-align:left;background:#f2f6f8;color:#526575;font-weight:600}.design-report th,.design-report td{padding:12px 10px;border-bottom:1px solid #dbe3e8;vertical-align:top;white-space:normal}.design-report td:last-child{min-width:85px}.design-report p{margin:10px 0}.design-report .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 24px}.design-report .stats>div{padding:14px;border:1px solid #d2dce3;border-radius:6px;background:#f7f9fb;font-size:12px;line-height:1.4}.design-report .stats b{display:block;font-size:27px;line-height:1.2;color:#20313e;margin-bottom:6px}.design-report .summary-group{padding:14px 16px;margin:12px 0;border:1px solid #d5dfe5;border-left:4px solid #7da2ad;border-radius:5px;break-inside:avoid}.design-report .summary-group h3{display:flex;justify-content:space-between;gap:14px;align-items:start;margin:0 0 8px}.group-count{display:inline-block;padding:1px 9px;background:#e7eef2;border-radius:12px;font-size:12px;flex:none}.design-report .summary-group p{font-size:13px;color:#536a7b}.design-report ul{padding-left:22px;margin:8px 0}.design-report li{margin:4px 0}.design-report .summary-group li{font-weight:600}.design-report .takeaway{padding:16px;background:#edf6f4;border-left:4px solid #468274;border-radius:4px;margin-top:20px}.design-report .takeaway b{display:block;text-transform:uppercase;font-size:11px;letter-spacing:.08em;margin-bottom:6px}.print-report{display:block;margin:20px auto;padding:10px 18px;border:1px solid #aebfc9;border-radius:6px;background:white;cursor:pointer}@media(max-width:650px){.design-report .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.report-panel{padding:14px}.design-report h2{font-size:17px}}@media print{@page{size:A4;margin:14mm}.print-report{display:none!important}.design-report{max-width:none;margin:0;font-size:10pt;line-height:1.4;print-color-adjust:exact;-webkit-print-color-adjust:exact}.report-title h1{font-size:20pt}.report-panel{padding:12px;margin:12px 0;border-radius:4px}.design-report h2{font-size:13pt;break-after:avoid}.design-report h3{font-size:11pt;break-after:avoid}.design-report .stats{grid-template-columns:repeat(3,minmax(0,1fr))}.design-report .stats>div{padding:9px}.design-report .stats b{font-size:20pt}.design-report table{font-size:10pt}.design-report thead{display:table-header-group}.design-report tr{break-inside:avoid}.design-report .summary-group{break-inside:avoid}.design-report p,.design-report li{orphans:3;widows:3}}
+.role-row{max-width:590px;display:grid;grid-template-columns:minmax(120px,1fr) auto;gap:12px;padding:8px 0}.role-row>strong{min-width:0}.role-row .qblock{margin:0}.role-row .qblock>p{display:none}.role-row .answer{gap:5px}.role-row .answer label{padding:6px 10px}@media(max-width:460px){.role-row{grid-template-columns:1fr}}.sample-guide-header{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 20px;gap:8px;height:auto;min-height:0}.sample-guide-header h1{max-width:1050px;margin:0;font:600 clamp(18px,2.2vw,26px)/1.4 system-ui,sans-serif;text-wrap:balance}.sample-guide-header .busy{margin:0;align-self:center}.threshold-guide{display:inline-block;max-width:900px;margin:4px 0 18px}.threshold-guide summary{cursor:pointer;font-size:13px;color:var(--ink-3)}.threshold-guide[open]{display:block}.threshold-guide p{margin:12px 0}.sample-guide-header{width:100%;box-sizing:border-box}#thresholdToggle{all:unset;font:inherit;color:inherit;cursor:pointer}#thresholdToggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}#thresholdInfo[hidden]{display:none}#thresholdInfo{margin:16px 0;max-width:900px}#thresholdInfo p{margin:12px 0}.question-hint,.plot-caption{color:var(--ink-3);font-size:14px;line-height:1.5;margin:10px 0}.guide h3{margin-bottom:8px}.design-report h3.confounding-heading{color:#a43823}.design-report h3.interpretations-heading{color:#176b7a}.outcome-question{background:#f3eafa;color:#442466;border:1px solid #dfc9f0;border-left:4px solid #9b6bc2;border-radius:8px;padding:14px 16px;line-height:1.5}.outcome-question .mapped-outcome{display:block;margin-top:5px;font-size:14px;font-weight:400;color:#593478}.outcome-question .mapped-outcome strong{font-weight:650}.sample-guide-header{background:#f1e8fa;border-bottom:1px solid #ddc9ee;color:#43295c;padding:28px 24px}.sample-guide-header h1{color:#43295c}.question-panel{padding:16px 20px;border:1px solid;border-left-width:4px;border-radius:10px;margin:18px 0}.question-purple{background:#f4edfb;border-color:#decced;border-left-color:#9767bd;color:#472861}.question-teal{background:#eaf6f4;border-color:#c5e4df;border-left-color:#45998a;color:#205e55}.question-panel h3,.question-panel h3.outcome-question{background:none;border:0;border-radius:0;padding:0;margin:0 0 8px;color:inherit;line-height:1.5}.question-panel p,.question-panel .question-hint{color:inherit;margin:8px 0 0;font-size:14px;line-height:1.6}.question-panel .mapped-outcome{display:block;margin-top:6px;font-size:14px;color:inherit}.question-panel>p:last-child{margin-bottom:0}@media(max-width:650px){.question-panel{padding:14px}.sample-guide-header{padding:22px 16px}}.map-example{margin:0 0 14px;font-size:13px;color:var(--ink-3,#64748b)}.map-example summary{cursor:pointer;color:var(--accent,#338f9d);font-size:13px;padding:4px 0}.map-example[open] summary{margin-bottom:8px}.map-example p{margin:8px 0 0;font-size:12px;color:var(--ink-3,#64748b);line-height:1.5}.eg-table{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}.eg-table th,.eg-table td{padding:5px 10px;border:1px solid var(--border,#ccd5dd);text-align:left}.eg-table th{background:var(--paper,#eef1f3);font-weight:600;color:var(--ink-2,#3d5060)}.eg-table td{background:var(--surface,#fff);color:var(--ink,#20313e)}.type-explainer{margin:12px 0 16px;font-size:13px;color:var(--ink-3)}.type-explainer summary{cursor:pointer;color:var(--accent);font-size:13px;padding:4px 0}.type-explainer[open] summary{margin-bottom:10px}.type-explainer dl{margin:0}.type-explainer dt{font-weight:600;color:var(--ink);margin-top:8px}.type-explainer dd{margin:2px 0 0 12px;line-height:1.5}.type-explainer p{margin:10px 0 0;font-size:12px}.type-cell{display:flex;flex-direction:column;gap:2px}.type-label{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}.excl-details{margin-top:10px;font-size:12px;color:var(--ink-3);border-top:1px solid var(--line-2);padding-top:8px}.excl-details summary{cursor:pointer;padding:4px 0}.excl-row{display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid var(--line-2)}.excl-note{font-style:italic;color:var(--ink-3)}.guide-table-wrap{overflow-x:auto;margin:12px 0}.guide-table{width:100%;border-collapse:collapse;font-size:13px}.guide-table th{background:var(--surface);padding:8px 10px;text-align:left;border-bottom:2px solid var(--line);font-weight:600;line-height:1.3}.guide-table th small{font-weight:400;color:var(--ink-3);font-size:11px}.guide-table td{padding:7px 10px;border-bottom:1px solid var(--line-2);vertical-align:top}.guide-table .tick{color:#4caf7d;font-size:16px;text-align:center}.guide-table .cross{color:var(--ink-3);font-size:16px;text-align:center}.guide-table tr:last-child td{border-bottom:0}</style></head><body>
+<div class="boot" id="boot"><div class="card"><h2>Starting the metadata activity</h2><p id="bootMsg">Loading webR…</p><p id="bootSub">Your data are analysed in this browser.</p></div></div>
+<header class="sample-guide-header"><h1>Sample Sheet guide: a guided design check on the sample sheet, before anything is processed</h1><span class="busy" id="busy" role="status"></span></header>
+<div class="app"><main><nav class="progress" id="progress" aria-label="Activity steps"></nav><div id="werror" role="alert"></div>
+<section class="step on" id="step-1"><div class="panel"><h2>1 · Upload your metadata</h2><div id="thresholdInfo" hidden><h3>Screening thresholds</h3><table><thead><tr><th>Q1 comparison</th><th>Association measure</th><th>Priority</th></tr></thead><tbody><tr><td>Categorical–categorical</td><td>Cramér’s V</td><td>≥ 0.40</td></tr><tr><td>Categorical–continuous</td><td>Eta</td><td>≥ 0.40</td></tr><tr><td>Continuous–continuous</td><td>Absolute Spearman correlation</td><td>≥ 0.40</td></tr></tbody></table><p>If no variable meets the main threshold, associations from 0.20 to below 0.40 are shown. These are teaching priorities, not proof of confounding. SMD and Duncan do not select variables at Q1.</p><p>After Q2/Q3 flag a potential confounder, examine shared categories and distributions/ranges. SMD and Duncan support imbalance assessment. High imbalance or correlation alone does not establish complete confounding.</p><p>Q1 is descriptive: related specimens remain in the screen, so biological units contributing more specimens may influence it more. Technical repeats are counted once using specimen ID where available. When “Same specimen” is selected without specimen IDs, the biological-unit ID is used.</p></div><div class="wform"><button class="btn primary" id="demoBtn">Load example</button><label for="fileIn">Upload CSV or TSV</label><input type="file" id="fileIn" accept=".csv,.tsv,.txt"><label for="pasteIn">Or paste a table, including its header</label><textarea id="pasteIn" rows="4"></textarea><button class="btn" id="pasteBtn">Load pasted text</button></div><p id="dataNote" role="status">No sheet loaded.</p><div id="preview"></div></div></section>
+<section class="step" id="step-2"><div class="panel"><h2>2 · Map the key columns</h2><div class="wform"><label for="specimenMap">Sample / specimen ID<br><small style="font-weight:normal;color:#888;">the row-level measurement identifier (e.g. SampleID, RNA_ID). Can repeat if one specimen was processed twice. Leave blank if not separately recorded.</small></label><select id="specimenMap"></select><label for="mapUnit">Subject / donor ID<br><small style="font-weight:normal;color:#888;">the individual being studied (e.g. PatientID, MouseID, DonorID). Multiple rows share this ID when one subject has several specimens.</small></label><select id="mapUnit"></select><label for="mapCond">Phenotype / outcome<br><small style="font-weight:normal;color:#888;">the column defining your comparison groups (e.g. Disease_status, Treatment, Age_group).</small></label><select id="mapCond"></select></div></div></section>
+<section class="step" id="step-3"><div class="panel"><h2>3 · Choose variables to screen</h2><p id="step3intro"></p><div class="type-explainer"><dl><dt>Categorical</dt><dd>Named groups with no meaningful order — e.g. sex, tissue site, treatment arm. Tested with a group-difference statistic.</dd><dt>Ordinal</dt><dd>Ordered categories where the gaps between levels may not be equal — e.g. disease stage (I, II, III), severity score. Tested with a rank-based statistic.</dd><dt>Continuous</dt><dd>Numeric values on a real scale — e.g. age, BMI, library size. Tested with a correlation statistic.</dd></dl><p>Types are auto-detected from your data. Change a type if it has been misassigned — for example, a column of integers 1/2/3 representing ordered severity should be ordinal not continuous.</p></div><button class="btn" id="allOn">Select all</button> <button class="btn" id="allOff">Clear selection</button><div class="varlist" id="varList"></div></div></section>
+<section class="step" id="step-4"><div class="panel"><h2>4 · How are your samples related?</h2><div id="sampling"></div></div></section>
+<section class="step" id="step-5"><div class="panel"><h2>5 · Assess possible variable roles</h2><div id="assessment"></div></div></section>
+<section class="step" id="step-6"><div class="panel"><h2>6 · Review your study summary</h2><div class="export-actions"><button class="btn primary" id="reportExport">Download report</button> <button class="btn" id="reportPrint">Print / Save as PDF</button></div><div id="report"></div></div></section>
+<div class="wnav"><button class="btn" id="back">← Back</button><span id="navHint" class="whelp"></span><button class="btn primary" id="next">Next →</button></div></main></div>
+<script type="text/plain" id="rsrc">
+## ---------------------------------------------------------------
+## Module 3 - sample sheet screen. All of the statistics run here.
+## Nothing below needs a package outside base R.
+## ---------------------------------------------------------------
+
+SS <- new.env()
+SS$namiss <- c("", "NA", "N/A", "na", "n/a", "NaN", "null", "NULL", ".", "-", "#N/A", "#NA", "unknown")
+SS$sheet <- NULL
+SS$types <- character(0)
+SS$cfg <- list(id = NA, unit = NA, cond = NA, level = "row", corr = "spearman", vars = character(0))
+SS$theme <- list(bg = "#ffffff", fg = "#16222c", mut = "#7b8d9b", line = "#ccd6dd",
+                 pal = c("#0d6b73", "#b0603a", "#5b6ba8", "#7a8a3c", "#9a4a6e"))
+
+## ---- tiny JSON writer (avoids needing jsonlite) -----------------
+.jesc <- function(s) {
+  s <- gsub("\\\\", "\\\\\\\\", s)
+  s <- gsub('"', '\\\\"', s)
+  gsub("[\r\n\t]", " ", s)
+}
+tojson <- function(x) {
+  if (is.null(x)) return("null")
+  if (is.list(x)) {
+    if (length(x) == 0) return(if (is.null(names(x))) "[]" else "{}")
+    parts <- unlist(lapply(x, tojson))
+    if (!is.null(names(x)) && all(names(x) != "")) {
+      return(paste0("{", paste0('"', .jesc(names(x)), '":', parts, collapse = ","), "}"))
+    }
+    return(paste0("[", paste0(parts, collapse = ","), "]"))
+  }
+  if (is.factor(x)) x <- as.character(x)
+  if (is.character(x)) {
+    v <- ifelse(is.na(x), "null", paste0('"', .jesc(x), '"'))
+  } else if (is.logical(x)) {
+    v <- ifelse(is.na(x), "null", ifelse(x, "true", "false"))
+  } else {
+    v <- ifelse(is.finite(x), formatC(as.numeric(x), format = "g", digits = 10, width = 1), "null")
+  }
+  if (length(v) == 1) v else paste0("[", paste(v, collapse = ","), "]")
+}
+jarr <- function(x) as.list(x)                    # force a JSON array
+ok <- function(x) tojson(c(list(ok = TRUE), x))
+err <- function(m) tojson(list(ok = FALSE, error = as.character(m)))
+
+## ---- loading ----------------------------------------------------
+ss_load <- function(txt) {
+  tryCatch({
+    first <- strsplit(txt, "\n", fixed = TRUE)[[1]][1]
+    cands <- c(",", "\t", ";", "|")
+    n <- vapply(cands, function(d) length(strsplit(first, d, fixed = TRUE)[[1]]), 1L)
+    sep <- cands[which.max(n)]
+    df <- utils::read.table(text = txt, header = TRUE, sep = sep, quote = "\"",
+                            colClasses = "character", check.names = FALSE, fill = TRUE,
+                            comment.char = "", stringsAsFactors = FALSE, na.strings = SS$namiss)
+    df[] <- lapply(df, function(v) { v <- trimws(v); v[v %in% SS$namiss] <- NA; v })
+    if (any(!nzchar(trimws(names(df)))) || anyDuplicated(names(df))) stop("Column headers must be non-empty and unique.")
+    if (!nrow(df)) stop("The sheet contains no data rows.")
+    SS$sheet <- df
+    SS$types <- vapply(names(df), function(f) ss_guess_type(df[[f]], nrow(df)), "")
+    hint <- intersect(names(SS_TYPE_HINTS), names(df))
+    hint <- hint[SS$types[hint] != "exclude"]
+    if (length(hint)) SS$types[hint] <- SS_TYPE_HINTS[hint]
+    names(SS$types) <- names(df)
+    ok(list(nrow = nrow(df), ncol = ncol(df), meta = ss_meta()))
+  }, error = function(e) err(conditionMessage(e)))
+}
+
+## A few demo columns are read with their intended type rather than guessed,
+## so the sheet behaves identically in every room. Only applied to columns
+## that were not excluded outright, and only by exact name.
+SS_TYPE_HINTS <- c(comorbidity_count = "ordinal")
+
+ss_guess_type <- function(v, nr) {
+  nm <- v[!is.na(v)]
+  if (length(nm) == 0) return("exclude")
+  d <- length(unique(nm))
+  if (d <= 1) return("exclude")
+  isnum <- suppressWarnings(all(!is.na(as.numeric(nm))))
+  if (isnum) return(if (d > 8) "continuous" else "categorical")
+  if (d == nr && nr > 6) return("exclude")
+  if (d <= 20) return("categorical")
+  "exclude"
+}
+
+ss_meta <- function() {
+  df <- SS$sheet
+  lapply(names(df), function(f) {
+    v <- df[[f]]; nm <- v[!is.na(v)]
+    list(name = f, type = unname(SS$types[f]), distinct = length(unique(nm)),
+         missing = 1 - length(nm) / length(v),
+         numeric = suppressWarnings(length(nm) > 0 && all(!is.na(as.numeric(nm)))),
+         intlike = suppressWarnings({
+           z <- as.numeric(nm)
+           length(nm) > 0 && !any(is.na(z)) && all(z == round(z))
+         }))
+  })
+}
+
+ss_config <- function(id = NA, unit = NA, cond = NA, level = "row",
+                      corr = "spearman", vars = character(0), types = NULL) {
+  if (!is.null(types) && length(types)) SS$types[names(types)] <- unname(types)
+  vars <- as.character(vars); vars <- vars[!is.na(vars) & nzchar(vars)]
+  SS$cfg <- list(id = id, unit = unit, cond = cond, level = level, corr = corr, vars = vars)
+  invisible(NULL)
+}
+
+## ---- nesting ----------------------------------------------------
+ss_varying <- function(f, unit) {
+  df <- SS$sheet
+  s <- split(df[[f]], df[[unit]])
+  any(vapply(s, function(v) length(unique(v[!is.na(v)])) > 1, TRUE))
+}
+
+## The record that an association is allowed to count once.
+##
+## Two shapes, and telling them apart is the whole job:
+##   * the condition is a property of the unit (each patient is a case or a
+##     control) -> one record per unit. Every extra row is a repeat of that
+##     same unit.
+##   * the condition varies inside units (before/after, tumour/normal)
+##     -> one record per unit x condition, so the within-unit contrast is
+##     kept rather than averaged away.
+## Additional eligible rows share a unit/reference key; specimen metadata are
+## required to distinguish technical repeats from distinct specimens.
+## Missing reference values never create comparison records.
+## Screening at row level lets a single unit vote several times, which is the
+## pseudoreplication Module 1 spends a pitfall on, arriving through the back
+## door as an association estimate.
+ss_key <- function() {
+  df <- SS$sheet; u <- SS$cfg$unit; cnd <- SS$cfg$cond
+  eligible <- if (is.na(cnd)) rep(TRUE, nrow(df)) else !is.na(df[[cnd]])
+  if (is.na(u)) {
+    key <- as.character(seq_len(nrow(df))); key[!eligible] <- NA_character_
+    return(list(key = key, paired = FALSE, level = "row"))
+  }
+  paired <- FALSE
+  if (!is.na(cnd)) {
+    s <- split(df[[cnd]], df[[u]])
+    paired <- any(vapply(s, function(v) length(unique(v[!is.na(v)])) > 1, TRUE))
+  }
+  key <- if (paired) paste(as.character(df[[u]]), as.character(df[[cnd]]), sep = "\r")
+         else as.character(df[[u]])
+  key[!eligible | is.na(df[[u]])] <- NA_character_
+  list(key = key, paired = paired, level = if (paired) "unitcond" else "unit")
+}
+
+ss_varying_key <- function(v, key) {
+  s <- split(v, key)
+  any(vapply(s, function(z) length(unique(z[!is.na(z)])) > 1, TRUE))
+}
+
+ss_nesting <- function() {
+  df <- SS$sheet; u <- SS$cfg$unit
+  if (is.na(u)) return(list(hasUnit = FALSE, nRows = nrow(df), nUnits = NA))
+  s <- split(seq_len(nrow(df)), df[[u]])
+  vary <- vapply(setdiff(names(df), u), function(f) ss_varying(f, u), TRUE)
+  cvar <- if (!is.na(SS$cfg$cond)) unname(vary[SS$cfg$cond]) else FALSE
+  ## "condition changes in at least one unit" is not "the design is paired".
+  ## Count how many units span more than one condition and classify on that.
+  nc <- NA_integer_; span <- NA_integer_; shape <- "nocond"
+  if (!is.na(SS$cfg$cond)) {
+    g <- df[[SS$cfg$cond]]
+    lev <- unique(g[!is.na(g)])
+    nc <- length(lev)
+    span <- sum(vapply(s, function(i) length(unique(g[i][!is.na(g[i])])) > 1, TRUE))
+    per <- vapply(s, length, 1L)
+    shape <- if (span == 0 && all(per == 1)) "unpaired_single"
+             else if (span == 0) "repeated_within"
+             else if (span == length(s)) "paired_full"
+             else "paired_partial"
+  }
+  list(hasUnit = TRUE, nRows = nrow(df), nUnits = length(s),
+       per = vapply(s, length, 1L), condVaries = cvar, varying = as.list(vary),
+       nCond = nc, nSpanning = span, shape = shape)
+}
+
+## ---- descriptive specimen frame --------------------------------
+## Keep biological observations. Collapse only declared technical repeats.
+ss_frame <- function() {
+  df <- SS$sheet; held <- character(0); note <- "Specimen records retained. Related observations are not independent."
+  mode <- if (exists("cfg_repeat")) cfg_repeat else ""
+  specimen <- if (exists("cfg_specimen")) cfg_specimen else ""
+  keyfield <- if (nzchar(specimen) && specimen %in% names(df)) specimen else NA_character_
+  if (mode == "technical" && is.na(keyfield)) keyfield <- SS$cfg$unit
+  if (mode %in% c("technical", "mixed") && !is.na(keyfield)) {
+    key <- df[[keyfield]]
+    ## Missing IDs remain separate; never merge unknown specimens.
+    ids <- match(key, unique(key)); ids[is.na(key)] <- length(unique(key)) + seq_len(sum(is.na(key)))
+    idx <- split(seq_len(nrow(df)), ids)
+    varying <- vapply(names(df), function(f) any(vapply(idx, function(i)
+      length(unique(df[[f]][i][!is.na(df[[f]][i])])) > 1, TRUE)), TRUE)
+    out <- as.data.frame(lapply(names(df), function(f) vapply(idx, function(i) {
+      z <- unique(df[[f]][i][!is.na(df[[f]][i])]); if(length(z)==1) z else NA_character_
+    }, "")), stringsAsFactors=FALSE)
+    names(out) <- names(df); df <- out
+    held <- names(df)[varying]
+    if (!is.na(SS$cfg$cond) && varying[[SS$cfg$cond]]) held <- unique(c(held, SS$cfg$vars))
+    note <- paste0("Technical repeats counted once using ", keyfield,
+      ". Conflicting metadata require review; missing IDs remain separate.")
+  } else if (mode %in% c("technical", "mixed", "unsure")) {
+    note <- "Records retained; technical repeats could not be fully resolved. Review specimen IDs and sampling before interpreting the screen."
+  }
+  list(df=df, level="specimen records", agg=character(0), held=held,
+       nkey=nrow(df), paired=FALSE, note=note)
+}
+
+## Values that disagree inside one key are reported, never silently resolved.
+## Two ages for one patient is a data-entry problem; two tissues for one patient
+## is a real sample-level variable. The sheet cannot tell them apart and neither
+## can the app, so it says which columns do it and how often.
+ss_conflicts <- function() {
+  tryCatch({
+    df <- SS$sheet; kk <- ss_key()
+    if (identical(kk$level, "row"))
+      return(ok(list(level = "row", paired = FALSE, rows = list())))
+    key <- kk$key
+    fl <- setdiff(names(df), c(SS$cfg$unit, SS$cfg$id))
+    fl <- fl[SS$types[fl] != "exclude"]
+    rows <- list()
+    for (f in fl) {
+      s <- split(df[[f]], key)
+      nk <- sum(vapply(s, function(z) length(unique(z[!is.na(z)])) > 1, TRUE))
+      if (nk > 0)
+        rows[[length(rows) + 1]] <- list(field = f, keys = nk,
+          type = unname(SS$types[f]),
+          averaged = unname(SS$types[f]) %in% c("continuous", "ordinal"))
+    }
+    ok(list(level = kk$level, paired = kk$paired, nkey = length(unique(key[!is.na(key)])), rows = rows))
+  }, error = function(e) err(conditionMessage(e)))
+}
+
+ss_series <- function(f, df) {
+  t <- unname(SS$types[f])
+  if (t == "continuous") return(suppressWarnings(as.numeric(df[[f]])))
+  ## ordinal is ranked only when the levels really are numbers; otherwise
+  ## ss_kind has already routed it down the categorical path and returning
+  ## a vector of NAs here would silently empty it
+  if (t == "ordinal" && ss_kind(f) == "num") {
+    x <- suppressWarnings(as.numeric(df[[f]])); r <- rep(NA_real_, length(x))
+    r[is.finite(x)] <- rank(x[is.finite(x)]); return(r)
+  }
+  v <- df[[f]]; v[v == "<varies>"] <- NA; v
+}
+
+## ---- association measures ---------------------------------------
+cramers_v <- function(a, b) {
+  tb <- table(a, b)
+  ch <- suppressWarnings(stats::chisq.test(tb, correct = FALSE))
+  n <- sum(tb); R <- nrow(tb); C <- ncol(tb)
+  phi2 <- unname(ch$statistic) / n
+  phi2c <- max(0, phi2 - (R - 1) * (C - 1) / (n - 1))
+  rc <- R - (R - 1)^2 / (n - 1); cc <- C - (C - 1)^2 / (n - 1)
+  den <- min(rc - 1, cc - 1)
+  list(v = if (den > 0) sqrt(phi2c / den) else 0,
+       vraw = if (min(R, C) > 1) sqrt(phi2 / (min(R, C) - 1)) else 0,
+       chi = unname(ch$statistic), df = unname(ch$parameter), p = ch$p.value,
+       low = sum(ch$expected < 5), cells = R * C, n = n, tab = tb)
+}
+duncan_d <- function(tb, j1, j2) {
+  p1 <- tb[, j1] / sum(tb[, j1]); p2 <- tb[, j2] / sum(tb[, j2])
+  0.5 * sum(abs(p1 - p2))
+}
+max_duncan <- function(tb) {
+  if (ncol(tb) < 2) return(list(d = NA_real_, a = NA, b = NA))
+  best <- list(d = -1, a = NA, b = NA)
+  for (i in 1:(ncol(tb) - 1)) for (j in (i + 1):ncol(tb)) {
+    d <- duncan_d(tb, i, j)
+    if (is.finite(d) && d > best$d) best <- list(d = d, a = colnames(tb)[i], b = colnames(tb)[j])
+  }
+  best
+}
+eta_grp <- function(x, g) {
+  g <- factor(g); gm <- mean(x)
+  ssb <- sum(tapply(x, g, function(v) length(v) * (mean(v) - gm)^2))
+  sst <- sum((x - gm)^2)
+  k <- nlevels(g); n <- length(x); df1 <- k - 1; df2 <- n - k
+  eta2 <- if (sst > 0) ssb / sst else 0
+  ssw <- sst - ssb
+  Fv <- if (df2 > 0 && ssw > 0) (ssb / df1) / (ssw / df2) else NA_real_
+  list(eta2 = eta2, eta = sqrt(max(0, eta2)), F = Fv, df1 = df1, df2 = df2,
+       p = if (is.finite(Fv)) stats::pf(Fv, df1, df2, lower.tail = FALSE) else NA_real_,
+       lev = levels(g), ns = as.numeric(tapply(x, g, length)),
+       means = as.numeric(tapply(x, g, mean)), sds = as.numeric(tapply(x, g, stats::sd)))
+}
+smd2 <- function(a, b) {
+  sp <- sqrt((stats::var(a) + stats::var(b)) / 2)
+  if (is.finite(sp) && sp > 0) (mean(a) - mean(b)) / sp else 0
+}
+band_of <- function(v) {
+  if (!is.finite(v)) return(list(i = 0, label = "not testable"))
+  ## Screening bands, not established effect-size thresholds: they exist to
+  ## order the list. Surfaced beside the association value as a screening-priority label.
+  if (v < 0.20) return(list(i = 0, label = "Negligible"))
+  if (v < 0.40) return(list(i = 1, label = "Weak"))
+  if (v < 0.60) return(list(i = 2, label = "Moderate"))
+  list(i = 3, label = "Strong")
+}
+
+## ---- structure and advice ---------------------------------------
+struct_cat <- function(tb, onlyin) {
+  if (!is.na(onlyin)) return(list(code = "confined", text = paste0("Only recorded in ", onlyin), tag = "st"))
+  if (ncol(tb) < 2) return(list(code = "overlap", text = "-", tag = ""))
+  excl <- sum(apply(tb, 1, function(r) sum(r > 0) == 1))
+  cn <- SS$cfg$cond
+  if (excl == nrow(tb)) return(list(code = "separated",
+      text = paste0("Each level appears in one ", cn, " group only"), tag = "st"))
+  if (excl > 0) return(list(code = "partial",
+      text = paste0(excl, " of ", nrow(tb), " levels appear in one ", cn, " group only"), tag = ""))
+  list(code = "overlap", text = paste0("Every level appears in every ", cn, " group"), tag = "")
+}
+
+## A sentence a clinician can read without decoding a coefficient. The bar and
+## the statistic stay available in the opened row; this is what sits on the card.
+plain_cat <- function(tb) {
+  if (is.null(tb) || ncol(tb) < 2 || nrow(tb) < 1) return("")
+  pr <- prop.table(tb, 2)
+  rng <- apply(pr, 1, function(z) max(z) - min(z))
+  i <- which.max(rng)
+  z <- pr[i, ]
+  j1 <- which.max(z); j2 <- which.min(z)
+  paste0(rownames(tb)[i], " makes up ", round(100 * z[j1]), "% of ", colnames(tb)[j1],
+         " and ", round(100 * z[j2]), "% of ", colnames(tb)[j2])
+}
+plain_num <- function(x, g, field) {
+  md <- tapply(x, factor(g), stats::median)
+  if (!length(md)) return("")
+  paste0(field, " median ",
+         paste0(names(md), " ", formatC(as.numeric(md), digits = 4, format = "g"),
+                collapse = " vs "))
+}
+
+## Four classes. The tool can see three of them in the sheet; the fourth
+## (a variable the condition itself produced) is not visible in any table, so
+## it is asked about rather than assigned. No class carries an instruction:
+## what to do about it is the participant's call, and the menu of options
+## lives in the reference guide.
+class_of <- function(r) {
+  ref  <- SS$cfg$cond
+  code <- r$struct$code
+  eff  <- r$effect
+
+  ## Structure is detected here; biological meaning is assigned later from Q2
+  ## and Q3. Exact alignment therefore remains a finding, not yet a confounder.
+  if (identical(r$kind, "held"))
+    return(list(code = "held", label = "Sample-level",
+      why = paste0("Measured per sample rather than per ", SS$cfg$unit,
+        ": one ", SS$cfg$unit, " takes several values of it, so it cannot be reduced to one value per ",
+        SS$cfg$unit, " without losing information. It can still be a large source of variation in the ",
+        "measurements, and it can still bias the comparison if one ",
+        if (!is.na(SS$cfg$cond)) SS$cfg$cond else "condition",
+        " group contributed a different mix of it. Open the row for how to check that."),
+      ask = ""))
+
+  if (isTRUE(r$nlev == 1))
+    return(list(code = "restricted", label = "Restricted",
+      why = paste0("Only one value is present, so it does not vary and cannot be entangled with ", ref,
+        " in this dataset. It does limit who the findings apply to."),
+      ask = ""))
+
+  ## Recorded in one group only. Usually this is a definition rather than a
+  ## design failure - stage is undefined for someone without the disease - so
+  ## the tool asks instead of calling it a confounding problem.
+  if (identical(code, "confined"))
+    return(list(code = "groupspec", label = "Group-specific",
+      why = paste0("Recorded for one ", ref,
+        " group only, so it cannot be compared across groups and cannot be used to balance or adjust them."),
+      ask = paste0("Is ", r$field, " genuinely not applicable to the other group, or was it simply not recorded? ",
+        "If it does not apply, it is not a design problem: use it only within the group it describes, and record it as ",
+        "'not applicable' rather than leaving it blank. If it was merely skipped, it is a collection gap to close.")))
+
+  if (identical(code, "separated")) {
+    if (identical(r$kind, "cat"))
+      return(list(code = "entangled", label = "Complete alignment",
+        why = paste0("Every level sits in one ", ref,
+          " group only. The app can detect this exact alignment, but it is called complete confounding only if ",
+          "the variable could affect the omics measurements and was not caused by ", ref, "."),
+        ask = ""))
+    return(list(code = "nooverlap", label = if (isTRUE(r$refnum)) "Limited separability" else "Poor numeric overlap",
+      why = if (isTRUE(r$refnum))
+        paste0("This variable has a very strong monotonic relationship with ", ref,
+          ". That warns that separate effects may be difficult to estimate, but it does not prove complete confounding.")
+      else paste0("The ", ref, " groups have no shared observed range for this variable, so separating their ",
+        "effects would rely on comparisons beyond the observed data."),
+      ask = ""))
+  }
+
+  if (!is.finite(eff))
+    return(list(code = "untestable", label = "Not assessed",
+      why = "Too few complete, varying records for this pair to say anything.", ask = ""))
+
+  if (eff < 0.10)
+    return(list(code = "balanced", label = "No notable imbalance",
+      why = paste0("No notable imbalance with ", ref, " was detected in this dataset. ",
+        "A weak observed association can also reflect a small number of records, missing values, or ",
+        "restricted variation, so this is not proof that the variable is unimportant."),
+      ask = ""))
+
+  ask <- paste0("Was ", r$field, " already present before ", ref,
+                ", did it follow from ", ref, ", or does it track how severe ", ref, " is? ",
+                "It may well affect the molecules you are about to measure, but if it arose because of ",
+                ref, ", adjusting for it changes the biological question rather than cleaning up the comparison. ",
+                "The sample sheet cannot settle this.")
+  list(code = "imbalanced", label = "Differs with condition",
+    why = paste0("Differs with ", ref,
+      ", but the two are not completely aligned, so they are still separable in this dataset. ",
+      "Whether it is a confounder depends on whether it affects what you are about to measure, which is not in the sheet."),
+    ask = ask)
+}
+
+## ---- the condition screen ---------------------------------------
+ss_screen <- function() {
+  tryCatch({
+    fr <- ss_frame(); df <- fr$df; cond <- SS$cfg$cond
+    if (is.na(cond)) return(ok(list(level = fr$level, n = nrow(df), rows = list())))
+    g0 <- df[[cond]]; g0[g0 == "<varies>"] <- NA
+    refnum <- ss_kind(cond) == "num"
+    g0n <- if (refnum) suppressWarnings(as.numeric(g0)) else rep(NA_real_, length(g0))
+    condlev <- sort(unique(g0[!is.na(g0)]))
+    vars <- setdiff(SS$cfg$vars, c(cond, SS$cfg$id, SS$cfg$unit))
+    res <- lapply(vars, function(f) {
+      ty <- unname(SS$types[f])
+      r <- list(field = f, type = ty, metric = "", extra = "", plain = "",
+                effect = NA_real_, smd = NA_real_, duncan = NA_real_, p = NA_real_,
+                within = if (!is.na(SS$cfg$unit)) ss_varying(f, SS$cfg$unit) else FALSE,
+                aggregated = f %in% fr$agg, nlev = length(unique(df[[f]][!is.na(df[[f]])])),
+                kind = if (ss_kind(f) == "cat") "cat" else "cont")
+      if (f %in% fr$held) {
+        r$kind <- "held"; r$metric <- "-"
+        r$struct <- list(code = "heldout", text = "Changes within a record", tag = "")
+        r$cls <- class_of(r)
+        ## not a missingness figure: every value is present, just at row level
+        r$missing <- NA_real_; r$missGap <- NA_real_; r$missByGrp <- list()
+        r$n <- 0; r$band <- 0; r$bandlab <- "-"; r$sortkey <- -2
+        return(r)
+      }
+      x <- ss_series(f, df)
+      keep <- if (r$kind == "cat") !is.na(x) else is.finite(x)
+      keep <- keep & (if (refnum) is.finite(g0n) else !is.na(g0))
+      r$n <- sum(keep); r$missing <- 1 - r$n / nrow(df)
+      r$refnum <- refnum
+
+      ## Missingness that differs between condition groups is a finding in its
+      ## own right, not just an obstacle: it means the records dropped from this
+      ## comparison were not dropped at random with respect to the condition.
+      r$missGap <- NA_real_; r$missByGrp <- list()
+      if (!refnum && length(condlev) > 1) {
+        gone <- if (r$kind == "cat") is.na(x) else !is.finite(x)
+        mv <- vapply(condlev, function(L) {
+          sel <- !is.na(g0) & g0 == L
+          if (!sum(sel)) NA_real_ else mean(gone[sel])
+        }, 0)
+        r$missByGrp <- lapply(seq_along(condlev),
+          function(i) list(level = condlev[i], miss = unname(mv[i])))
+        if (any(is.finite(mv)))
+          r$missGap <- max(mv, na.rm = TRUE) - min(mv, na.rm = TRUE)
+      }
+
+      xx <- x[keep]; gg <- g0[keep]
+
+      ## --- a numeric reference: the pair is num x num or cat x num ---------
+      if (refnum) {
+        gn <- g0n[keep]
+        if (r$kind == "cat") {
+          r$metric <- "eta (correlation ratio)"
+          if (r$n > 3 && length(unique(xx)) > 1) {
+            an <- eta_grp(gn, xx)          # reference is the numeric, variable groups it
+            r$effect <- an$eta
+            r$extra <- paste0("eta2 = ", formatC(an$eta2, digits = 2, format = "f"))
+            r$plain <- plain_num(gn, xx, cond)
+            small <- sum(an$ns < 3)
+            r$struct <- if (small == length(an$ns))
+                list(code = "sparse", text = "Every level has fewer than 3 records", tag = "st")
+              else if (small > 0)
+                list(code = "partial", text = paste0(small, " of ", length(an$ns),
+                     " levels have fewer than 3 records"), tag = "")
+              else list(code = "overlap", text = "All levels populated", tag = "")
+          } else r$struct <- list(code = "overlap", text = "-", tag = "")
+        } else {
+          m <- "spearman"
+          r$metric <- "|rho|"
+          if (r$n > 3 && stats::sd(xx) > 0 && stats::sd(gn) > 0) {
+            ct <- suppressWarnings(stats::cor.test(xx, gn, method = m))
+            r$effect <- abs(unname(ct$estimate)); r$signed <- unname(ct$estimate)
+            r$p <- ct$p.value
+            r$extra <- paste0("rho = ", formatC(r$signed, digits = 2, format = "f"))
+            r$plain <- paste0(f, " ", if (r$signed >= 0) "rises" else "falls",
+                              " as ", cond, " rises")
+            r$struct <- if (r$effect > 0.9)
+                list(code = "separated", text = "Almost perfectly collinear with the reference", tag = "st")
+              else list(code = "overlap", text = "-", tag = "")
+          } else r$struct <- list(code = "overlap", text = "-", tag = "")
+        }
+        if (r$aggregated) r$metric <- paste0(r$metric, " . record means")
+        b <- band_of(r$effect); r$band <- b$i; r$bandlab <- b$label
+        r$cls <- class_of(r)
+        r$sortkey <- if (is.finite(r$effect)) r$effect else -1
+        return(r)
+      }
+
+      used <- sort(unique(gg))
+      onlyin <- if (length(used) == 1 && length(condlev) > 1) used[1] else NA
+      if (r$kind == "cat") {
+        r$metric <- "Cramer's V (bias-corrected)"
+        if (r$n > 2 && length(used) > 1 && length(unique(xx)) > 1) {
+          cv <- cramers_v(xx, gg); dd <- max_duncan(cv$tab)
+          r$effect <- cv$v; r$p <- cv$p
+          r$duncan <- dd$d
+          r$extra <- if (is.finite(dd$d)) paste0("D = ", formatC(dd$d, digits = 2, format = "f"),
+                        if (ncol(cv$tab) > 2) paste0(" (", dd$a, " vs ", dd$b, ")") else "") else ""
+          r$plain <- plain_cat(cv$tab)
+          r$struct <- struct_cat(cv$tab, onlyin)
+        } else {
+          r$struct <- if (!is.na(onlyin))
+            list(code = "confined", text = paste0("Only recorded in ", onlyin), tag = "st")
+          else list(code = "overlap", text = "-", tag = "")
+        }
+      } else {
+        r$metric <- if (ty == "ordinal") "eta on ranks" else "eta (correlation ratio)"
+        if (length(used) > 1 && r$n > 3) {
+          an <- eta_grp(xx, gg)
+          r$effect <- an$eta; r$p <- an$p
+          if (length(an$lev) == 2) {
+            d <- smd2(xx[gg == an$lev[1]], xx[gg == an$lev[2]])
+            r$smd <- d
+            r$extra <- paste0("SMD = ", formatC(d, digits = 2, format = "f"),
+                              " (", an$lev[1], " - ", an$lev[2], ")")
+          } else r$extra <- paste0("eta2 = ", formatC(an$eta2, digits = 2, format = "f"))
+          ## ordinal ranked variables are screened on ranks; the readable
+          ## summary has to use the original values, not the rank positions
+          xraw <- suppressWarnings(as.numeric(df[[f]]))[keep]
+          r$plain <- if (all(is.finite(xraw))) plain_num(xraw, gg, f) else plain_num(xx, gg, f)
+          rng <- tapply(xx, gg, range)
+          nover <- length(an$lev) == 2 && (rng[[1]][1] > rng[[2]][2] || rng[[2]][1] > rng[[1]][2])
+          r$struct <- if (!is.na(onlyin)) list(code = "confined", text = paste0("Only recorded in ", onlyin), tag = "st")
+            else if (nover) list(code = "separated",
+                 text = paste0("No shared range between ", cond, " groups"), tag = "st")
+            else list(code = "overlap",
+                 text = paste0("Ranges overlap between ", cond, " groups"), tag = "")
+        } else {
+          r$struct <- if (!is.na(onlyin)) list(code = "confined", text = paste0("Only recorded in ", onlyin), tag = "st")
+            else list(code = "overlap", text = "-", tag = "")
+        }
+      }
+      if (r$aggregated) r$metric <- paste0(r$metric, " . record means")
+      b <- band_of(r$effect); r$band <- b$i; r$bandlab <- b$label
+      r$cls <- class_of(r)
+      r$sortkey <- if (is.finite(r$effect)) r$effect else if (identical(r$struct$code, "confined")) 1.001 else -1
+      r
+    })
+    if (length(res)) res <- res[order(-vapply(res, function(z) z$sortkey, 0))]
+    ok(list(level = fr$level, n = nrow(df), nrows = nrow(SS$sheet), note = fr$note, rows = res))
+  }, error = function(e) err(conditionMessage(e)))
+}
+
+## ---- detail for one variable ------------------------------------
+ss_detail <- function(f) {
+  tryCatch({
+    fr <- ss_frame(); df <- fr$df; cond <- SS$cfg$cond
+    g0 <- df[[cond]]; g0[g0 == "<varies>"] <- NA
+    ty <- unname(SS$types[f])
+    if (f %in% fr$held) return(ok(list(kind = "held")))
+    if (ss_kind(cond) == "num") return(ss_explore(f, cond))
+    x <- ss_series(f, df)
+    catv <- ss_kind(f) == "cat"
+    keep <- if (catv) !is.na(x) & !is.na(g0) else is.finite(x) & !is.na(g0)
+    xx <- x[keep]; gg <- g0[keep]
+    if (length(unique(gg)) < 2) {
+      lv <- sort(unique(g0[!is.na(g0)]))
+      by <- lapply(lv, function(L) list(level = L, n = sum(g0 == L, na.rm = TRUE),
+                    miss = sum(g0 == L & is.na(df[[f]]), na.rm = TRUE)))
+      return(ok(list(kind = "confined", seen = jarr(sort(unique(as.character(df[[f]][!is.na(df[[f]])])))),
+                     bygroup = by)))
+    }
+    if (catv) {
+      cv <- cramers_v(xx, gg); dd <- max_duncan(cv$tab)
+      ok(list(kind = "cat", v = cv$v, vraw = cv$vraw, chi = cv$chi, df = cv$df, p = cv$p,
+              low = cv$low, cells = cv$cells, n = cv$n, d = dd$d, da = dd$a, db = dd$b,
+              rowlev = jarr(rownames(cv$tab)), collev = jarr(colnames(cv$tab)),
+              counts = lapply(seq_len(nrow(cv$tab)), function(i) jarr(as.numeric(cv$tab[i, ])))))
+    } else {
+      an <- eta_grp(xx, gg)
+      d <- if (length(an$lev) == 2) smd2(xx[gg == an$lev[1]], xx[gg == an$lev[2]]) else NA_real_
+      ok(list(kind = "cont", eta = an$eta, eta2 = an$eta2, F = an$F, df1 = an$df1, df2 = an$df2,
+              p = an$p, smd = d, lev = jarr(an$lev), ns = jarr(an$ns),
+              means = jarr(an$means), sds = jarr(an$sds)))
+    }
+  }, error = function(e) err(conditionMessage(e)))
+}
+
+## ---- pairwise map ------------------------------------------------
+pair_metric <- function(f1, f2, df) {
+  t1 <- unname(SS$types[f1]); t2 <- unname(SS$types[f2])
+  a <- ss_series(f1, df); b <- ss_series(f2, df)
+  c1 <- ss_kind(f1) == "cat"; c2 <- ss_kind(f2) == "cat"
+  ka <- if (c1) !is.na(a) else is.finite(a); kb <- if (c2) !is.na(b) else is.finite(b)
+  k <- ka & kb
+  if (sum(k) < 4) return(list(v = NA_real_, label = "n<4", n = sum(k)))
+  A <- a[k]; B <- b[k]
+  if (c1 && c2) {
+    if (length(unique(A)) < 2 || length(unique(B)) < 2) return(list(v = NA_real_, label = "constant", n = sum(k)))
+    cv <- cramers_v(A, B); return(list(v = cv$v, label = "Cramer's V", p = cv$p, n = cv$n))
+  }
+  if (c1 != c2) {
+    xs <- if (c1) B else A; gs <- if (c1) A else B
+    if (length(unique(gs)) < 2) return(list(v = NA_real_, label = "constant", n = sum(k)))
+    an <- eta_grp(xs, gs); return(list(v = an$eta, label = "eta", p = an$p, n = sum(k)))
+  }
+  ct <- suppressWarnings(stats::cor.test(A, B, method = "spearman"))
+  list(v = abs(unname(ct$estimate)), signed = unname(ct$estimate),
+       label = "|rho|", p = ct$p.value, n = sum(k))
+}
+ss_pairs <- function() {
+  tryCatch({
+    fr <- ss_frame(); df <- fr$df
+    fs <- unique(c(if (!is.na(SS$cfg$cond)) SS$cfg$cond, setdiff(SS$cfg$vars, c(SS$cfg$cond, SS$cfg$id, SS$cfg$unit))))
+    fs <- fs[!(fs %in% fr$held)]
+    if (length(fs) < 2) return(ok(list(fields = jarr(fs), cells = list())))
+    cells <- list()
+    for (i in seq_along(fs)) for (j in seq_along(fs)) {
+      if (j <= i) next
+      m <- pair_metric(fs[i], fs[j], df)
+      cells[[length(cells) + 1]] <- list(i = i - 1, j = j - 1, a = fs[i], b = fs[j],
+        v = m$v, label = m$label, p = if (is.null(m$p)) NA_real_ else m$p, n = m$n,
+        signed = if (is.null(m$signed)) NA_real_ else m$signed)
+    }
+    ok(list(fields = jarr(fs), cells = cells))
+  }, error = function(e) err(conditionMessage(e)))
+}
+
+## ---- design ---------------------------------------------------------
+## "Number of biological units" and "the n that supports this comparison" are
+## related but not the same number, so the app reports the counts separately
+## rather than collapsing them into one figure that would be wrong for at least
+## one of the two designs.
+ss_design <- function() {
+  tryCatch({
+    df <- SS$sheet; u <- SS$cfg$unit; cnd <- SS$cfg$cond
+    kk <- ss_key(); eligible <- !is.na(kk$key)
+    nkey <- length(unique(kk$key[eligible]))
+    g <- if (is.na(cnd)) rep(NA_character_, nrow(df)) else df[[cnd]]
+    missing <- if (is.na(cnd)) integer(0) else which(is.na(g))
+    lev <- sort(unique(g[!is.na(g)]))
+    uu <- if (is.na(u)) rep(NA_character_, nrow(df)) else df[[u]]
+    percond <- lapply(lev, function(L) {
+      keep <- !is.na(g) & g == L
+      list(level = L, rows = sum(keep), units = length(unique(uu[keep & !is.na(uu)])))
+    })
+    missingRows <- lapply(missing, function(i) list(row = i,
+      sample = if (is.na(SS$cfg$id)) NA_character_ else df[[SS$cfg$id]][i], unit = uu[i]))
+    repeated <- eligible & duplicated(kk$key)
+    involved <- which(eligible & (duplicated(kk$key) | duplicated(kk$key, fromLast = TRUE)))
+    involved <- involved[order(kk$key[involved], involved)]
+    repeatRows <- lapply(involved, function(i) list(row = i, repeated = repeated[i],
+      values = jarr(unname(unlist(df[i, , drop = FALSE], use.names = FALSE)))))
+    base <- list(hasUnit = !is.na(u), nRows = nrow(df),
+      repeatFields = jarr(names(df)), repeatRows = repeatRows,
+      nUnits = length(unique(uu[!is.na(uu)])),
+      comparisonUnits = length(unique(uu[eligible & !is.na(uu)])),
+      eligibleRows = sum(eligible), missingCond = length(missing),
+      missingUnitRows = if (is.na(u)) 0L else sum(is.na(uu) & (is.na(cnd) | !is.na(g))),
+      missingRows = missingRows, nCond = length(lev), perCond = percond,
+      nkey = nkey, extraRows = sum(eligible) - nkey, paired = kk$paired)
+    if (is.na(u)) return(ok(base))
+    nst <- ss_nesting(); per <- as.numeric(nst$per)
+    groups <- split(g, uu)
+    counts <- vapply(groups, function(v) length(unique(v[!is.na(v)])), 1L)
+    fs <- setdiff(names(df), c(SS$cfg$id, u)); fs <- fs[SS$types[fs] != "exclude"]
+    rows <- lapply(fs, function(f) {
+      w <- isTRUE(unlist(nst$varying)[f])
+      list(field = f, within = w, effn = if (w) sum(eligible) else base$comparisonUnits,
+           iscond = identical(f, cnd))
+    })
+    ok(c(base, list(maxPer = if (length(per)) max(per) else 0,
+      meanPer = if (length(per)) mean(per) else 0, repeats = sum(per > 1),
+      condVaries = isTRUE(nst$condVaries), unit = u, rows = rows,
+      nSpanning = sum(counts > 1), shape = nst$shape,
+      bothConds = sum(counts > 1), oneCondOnly = sum(counts == 1), noCond = sum(counts == 0))))
+  }, error = function(e) err(conditionMessage(e)))
+}
+
+## ---- plots (base graphics, captured by webR) -------------------------
+ss_theme_set <- function(bg, fg, mut, line) {
+  SS$theme$bg <- bg; SS$theme$fg <- fg; SS$theme$mut <- mut; SS$theme$line <- line
+  invisible(NULL)
+}
+.par0 <- function(mar = c(3.6, 7.5, 1.2, 1.2)) {
+  th <- SS$theme
+  par(bg = th$bg, fg = th$line, col.axis = th$mut, col.lab = th$fg, col.main = th$fg,
+      mar = mar, mgp = c(2.2, 0.6, 0), tcl = -0.25, cex.axis = 0.85, family = "sans", las = 1)
+}
+.pal <- function(i) SS$theme$pal[((i - 1) %% length(SS$theme$pal)) + 1]
+
+ss_plot_box <- function(f) ss_plot_box2(f, SS$cfg$cond)
+ss_plot_box2 <- function(fnum, fgrp) {
+  fr <- ss_frame(); df <- fr$df
+  x <- ss_val(fnum, df); g <- ss_val(fgrp, df)
+  k <- is.finite(x) & !is.na(g); x <- x[k]; g <- factor(g[k])
+  .par0()
+  cols <- vapply(seq_len(nlevels(g)), .pal, "")
+  boxplot(x ~ g, horizontal = TRUE, outline = FALSE, border = cols, col = NA,
+          xlab = fnum, ylab = "", boxwex = 0.45, staplewex = 0, lwd = 1.4, axes = FALSE,
+          whisklty = 1, whiskcol = cols, medlwd = 2.4)
+  axis(1, col = SS$theme$line); axis(2, at = seq_len(nlevels(g)), labels = levels(g), col = NA, col.axis = SS$theme$fg)
+  set.seed(1)
+  points(x, jitter(as.numeric(g), amount = 0.13),
+         col = adjustcolor(cols[as.numeric(g)], alpha.f = 0.65), pch = 19, cex = 0.75)
+  box(col = SS$theme$line, bty = "l")
+  invisible(NULL)
+}
+
+ss_plot_prop <- function(f) ss_plot_prop2(f, SS$cfg$cond)
+ss_plot_prop2 <- function(fvar, fgrp) {
+  fr <- ss_frame(); df <- fr$df
+  x <- ss_val(fvar, df); g <- ss_val(fgrp, df)
+  k <- !is.na(x) & !is.na(g)
+  tb <- table(x[k], g[k]); pr <- prop.table(tb, 2)
+  lmar <- max(5, min(16, 0.62 * max(nchar(colnames(pr))) + 3))
+  rmar <- max(7, min(20, 0.72 * max(nchar(c(rownames(pr), fvar))) + 5.5))
+  .par0(c(3.2, lmar, 1.2, rmar))
+  cols <- vapply(seq_len(nrow(pr)), .pal, "")
+  bp <- barplot(pr, horiz = TRUE, col = cols, border = SS$theme$bg,
+                xlab = paste0("share within each ", fgrp),
+                las = 1, cex.names = 0.9, col.axis = SS$theme$mut)
+  for (j in seq_len(ncol(tb))) {
+    cs <- cumsum(pr[, j]); mid <- cs - pr[, j] / 2
+    lab <- tb[, j]
+    sel <- pr[, j] > 0.09
+    if (any(sel)) text(mid[sel], bp[j], lab[sel], col = "white", cex = 0.8)
+  }
+  legend(x = par("usr")[2] + diff(par("usr")[1:2]) * 0.04, y = par("usr")[4], yjust = 1,
+         title = fvar, title.col = SS$theme$mut, title.adj = 0,
+         legend = rownames(pr), fill = cols, border = NA,
+         bty = "n", xpd = TRUE, cex = 0.85, text.col = SS$theme$fg)
+  invisible(NULL)
+}
+
+ss_plot_tiles <- function(f) ss_plot_tiles2(f, SS$cfg$cond)
+ss_plot_tiles2 <- function(fvar, fgrp) {
+  fr <- ss_frame(); df <- fr$df
+  x <- ss_val(fvar, df); g <- ss_val(fgrp, df)
+  k <- !is.na(x) & !is.na(g)
+  tb <- table(g[k], x[k])                       # rows = condition, cols = variable level
+  nr <- nrow(tb); nc <- ncol(tb)
+  .par0(c(1.2, 7.5, 3.2, 1.2))
+  plot(0, 0, type = "n", xlim = c(0.4, nc + 0.6), ylim = c(nr + 0.6, 0.4), axes = FALSE, xlab = "", ylab = "")
+  axis(3, at = seq_len(nc), labels = colnames(tb), col = NA, col.axis = SS$theme$fg, cex.axis = 0.85)
+  axis(2, at = seq_len(nr), labels = rownames(tb), col = NA, col.axis = SS$theme$fg, cex.axis = 0.85)
+  for (i in seq_len(nr)) for (j in seq_len(nc)) {
+    n <- tb[i, j]
+    rect(j - 0.46, i - 0.42, j + 0.46, i + 0.42,
+         border = if (n == 0) "#b03a44" else SS$theme$line,
+         col = if (n == 0) adjustcolor("#b03a44", alpha.f = 0.10) else NA)
+    if (n == 0) { text(j, i, "0", col = "#b03a44", font = 2, cex = 0.9); next }
+    per <- 8; sh <- min(n, per * 3)
+    px <- 0.88 / per; py <- 0.19
+    for (k in seq_len(sh)) {
+      cx <- j - 0.44 + ((k - 1) %% per) * px
+      cy <- i - 0.34 + floor((k - 1) / per) * py
+      rect(cx, cy, cx + px * 0.66, cy + py * 0.55, col = adjustcolor(.pal(i), alpha.f = 0.85), border = NA)
+    }
+    text(j + 0.42, i + 0.36, n, col = SS$theme$mut, cex = 0.78, adj = 1)
+  }
+  invisible(NULL)
+}
+
+ss_plot_scatter <- function(fx, fy, byv = "") {
+  fr <- ss_frame(); df <- fr$df
+  x <- ss_val(fx, df); y <- ss_val(fy, df)
+  g <- NULL
+  if (!is.na(byv) && nzchar(byv) && byv %in% names(df)) {
+    g <- df[[byv]]; g[g == "<varies>"] <- NA
+  }
+  k <- is.finite(x) & is.finite(y)
+  if (!is.null(g)) k <- k & !is.na(g)
+  x <- x[k]; y <- y[k]
+  if (!is.null(g)) g <- factor(g[k])
+  lab <- if (is.null(g)) character(0) else levels(g)
+  rmar <- if (is.null(g)) 1.4 else max(6, min(18, 0.72 * max(nchar(c(lab, byv))) + 4.5))
+  .par0(c(3.8, 4.6, 1.2, rmar))
+  cols <- if (is.null(g)) rep(.pal(1), length(x)) else vapply(as.numeric(g), .pal, "")
+  plot(x, y, pch = 19, cex = 0.9, col = adjustcolor(cols, alpha.f = 0.75),
+       xlab = fx, ylab = fy, axes = FALSE)
+  axis(1, col = SS$theme$line); axis(2, col = SS$theme$line)
+  box(col = SS$theme$line, bty = "l")
+  if (length(x) > 2 && is.finite(stats::sd(x)) && stats::sd(x) > 0) {
+    fit <- stats::lm(y ~ x)
+    xs <- seq(min(x), max(x), length.out = 50)
+    lines(xs, stats::predict(fit, data.frame(x = xs)),
+          col = SS$theme$mut, lwd = 1.6, lty = 2)
+  }
+  if (!is.null(g)) {
+    usr <- par("usr")
+    legend(x = usr[2] + diff(usr[1:2]) * 0.04, y = usr[4], yjust = 1,
+           title = byv, title.col = SS$theme$mut, title.adj = 0,
+           legend = lab, col = vapply(seq_len(nlevels(g)), .pal, ""),
+           pch = 19, bty = "n", xpd = TRUE, cex = 0.85, text.col = SS$theme$fg)
+  }
+  invisible(NULL)
+}
+
+ss_plot_pair <- function(fx, fy, byv = "") {
+  kx <- ss_kind(fx); ky <- ss_kind(fy)
+  if (kx == "num" && ky == "num") return(ss_plot_scatter(fx, fy, byv))
+  if (kx == "num" && ky == "cat") return(ss_plot_box2(fx, fy))
+  if (kx == "cat" && ky == "num") return(ss_plot_box2(fy, fx))
+  ss_plot_prop2(fx, fy)
+}
+
+ss_plot_missing <- function(f) ss_plot_missing2(f, SS$cfg$cond)
+ss_plot_missing2 <- function(f, fgrp) {
+  fr <- ss_frame(); df <- fr$df
+  g <- df[[fgrp]]; g[g == "<varies>"] <- NA
+  miss <- is.na(df[[f]]) | df[[f]] == "<varies>"
+  k <- !is.na(g)
+  tb <- table(ifelse(miss[k], "missing", "observed"), g[k])
+  pr <- prop.table(tb, 2)
+  if (!("missing" %in% rownames(pr))) pr <- rbind(missing = 0, pr)
+  ## the n/N labels sit outside the plot region, so the right margin has to be
+  ## sized to the widest of them or they get clipped at any canvas width
+  labs <- vapply(seq_len(ncol(tb)), function(j) {
+    mm <- if ("missing" %in% rownames(tb)) tb["missing", j] else 0
+    paste0(mm, "/", sum(tb[, j]))
+  }, "")
+  lmar <- max(5, min(16, 0.62 * max(nchar(colnames(pr))) + 3))
+  rmar <- max(4.5, min(12, 0.70 * max(nchar(labs)) + 2.6))
+  .par0(c(3.2, lmar, 1.2, rmar))
+  bp <- barplot(pr[c("missing", setdiff(rownames(pr), "missing")), , drop = FALSE], horiz = TRUE,
+                col = c(adjustcolor("#b03a44", 0.75), SS$theme$line), border = SS$theme$bg,
+                xlab = "share of samples", las = 1, cex.names = 0.9)
+  for (j in seq_along(labs))
+    text(1.03, bp[j], labs[j], xpd = TRUE, adj = 0, col = SS$theme$mut, cex = 0.8)
+  invisible(NULL)
+}
+
+ss_plot_heat <- function() {
+  p <- ss_pairs_raw()
+  fs <- p$fields; M <- p$M
+  n <- length(fs)
+  .par0(c(5.4, 9, 9, 1.2))
+  plot(0, 0, type = "n", xlim = c(0.5, n + 0.5), ylim = c(n + 0.5, 0.5), axes = FALSE, xlab = "", ylab = "")
+  axis(3, at = seq_len(n), labels = fs, las = 2, col = NA, col.axis = SS$theme$mut, cex.axis = 0.75)
+  axis(2, at = seq_len(n), labels = fs, las = 1, col = NA, col.axis = SS$theme$mut, cex.axis = 0.75)
+  for (i in seq_len(n)) for (j in seq_len(n)) {
+    v <- M[i, j]
+    if (i == j) { rect(j - .5, i - .5, j + .5, i + .5, col = SS$theme$line, border = SS$theme$bg); next }
+    col <- if (is.finite(v)) adjustcolor("#b03a44", alpha.f = 0.06 + 0.9 * min(1, v)) else NA
+    rect(j - .5, i - .5, j + .5, i + .5, col = col, border = SS$theme$bg)
+    if (is.finite(v) && n <= 16)
+      text(j, i, sub("^0", "", formatC(v, digits = 2, format = "f")),
+           col = if (v > 0.5) "white" else SS$theme$mut, cex = 0.68)
+  }
+  ## a legend, so "darker" has a number attached to it
+  op <- par(xpd = NA); on.exit(par(op), add = TRUE)
+  ## y runs downward here (ylim is reversed), so the caption sits at a smaller
+  ## y than the bar. The old gap was a fraction of the bar height and vanished
+  ## on small grids, which put the caption on top of the swatch.
+  yb <- n + 0.5 + (n + 1) * 0.20
+  x0 <- 0.5; x1 <- 0.5 + n * 0.55; hh <- (n + 1) * 0.030
+  st <- 60
+  for (k in seq_len(st)) {
+    a <- (k - 1) / st; b <- k / st
+    rect(x0 + (x1 - x0) * a, yb, x0 + (x1 - x0) * b, yb + hh,
+         col = adjustcolor("#b03a44", alpha.f = 0.06 + 0.9 * ((a + b) / 2)),
+         border = NA)
+  }
+  rect(x0, yb, x1, yb + hh, border = SS$theme$line)
+  ## caption clearly above the swatch, tick numbers clearly below it
+  text(x0, yb - hh * 1.6, "association strength, 0 to 1",
+       col = SS$theme$mut, cex = 0.72, adj = c(0, 1))
+  for (tk in c(0, 0.5, 1))
+    text(x0 + (x1 - x0) * tk, yb + hh + hh * 0.9, formatC(tk, digits = 1, format = "f"),
+         col = SS$theme$mut, cex = 0.68, adj = c(0.5, 0))
+  invisible(NULL)
+}
+ss_pairs_raw <- function() {
+  fr <- ss_frame(); df <- fr$df
+  fs <- unique(c(if (!is.na(SS$cfg$cond)) SS$cfg$cond, setdiff(SS$cfg$vars, c(SS$cfg$cond, SS$cfg$id, SS$cfg$unit))))
+  fs <- fs[!(fs %in% fr$held)]
+  M <- matrix(NA_real_, length(fs), length(fs), dimnames = list(fs, fs))
+  for (i in seq_along(fs)) for (j in seq_along(fs)) if (j > i) {
+    v <- pair_metric(fs[i], fs[j], df)$v; M[i, j] <- v; M[j, i] <- v
+  }
+  list(fields = fs, M = M)
+}
+
+ss_plot_units <- function() {
+  nst <- ss_nesting()
+  if (!isTRUE(nst$hasUnit)) return(invisible(NULL))
+  df <- SS$sheet; idx <- split(seq_len(nrow(df)), df[[SS$cfg$unit]])
+  cond <- SS$cfg$cond
+  g <- if (is.na(cond)) rep("all", nrow(df)) else as.character(df[[cond]])
+  lev <- sort(unique(g[!is.na(g)]))
+
+  ## Three zones, sorted, so the sheet is partitioned into exactly the cases
+  ## the worked examples above show: one row each, repeats within a single
+  ## condition, and repeats spanning conditions. Unsorted, the reader has to
+  ## scan every column and keep a tally.
+  per  <- vapply(idx, length, 1L)
+  span <- vapply(idx, function(i) length(unique(g[i][!is.na(g[i])])) > 1, TRUE)
+  z    <- ifelse(per == 1, 1L, ifelse(!span, 2L, 3L))
+  ord  <- order(z, -per, names(idx))
+  idx  <- idx[ord]; z <- z[ord]; per <- per[ord]
+  n <- length(idx); if (!n) return(invisible(NULL)); mx <- max(per)
+  zlabs <- c("one row each", "repeats, 0-1 known values", "repeats, multiple known values")
+  cnt <- table(factor(z, levels = 1:3))
+
+  ## past this many units the columns are too thin to read, so summarise
+  if (n > 60) {
+    .par0(c(4.6, 4.2, 2.4, 1.2))
+    hgt <- as.integer(cnt)
+    bp <- barplot(hgt, names.arg = NULL, col = adjustcolor("#b03a44", 0.75),
+                  border = SS$theme$bg, ylim = c(0, max(hgt) * 1.25),
+                  ylab = "", xlab = "", axes = FALSE)
+    axis(2, col = SS$theme$line)
+    mtext(paste0("number of ", SS$cfg$unit, " values"), side = 2, line = 2.8,
+          las = 0, col = SS$theme$fg, cex = 0.85)
+    for (k in 1:3) {
+      text(bp[k], hgt[k], hgt[k], pos = 3, col = SS$theme$fg, cex = 0.8)
+      text(bp[k], -max(hgt) * 0.06, zlabs[k], xpd = NA, col = SS$theme$mut,
+           cex = 0.72, adj = c(0.5, 1))
+    }
+    mtext(paste0(n, " units is too many to draw one column each, so this is the summary"),
+          side = 3, line = 0.6, col = SS$theme$mut, cex = 0.72, adj = 0)
+    return(invisible(NULL))
+  }
+
+  .par0(c(if (n <= 14) 4.6 else 3.0, 4.2, 3.0, 1.2))
+  plot(0, 0, type = "n", xlim = c(0.4, n + 0.6), ylim = c(0, mx + 0.5),
+       axes = FALSE, xlab = "", ylab = "")
+  axis(2, at = seq_len(mx), col = SS$theme$line)
+  mtext("rows from this unit", side = 2, line = 2.8, las = 0,
+        col = SS$theme$fg, cex = 0.85)
+  for (j2 in seq_len(n)) {
+    ii <- idx[[j2]]
+    for (k in seq_along(ii)) {
+      cc <- if (is.na(cond) || is.na(g[ii[k]])) SS$theme$line else .pal(match(g[ii[k]], lev))
+      rect(j2 - 0.38, k - 0.82, j2 + 0.38, k - 0.1,
+           col = adjustcolor(cc, 0.85), border = SS$theme$bg)
+    }
+  }
+  if (n <= 14)
+    axis(1, at = seq_len(n), labels = names(idx), col = SS$theme$line,
+         cex.axis = 0.6, las = 2)
+  else segments(0.4, 0, n + 0.6, 0, col = SS$theme$line)
+
+  bnd <- which(diff(z) != 0) + 0.5
+  for (b in bnd) segments(b, 0, b, mx + 0.4, col = SS$theme$mut, lty = 3)
+  ctr <- tapply(seq_len(n), z, mean)
+  for (k in names(ctr)) {
+    kk <- as.integer(k)
+    text(ctr[[k]], mx + 0.46, zlabs[kk], col = SS$theme$mut, cex = 0.72,
+         adj = c(0.5, 0), xpd = NA)
+    text(ctr[[k]], if (n <= 14) -1.05 else -0.28,
+         paste0(cnt[[kk]], if (cnt[[kk]] == 1) " unit" else " units"),
+         col = SS$theme$mut, cex = 0.72, adj = c(0.5, 1), xpd = NA)
+  }
+  if (!is.na(cond) && (length(lev) || any(is.na(g))))
+    legend("topleft", legend = c(lev, if (any(is.na(g))) "Missing reference"),
+           fill = c(vapply(seq_along(lev), function(i) adjustcolor(.pal(i), 0.85), ""),
+                    if (any(is.na(g))) adjustcolor(SS$theme$line, 0.85)), border = NA,
+           bty = "n", horiz = TRUE, text.col = SS$theme$mut, cex = 0.75,
+           inset = c(0, -0.155), xpd = NA)
+  invisible(NULL)
+}
+
+ss_numericish <- function(f) {
+  v <- SS$sheet[[f]]
+  v <- v[!is.na(v) & v != "<varies>"]
+  if (!length(v)) return(FALSE)
+  all(!is.na(suppressWarnings(as.numeric(v))))
+}
+ss_kind <- function(f) {
+  ty <- unname(SS$types[f])
+  if (identical(ty, "continuous")) return("num")
+  if (identical(ty, "ordinal")) return(if (ss_numericish(f)) "num" else "cat")
+  "cat"
+}
+
+ss_val <- function(f, df) {
+  if (ss_kind(f) == "num") return(suppressWarnings(as.numeric(df[[f]])))
+  v <- df[[f]]; v[v == "<varies>"] <- NA; as.character(v)
+}
+
+ss_explore <- function(fx, fy) {
+  tryCatch({
+    fr <- ss_frame(); df <- fr$df
+    base <- list(level = fr$level,
+                 heldx = isTRUE(fx %in% fr$held), heldy = isTRUE(fy %in% fr$held))
+    if (is.na(fx) || is.na(fy) || !nzchar(fx) || !nzchar(fy) || identical(fx, fy))
+      return(ok(c(base, list(kind = "none"))))
+    kx <- ss_kind(fx); ky <- ss_kind(fy)
+    x <- ss_val(fx, df); y <- ss_val(fy, df)
+    keep <- (if (kx == "num") is.finite(x) else !is.na(x)) &
+            (if (ky == "num") is.finite(y) else !is.na(y))
+    n <- sum(keep)
+    base$n <- n; base$nrows <- nrow(df); base$dropped <- nrow(df) - n
+    xk <- x[keep]; yk <- y[keep]
+    if (n < 3) return(ok(c(base, list(kind = "thin"))))
+
+    ## one side collapses to a single value once the pair is complete: the two
+    ## only coexist inside one level, so there is nothing to compare against.
+    dux <- length(unique(xk)); duy <- length(unique(yk))
+    if (dux < 2 || duy < 2) {
+      cy <- duy < 2                                  # TRUE: y is the collapsed side
+      vn <- if (cy) fx else fy                       # the variable that still varies
+      gn <- if (cy) fy else fx                       # the one pinned to one level
+      vk <- if (cy) xk else yk
+      gfull <- if (cy) y else x
+      lv <- sort(unique(as.character(gfull[!is.na(gfull)])))
+      miss <- if (cy) !keep | is.na(x) else !keep | is.na(y)
+      by <- lapply(lv, function(L) list(level = L, n = sum(gfull == L, na.rm = TRUE),
+                                        miss = sum(gfull == L & miss, na.rm = TRUE)))
+      return(ok(c(base, list(kind = "confined", vname = vn, gname = gn,
+                             gcat = ss_kind(gn) == "cat",
+                             only = as.character(unique(as.character(if (cy) yk else xk)))[1],
+                             seen = jarr(sort(unique(as.character(vk)))),
+                             bygroup = by))))
+    }
+
+    if (kx == "num" && ky == "num") {
+      m  <- "spearman"
+      cs <- suppressWarnings(stats::cor.test(xk, yk, method = "spearman"))
+      cp <- suppressWarnings(stats::cor.test(xk, yk, method = "pearson"))
+      rs <- unname(cs$estimate); rp <- unname(cp$estimate)
+      gap <- abs(abs(rs) - abs(rp))
+      return(ok(c(base, list(kind = "numnum", method = m,
+                             r = rs,
+                             rho = rs, rpear = rp, gap = gap,
+                             diverge = is.finite(gap) && gap >= 0.15,
+                             xmean = mean(xk), xsd = stats::sd(xk),
+                             ymean = mean(yk), ysd = stats::sd(yk)))))
+    }
+
+    if (kx != ky) {
+      xs <- if (kx == "num") xk else yk
+      gs <- if (kx == "num") yk else xk
+      an <- eta_grp(xs, gs)
+      meds <- as.numeric(tapply(xs, factor(gs), stats::median))
+      sm <- if (length(an$lev) == 2) smd2(xs[gs == an$lev[1]], xs[gs == an$lev[2]]) else NA_real_
+      return(ok(c(base, list(kind = "numcat",
+                             vname = if (kx == "num") fx else fy,
+                             gname = if (kx == "num") fy else fx,
+                             eta = an$eta, eta2 = an$eta2, F = an$F, df1 = an$df1,
+                             df2 = an$df2, p = an$p, smd = sm,
+                             lev = jarr(an$lev), ns = jarr(an$ns), means = jarr(an$means),
+                             sds = jarr(an$sds), medians = jarr(meds)))))
+    }
+
+    cv <- cramers_v(xk, yk); tb <- cv$tab
+    R <- nrow(tb); C <- ncol(tb)
+    ok(c(base, list(kind = "catcat", v = cv$v, vraw = cv$vraw, chi = cv$chi,
+                    floored = (cv$v == 0 && cv$vraw > 0),
+                    noisefloor = sqrt((R - 1) * (C - 1) / (cv$n - 1)),
+                    df = cv$df, p = cv$p, low = cv$low, cells = cv$cells,
+                    zeros = sum(tb == 0),
+                    rowlev = jarr(rownames(tb)), collev = jarr(colnames(tb)),
+                    counts = lapply(seq_len(nrow(tb)), function(i) jarr(as.numeric(tb[i, ]))))))
+  }, error = function(e) err(conditionMessage(e)))
+}
+
+## ---- the workshop sheet ---------------------------------------------
+## Deliberately a *pre-collection* cohort sheet. Every column is a demographic
+## or clinical variable that exists before a sample is touched: no extraction
+## kit, no library batch, no sequencing run, no RIN. Those are downstream, and
+## putting them here invites participants to reach for batch correction
+## instead of design.
+##
+## Hand-built rather than simulated. At 26 patients, random draws produce large
+## chance imbalance and almost everything comes out "strong", which flattens
+## the teaching. These allocations are fixed so each class has a clear exemplar:
+##
+##   disease_stage     entangled  - recorded for the disease arm only
+##   medication        strong     - given *because* of the condition (causal path)
+##   referral_source   not separable - every case one pathway, every control another
+##   recruitment_site  strong     - but every site holds both arms, so separable
+##   age / age_group   moderate   - the classic version
+##   collection_year   moderate   - a cohort assembled in two waves
+##   smoking_status    moderate
+##   sex / ancestry    balanced
+##   tissue_site       varies within a patient, so not a between-patient factor
+##   fasting_status     gaps that follow the condition
+##   bmi                no clear group pattern across both arms
+ss_demo <- function() {
+  n <- 26                                   # 14 disease, 12 control
+  cond <- rep(c("Disease", "Control"), c(14, 12))
+
+  sex  <- c("M","F","M","F","M","F","M","F","M","F","M","F","M","F",
+            "M","F","M","F","M","F","M","F","M","F")
+  sex  <- c(sex[1:14], "M","F","M","F","M","F","M","F","M","F","M","F")
+
+  age  <- c(68,72,59,64,71,66,58,75,63,69,61,70,55,67,
+            48,52,45,58,41,55,50,62,38,54,47,60)
+
+  site <- c(rep("RPA", 8), rep("Concord", 4), rep("Westmead", 2),
+            rep("Westmead", 6), rep("Concord", 4), rep("RPA", 2))
+
+  year <- c(rep("2021", 8), rep("2022", 4), rep("2023", 2),
+            rep("2023", 7), rep("2022", 3), rep("2021", 2))
+
+  stage <- c("I","II","III","II","III","I","II","III","II","III","I","II","III","II",
+             rep(NA_character_, 12))
+
+  smoke <- c("never","former","current","former","current","never","former",
+             "current","former","never","current","former","never","former",
+             "never","never","former","never","current","never","former",
+             "never","never","former","never","current")
+
+  anc   <- c("European","European","European","European","European","European",
+             "European","East Asian","East Asian","East Asian","South Asian",
+             "South Asian","South Asian","Other",
+             "European","European","European","European","European","European",
+             "East Asian","East Asian","East Asian","South Asian","South Asian","Other")
+
+  meds  <- c(rep("yes", 12), "no", "no",
+             "yes","no","no","yes","no","no","no","yes","no","no","no","no")
+
+  comorb <- c(1,2,1,3,2,1,2,3,1,2,0,2,1,2,
+              0,1,0,1,0,2,1,0,0,1,0,1)
+
+  ## fasting status was chased up for every case and skipped for some controls
+  fast  <- c("fasted","fed","fasted","fasted","fed","fasted","fed","fasted",
+             "fasted","fed","fasted","fed","fasted","fasted",
+             NA,"fed",NA,"fasted",NA,"fed","fasted",NA,"fasted",NA,"fed","fasted")
+
+  ## bmi missing at a similar rate in both arms
+  bmi   <- c(28.4, NA, 31.2, 24.8, 27.6, 29.1, NA, 25.4, 30.3, 26.7,
+             23.9, 28.8, NA, 27.2,
+             28.1, 24.6, NA, 30.7, 23.5, 27.4, NA, 26.1, 31.0, 24.2, NA, 29.3)
+
+  ## every case came through one pathway and every control through another:
+  ## the Module 1 oncology-ward vs health-check example, and the sheet's only
+  ## genuinely inseparable variable
+  refer <- c(rep("specialist clinic", 14), rep("community screening", 12))
+
+  ## how many tissue types each patient contributed, from a shared menu
+  k     <- c(3,2,3,1,2,3,2,3,1,2,3,2,1,3,
+             2,3,1,2,3,1,2,3,1,2,3,1)
+  menu  <- c("blood", "biopsy", "saliva")
+
+  ageg <- ifelse(age < 45, "under 45", ifelse(age < 65, "45-64", "65+"))
+
+  rows <- list(); sid <- 1
+  for (i in seq_len(n)) for (t in seq_len(k[i])) {
+    rows[[length(rows) + 1]] <- data.frame(
+      sample_id = sprintf("S%03d", sid),
+      patient_id = sprintf("P%02d", i),
+      condition = cond[i],
+      tissue_site = menu[t],
+      sex = sex[i], age = age[i], age_group = ageg[i],
+      disease_stage = stage[i], comorbidity_count = comorb[i],
+      smoking_status = smoke[i], bmi = bmi[i], fasting_status = fast[i],
+      medication = meds[i], ancestry = anc[i], referral_source = refer[i],
+      recruitment_site = site[i], collection_year = year[i],
+      stringsAsFactors = FALSE)
+    sid <- sid + 1
+  }
+  df <- do.call(rbind, rows)
+  con <- textConnection("out", "w", local = TRUE)
+  utils::write.csv(df, con, row.names = FALSE, na = "")
+  close(con)
+  paste(out, collapse = "\n")
+}
+
+## ---- bridge used by the page (values are bound from JavaScript) ------
+ss_apply <- function() {
+  nz <- function(x) if (is.null(x) || length(x) == 0 || is.na(x[1]) || !nzchar(x[1])) NA else as.character(x[1])
+  ty <- if (exists("cfg_tnames") && length(cfg_tnames))
+          stats::setNames(as.character(unlist(cfg_tvals)), as.character(unlist(cfg_tnames))) else NULL
+  ss_config(id = nz(cfg_id), unit = nz(cfg_unit), cond = nz(cfg_cond),
+            level = as.character(cfg_level), corr = as.character(cfg_corr),
+            vars = as.character(unlist(cfg_vars)), types = ty)
+  invisible(NULL)
+}
+ss_csv <- function() {
+  con <- textConnection("out", "w", local = TRUE)
+  utils::write.csv(SS$sheet, con, row.names = FALSE, na = "")
+  close(con)
+  paste(out, collapse = "\n")
+}
+ss_head <- function(n = 300, field = "", descending = FALSE) {
+  df <- SS$sheet
+  ord <- seq_len(nrow(df))
+  if (field %in% names(df)) {
+    v <- df[[field]]
+    if (unname(SS$types[field]) %in% c("continuous", "ordinal") ||
+        (any(!is.na(v)) && all(is.na(v) | !is.na(suppressWarnings(as.numeric(v))))))
+      v <- suppressWarnings(as.numeric(v))
+    ord <- order(v, decreasing = descending, na.last = TRUE, method = "radix")
+  }
+  ord <- head(ord, n); df <- df[ord, , drop = FALSE]
+  ok(list(fields = jarr(names(df)), rowNumbers = jarr(ord),
+          rows = lapply(seq_len(nrow(df)), function(i) jarr(unname(unlist(df[i, ], use.names = FALSE))))))
+}
+
+ss_counts <- function(f) {
+ fr <- ss_frame(); x <- ss_val(f,fr$df); g <- ss_val(SS$cfg$cond,fr$df)
+ k <- !is.na(x) & !is.na(g); tb <- table(x[k],g[k])
+ ok(list(rowlev=jarr(rownames(tb)),collev=jarr(colnames(tb)),counts=lapply(seq_len(nrow(tb)),function(i)jarr(as.numeric(tb[i,])))))
+}
+
+ss_repeat_info <- function(specimen = '') {
+ df <- SS$sheet; u <- SS$cfg$unit
+ if(is.na(u)) return(ok(list(mapped=FALSE)))
+ valid <- !is.na(df[[u]]); d <- df[valid,,drop=FALSE]; nu <- length(unique(d[[u]]))
+ out <- list(mapped=TRUE, validRows=nrow(d), missingUnit=sum(!valid), units=nu, extra=nrow(d)-nu, repeatedUnits=sum(table(d[[u]])>1))
+ if(nzchar(specimen) && specimen %in% names(d) && !any(is.na(d[[specimen]]))) {
+   ns <- nrow(unique(d[,unique(c(u,specimen)),drop=FALSE]))
+   out$specimenComplete <- TRUE; out$withinSpecimen <- nrow(d)-ns; out$betweenSpecimen <- ns-nu
+ } else out$specimenComplete <- FALSE
+ ok(out)
+}
+</script><script type="module">
+/* ============================================================
+   Page glue. Every number and every plot below is produced by R
+   running in WebR; this file only asks for them and lays them out.
+   ============================================================ */
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const el = (t,a,h) => { const n=document.createElement(t); if(a) for(const k in a) n.setAttribute(k,a[k]); if(h!=null) n.innerHTML=h; return n; };
+const fmt = (x,d=2) => (x==null||!Number.isFinite(x)) ? '—' : (Math.abs(x)>=1000 ? x.toFixed(0) : x.toFixed(d));
+const fmtP = p => (p==null||!Number.isFinite(p)) ? '—' : (p<1e-4 ? '<0.0001' : p.toFixed(4));
+const arr = x => x==null ? [] : (Array.isArray(x) ? x : [x]);
+
+const TYPES=['continuous','ordinal','categorical','exclude'];
+
+const S = { meta:[], fields:[], types:{}, map:{id:'',unit:'',cond:''}, include:new Set(),
+            corr:'spearman', name:'', nrow:0, unitOK:false, repeatKind:'', sheetSort:'', sheetDesc:false,
+            screen:null, pairs:null, design:null, conflicts:null, ready:false,
+            /* one page, revealed as you go. q2 is the tick list, q3 the
+               follow-up on whatever was ticked. */
+            reveal:1, q2done:false, q2:{}, q3:{} };
+
+/* ---------------- WebR boot ---------------- */
+let webR=null, shelter=null;
+const params = new URLSearchParams(location.search);
+/* Pinning matters: a webR release between now and the workshop would otherwise
+   change the tool underneath a room full of people. But a pin that 404s is
+   worse than drift, so try the pinned build first and fall back to latest.
+   Override either with ?webr=https://your.host/webr/ */
+const PIN = 'https://webr.r-wasm.org/v0.5.9/';
+const FALLBACK = 'https://webr.r-wasm.org/latest/';
+const CHANNEL = params.get('channel');   // "auto" to let webR choose
+let BASE = params.get('webr') || PIN;
+
+async function loadWebRModule(){
+  const tried = [];
+  for(const url of (params.get('webr') ? [BASE] : [PIN, FALLBACK])){
+    try{
+      const mod = await import(url + 'webr.mjs');
+      BASE = url;
+      if(url === FALLBACK && PIN !== FALLBACK)
+        console.warn('webR pin ' + PIN + ' unavailable; using ' + FALLBACK);
+      return mod;
+    }catch(e){ tried.push(url); }
+  }
+  throw new Error('could not load webR from ' + tried.join(' or '));
+}
+
+async function boot(){
+  try{
+    const mod = await loadWebRModule();
+    const chan = CHANNEL==='auto' ? undefined : (mod.ChannelType ? mod.ChannelType.PostMessage : 3);
+    webR = new mod.WebR({ baseUrl: BASE, channelType: chan });
+    $('#bootMsg').textContent = 'Downloading the webR runtime. First load fetches about 30 MB and is cached afterwards.';
+    await webR.init();
+    shelter = await new webR.Shelter();
+    $('#bootMsg').textContent = 'Loading the analysis functions.';
+    await webR.evalRVoid(document.getElementById('rsrc').textContent);
+    S.ready = true;
+    await pushTheme();
+    await renderAll();
+    $('#boot').remove();
+  }catch(e){
+    $('#boot').innerHTML = '<div class="card"><h2>R could not start</h2>'+
+      '<p>The webR runtime did not load from <code>'+esc(BASE)+'</code>.</p>'+
+      '<p style="margin-top:8px">This page has to be opened over http, not from a file path. From the folder holding this file:</p>'+
+      '<code>python3 -m http.server 8000</code>'+
+      '<p style="margin-top:10px">then open <code>http://localhost:8000/'+esc(location.pathname.split("/").pop()||"index.html")+'</code>. '+
+      'To use a different webR build, add <code>?webr=https://your.host/webr/</code> to the address.</p>'+
+      '<p style="margin-top:10px;color:var(--sev3)">'+esc(e.message||e)+'</p></div>';
+  }
+}
+function busy(t){ $('#busy').textContent = t||''; }
+/* every call into R goes through one queue: the shelter is shared and purging
+   it mid-flight would destroy another call's plot */
+let rq = Promise.resolve();
+function serial(fn){ const p = rq.then(fn, fn); rq = p.catch(()=>{}); return p; }
+async function bindVal(name, value){
+  try { await webR.objs.globalEnv.bind(name, value); }
+  catch(e){
+    const lit = Array.isArray(value)
+      ? 'c(' + value.map(v => JSON.stringify(String(v))).join(',') + ')'
+      : JSON.stringify(String(value));
+    await webR.evalRVoid(name + ' <- ' + lit);
+  }
+}
+async function rjson(code){ return serial(async () => {
+  const o = await webR.evalR(code);
+  try{
+    const js = await o.toJs();
+    const d = JSON.parse(js.values[0]);
+    if(d && d.ok===false) throw new Error(d.error);
+    return d;
+  } finally { webR.destroy(o); }
+}); }
+async function rstring(code){ return serial(async () => {
+  const o = await webR.evalR(code);
+  try{ const js = await o.toJs(); return js.values[0]; } finally{ webR.destroy(o); }
+}); }
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+async function pushTheme(){
+  await bindVal('th_bg', cssVar('--surface'));
+  await bindVal('th_fg', cssVar('--ink'));
+  await bindVal('th_mut', cssVar('--ink-3'));
+  await bindVal('th_line', cssVar('--line'));
+  await webR.evalRVoid('ss_theme_set(th_bg, th_fg, th_mut, th_line)');
+}
+async function rplot(code, host, w, h){ return serial(async () => {
+  const dpr = Math.min(2, window.devicePixelRatio||1);
+  const gopts = { width:Math.round(w*dpr), height:Math.round(h*dpr), bg:cssVar('--surface'), pointsize:12*dpr };
+  let cap;
+  try { cap = await shelter.captureR(code, { withAutoprint:false, captureStreams:false, captureGraphics:gopts }); }
+  catch(e){ cap = await shelter.captureR(code, { withAutoprint:false, captureStreams:false, captureGraphics:true }); }
+  try{
+    const imgs = cap.images||[];
+    if(!imgs.length) return;
+    const img = imgs[imgs.length-1];
+    const c = document.createElement('canvas');
+    c.width=img.width; c.height=img.height; c.style.width=w+'px'; c.style.maxWidth='100%';
+    c.getContext('2d').drawImage(img,0,0);
+    host.innerHTML=''; host.appendChild(c);
+  } finally { await shelter.purge(); }
+}); }
+
+/* ---------------- loading a sheet ---------------- */
+async function loadCSV(text, name, advance){
+  busy('reading…');
+  await bindVal('csv_text', text);
+  const d = await rjson('ss_load(csv_text)');
+  S.name = name; S.meta = arr(d.meta); S.fields = arr(d.meta).map(m=>m.name); S.nrow = d.nrow;
+  S.unitOK = false; S.repeatKind = ''; S.sheetSort=''; S.sheetDesc=false;
+  S.types = {}; arr(d.meta).forEach(m=>S.types[m.name]=m.type);
+  const guess = (cands)=>{ for(const c of cands){ const h=S.fields.find(f=>f.toLowerCase().replace(/[^a-z]/g,'')===c); if(h) return h; }
+    for(const c of cands){ const h=S.fields.find(f=>f.toLowerCase().includes(c)); if(h) return h; } return ''; };
+  S.map.id = '';
+  S.map.unit = guess(['patientid','patient','subjectid','subject','donor','individual','participant','animalid']);
+  S.map.cond = guess(['condition','group','status','treatment','diseasestate','phenotype','arm']);
+  if(S.map.cond && S.types[S.map.cond]==='exclude') S.map.cond='';
+  S.include = new Set(S.fields.filter(f=>S.types[f]!=='exclude' && f!==S.map.id && f!==S.map.unit && f!==S.map.cond));
+  /* a new sheet is a new screen: answers given against the old one are void */
+  W.answers={}; W.keep={}; W.confirmed=false; W.page=1; W.sample={row:'',repeat:'',specimen:'',visit:'',cluster:''}; W.phase='q2'; W.q2done=false; W.history=[]; W.sample.specimen=guess(['specimenid','sampleid','sample']); S.include.delete(W.sample.specimen);
+  $('#dataNote').textContent = name+': '+d.nrow+' rows, '+d.ncol+' columns.';
+  await refresh();
+  
+  busy('');
+}
+async function loadDemo(){
+  busy('building the workshop sheet…');
+  await webR.evalRVoid('demo_csv <- ss_demo()');
+  const csv = await rstring('demo_csv');
+  await loadCSV(csv, 'workshop-sheet', false);
+}
+
+
+const W={page:1,phase:'q2',q2done:false,question:'',omics:'',confirmed:false,sample:{row:'',repeat:'',specimen:'',visit:'',cluster:''},answers:{},keep:{},history:[],generation:0};
+const titles=['Upload','Map columns','Select variables','Sampling','Variable roles','Summary'];
+const options=[['yes','Yes'],['no','No'],['unsure','Unsure']];
+let uiQueue=Promise.resolve();
+function safe(fn){return (...args)=>{const task=async()=>{try{$('#werror').innerHTML='';await fn(...args);}catch(e){$('#werror').textContent=e.message||String(e);busy('');}};uiQueue=uiQueue.then(task,task);return uiQueue;};}
+function invalidate(reason,structure=true){W.generation++;W.phase='q2';W.q2done=false; if(structure){W.confirmed=false;S.screen=null;} Object.values(W.answers).forEach(a=>a.stale=true);W.history.push(reason);}
+function answer(f){return W.answers[f]||(W.answers[f]={});}
+function numeric(f){return ['continuous','ordinal'].includes(S.types[f]);}
+function fieldOptions(value,blank='— choose —',fields=S.fields){return '<option value="">'+esc(blank)+'</option>'+fields.map(f=>'<option value="'+esc(f)+'"'+(f===value?' selected':'')+'>'+esc(f)+'</option>').join('');}
+function fillSelect(node,value,blank,fields){node.innerHTML=fieldOptions(value,blank,fields);}
+async function refresh(){
+ if(!S.ready||!S.nrow){await renderAll();return;}
+ busy('Updating study information…');
+ await bindVal('cfg_id',S.map.id||'');await bindVal('cfg_unit',S.map.unit||'');await bindVal('cfg_cond',S.map.cond||'');await bindVal('cfg_level','row');await bindVal('cfg_repeat',W.sample.repeat||'');await bindVal('cfg_specimen',W.sample.specimen||'');await bindVal('cfg_corr','spearman');
+ await bindVal('cfg_vars',S.fields.filter(f=>S.include.has(f)&&f!==W.sample.specimen));await bindVal('cfg_tnames',S.fields);await bindVal('cfg_tvals',S.fields.map(f=>S.types[f]));await webR.evalRVoid('ss_apply()');
+ S.design=await rjson('ss_design()'); S.counts=await rjson('ss_repeat_info('+JSON.stringify(W.sample.specimen||'')+')');if(S.counts.mapped&&S.counts.extra===0)W.sample.repeat='none'; S.screen=W.confirmed&&S.map.cond?await rjson('ss_screen()'):null;
+ await renderAll();busy('');
+}
+function gate(page){
+ if(page<=1)return '';
+ if(!S.nrow)return 'Load a sheet first.';
+ if(page<=2)return '';
+ if(!S.map.cond)return 'Choose a phenotype/outcome.';
+ if(S.map.cond===S.map.id||S.map.cond===S.map.unit||(S.map.id&&S.map.id===S.map.unit))return 'Use distinct column roles; leave the record ID blank if only a biological-unit ID exists.';
+ if(page<=3)return '';
+ if(!S.include.size)return 'Select at least one metadata variable.';
+ if(page<=4)return '';
+ if(!S.counts?.mapped)return 'Map the biological-unit ID in step 2.';if(S.counts.extra>0&&(!W.sample.repeat||W.sample.repeat==='none'))return 'Choose what the repeated rows represent in step 4.';
+ if(page===6&&!W.q2done)return 'Complete the Q2 selection first.';
+ if(page===6&&remainingPathways())return 'Answer Yes, No or Unsure for all '+remainingPathways()+' remaining variable'+(remainingPathways()===1?'':'s')+' before continuing.';
+ return '';
+}
+async function renderAll(){
+ $('#progress').innerHTML=titles.map((t,i)=>'<button data-page="'+(i+1)+'" '+(gate(i+1)?'disabled':'')+(W.page===i+1?' aria-current="step"':'')+'>'+(i+1)+' · '+t+'</button>').join('');
+ $$('#progress button').forEach(b=>b.onclick=safe(()=>go(+b.dataset.page)));
+ $$('.step').forEach((s,i)=>s.classList.toggle('on',i+1===W.page));
+ $('#back').disabled=W.page===1;$('#next').hidden=W.page===6;$('#next').disabled=W.page===5&&W.phase==='q2'?false:!!gate(W.page+1);$('#navHint').textContent=W.page===5&&W.phase==='q2'?'':gate(W.page+1);$('#next').textContent=W.page===5?(W.phase==='q2'?'Next: pathway question →':'Next: summary →'):'Next →';
+ if(W.page===1&&S.nrow){const h=await rjson('ss_head('+S.nrow+', "", FALSE)');$('#preview').innerHTML='<div class="scroll"><table><thead><tr>'+arr(h.fields).map(f=>'<th>'+esc(f)+'</th>').join('')+'</tr></thead><tbody>'+arr(h.rows).map(r=>'<tr>'+arr(r).map(v=>'<td>'+esc(v??'—')+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';}
+ if(W.page===2){fillSelect($('#mapUnit'),S.map.unit,'— same as sample ID —');fillSelect($('#mapCond'),S.map.cond,'— choose outcome —');fillSelect($('#specimenMap'),W.sample.specimen,'— not separately recorded —');}
+
+ if(W.page===3) renderVariables();
+ if(W.page===4) renderSampling();
+ if(W.page===5) renderAssessment();
+ if(W.page===6) renderReport();
+}
+async function go(n){if(gate(n))throw Error(gate(n));if(n>=5&&!W.confirmed){validateSampling();W.confirmed=true;await refresh();}W.page=n;await renderAll();window.scrollTo({top:0,behavior:'smooth'});}
+function renderVariables(){
+ const outcome = S.map.cond ? '<b>'+esc(S.map.cond)+'</b>' : 'your outcome';
+ $('#step3intro').innerHTML = 'Which columns in your sample sheet describe characteristics of your samples or subjects — things like age, sex, batch, tissue site, or collection date? Select all that might be relevant to your study. The app will check whether any of these vary with '+outcome+' and flag them as potential covariates for your model.';
+ const excluded=[S.map.id,S.map.unit,S.map.cond,W.sample.specimen].filter(Boolean);
+ const screenable=S.fields.filter(f=>!excluded.includes(f)&&S.types[f]!=='exclude');
+ const excList=S.fields.filter(f=>excluded.includes(f)||S.types[f]==='exclude');
+ $('#varList').innerHTML=screenable.map(f=>{const m=S.meta.find(m=>m.name===f);return '<div class="varrow"><input aria-label="Screen '+esc(f)+'" type="checkbox" data-include="'+esc(f)+'" '+(S.include.has(f)?'checked':'')+'><span class="nm">'+esc(f)+'<small>'+m.distinct+' values · '+fmt(m.missing*100,0)+'% missing</small></span><div class="type-cell"><span class="type-label">Type</span><select aria-label="Type of '+esc(f)+'" data-type="'+esc(f)+'">'+TYPES.filter(t=>t!=='exclude').map(t=>'<option value="'+t+'"'+(S.types[f]===t?' selected':'')+(['continuous','ordinal'].includes(t)&&!m.numeric?' disabled':'')+'>'+t+'</option>').join('')+'</select></div></div>';}).join('')+(excList.length?'<details class="excl-details"><summary>Columns excluded from screening (identifiers and constants)</summary>'+excList.map(f=>'<div class="excl-row"><span>'+esc(f)+'</span><span class="excl-note">automatically excluded</span></div>').join('')+'</details>':'');
+}
+function selectHTML(id,label,choices,value){return '<label for="'+id+'">'+label+'</label><select id="'+id+'"><option value="">— choose —</option>'+choices.map(([v,l])=>'<option value="'+v+'"'+(value===v?' selected':'')+'>'+l+'</option>').join('')+'</select>';}
+function renderSampling(){
+ const c=S.counts||{},s=W.sample;
+ if(!c.mapped){$('#sampling').innerHTML='<p>Map a biological-unit ID in step 2 so the app can detect repeated rows.</p>';return;}
+ $('#sampling').innerHTML='<p><b>'+c.units+' biological units</b> across '+c.validRows+' rows with known IDs.</p>'+(c.missingUnit?'<p>'+c.missingUnit+' rows have no biological-unit ID.</p>':'')+(c.extra===0?'<p>No biological-unit ID repeats. No follow-up is needed; select Next.</p>':'<p>'+c.repeatedUnits+' biological units have several rows ('+c.extra+' additional rows).</p><div class="wform">'+selectHTML('repeatMeaning','Why does the same subject appear in multiple rows?',[['technical','Technical replicates \u2014 the same sample was measured more than once'],['specimens','Biological replicates \u2014 different samples from the same subject (e.g. two tissues, two timepoints)'],['mixed','Mixed \u2014 some are technical replicates, some are different samples'],['unsure','Unsure']],s.repeat)+'<p id="repeatConsequence" class="whelp"></p></div>');
+ const _rc=$('#repeatConsequence');
+ if(_rc){const _m={technical:'Technical replicates will be collapsed to one row per specimen before association testing.',specimens:'Each row is treated as a separate biological observation; subject-level pairing is noted in the report.',mixed:'Rows are kept as-is; conflicting metadata will be flagged.',unsure:'Rows are kept as-is; conflicting metadata will be flagged.'};_rc.textContent=_m[s.repeat]||'';}
+}
+function validateSampling(){const c=S.counts||{};if(!c.mapped)throw Error('Map the biological-unit ID in step 2.');if(c.extra===0){W.sample.repeat='none';return;}if(!W.sample.repeat||W.sample.repeat==='none')throw Error('Choose what the repeated rows represent.');}
+function rows(){return S.fields.filter(f=>S.include.has(f)&&f!==W.sample.specimen).map(f=>arr(S.screen?.rows).find(r=>r.field===f)||{field:f,metric:'',effect:null,n:0,kind:'held',cls:{code:'untestable'}});}
+function priority(r){return Number.isFinite(r.effect)&&r.effect>=.4;}
+function unavailable(r){return r.kind==='held'||!Number.isFinite(r.effect);}
+function screeningPool(){return rows().filter(r=>!unavailable(r)&&!['restricted','groupspec'].includes(r.cls?.code));}
+function passedRows(){const all=screeningPool().filter(r=>!unavailable(r)),main=all.filter(priority);return main.length?main:all.filter(r=>Number.isFinite(r.effect)&&r.effect>=.20);}
+function fallbackActive(){return passedRows().length>0&&!screeningPool().filter(r=>!unavailable(r)).some(priority);}
+function q1(r){return unavailable(r)?'unsure':passedRows().some(x=>x.field===r.field)?'yes':'no';}
+function evidence(r){if(unavailable(r))return reason(r);return q1(r)==='yes'?'Selected by outcome screening':'No notable association flagged';}
+function result(r){
+ const a=answer(r.field),outcome=q1(r),omics=a.q2,path=a.q3;
+ const out=(label,rec)=>({label,rec});
+ if(a.stale)return out('Needs review after changes','Check your previous answers against the current study.');
+ if(!omics||(omics==='yes'&&!path))return out('Not fully assessed','Not all questions were answered. No biological role has been assigned.');
+ if(omics==='no')return out(outcome==='yes'?'Outcome-associated covariate':'Low priority according to this screen','Not ticked for an omics association after completing Q2. Pathway not assessed; review biological knowledge before deciding on adjustment.');
+ if([outcome,omics,path].includes('unsure'))return out('Needs further assessment','Resolve uncertain evidence before deciding how to handle this variable.');
+ if(path==='yes')return out(outcome==='yes'&&omics==='yes'?'Possible mediator':'Possible pathway — review association evidence','Usually avoid adjustment when estimating the total causal effect. Direct-effect estimation or prediction needs a separate decision.');
+ if(omics==='yes'&&outcome==='yes')return out('Potential confounder','Consider adjustment if causal reasoning supports confounding. A No to the combined pathway question does not exclude other downstream roles; this screen is not proof.');
+ if(omics==='yes')return out('Non-confounder according to this screen','No automatic reason to adjust from these answers. Review prior knowledge before excluding; inclusion does not necessarily add noise.');
+ if(outcome==='yes')return out('Outcome-associated covariate','Appropriate inclusion may improve precision. It does not automatically reduce bias; covariate is a modelling role, not a distinct causal class.');
+ return out('Low priority according to this screen','May omit if unrelated to both and not required by the design. Recheck when omics data are available; weak evidence is not proof of no association.');
+}
+function radios(f,key,text){const a=answer(f);return '<div class="qblock"><p><b>'+text+'</b></p><div class="answer">'+options.map(([v,l])=>'<label><input type="radio" name="'+key+'-'+S.fields.indexOf(f)+'" data-answer="'+key+'" data-field="'+esc(f)+'" value="'+v+'" '+(a[key]===v?'checked':'')+'>'+l+'</label>').join('')+'</div></div>';}
+function guide(){
+  return `<section class="guide">
+    <h3>How to classify each variable</h3>
+    <p>Use your answers to Q1, Q2, and Q3 to determine each variable's likely role and whether to include it in your model.</p>
+    <div class="guide-table-wrap">
+    <table class="guide-table">
+      <thead>
+        <tr>
+          <th>Q1<br><small>Associated with outcome?</small></th>
+          <th>Q2<br><small>Associated with omics?</small></th>
+          <th>Q3<br><small>On causal pathway?</small></th>
+          <th>Likely classification</th>
+          <th>Action for modelling</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td>
+          <td><strong>Mediator</strong></td>
+          <td>Do not adjust — removing a mediator blocks the effect you are trying to measure</td>
+        </tr>
+        <tr>
+          <td class="tick">✓</td><td class="tick">✓</td><td class="cross">✗</td>
+          <td><strong>Confounder</strong></td>
+          <td>Adjust — failure to adjust can produce spurious associations</td>
+        </tr>
+        <tr>
+          <td class="cross">✗</td><td class="tick">✓</td><td class="cross">✗</td>
+          <td><strong>Non-confounder</strong></td>
+          <td>Excluding is safe — adjusting adds noise without removing confounding</td>
+        </tr>
+        <tr>
+          <td class="tick">✓</td><td class="cross">✗</td><td class="cross">✗</td>
+          <td><strong>Covariate</strong></td>
+          <td>Optionally adjust — can improve power and reduce residual variance</td>
+        </tr>
+        <tr>
+          <td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td>
+          <td><strong>Low risk</strong></td>
+          <td>Can exclude — verify with your data before deciding</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>`;
+}
+function remainingPathways(){return reviewRows().filter(r=>answer(r.field).q2==='yes'&&(answer(r.field).stale||!['yes','no','unsure'].includes(answer(r.field).q3))).length;}
+function reviewRows(){return rows().filter(r=>q1(r)==='yes'||W.keep[r.field]);}
+function renderAssessment(){
+ const selected=reviewRows();
+ if(W.phase==='q3'){
+ const chosen=selected.filter(r=>answer(r.field).q2==='yes');
+ $('#assessment').innerHTML=guide()+'<div class="question-panel question-purple"><h3 class="outcome-question">Q3 · Could the predictor change this variable, which then affects the outcome? <span class="mapped-outcome">Your outcome: <strong>'+esc(S.map.cond||'Not mapped')+'</strong></span></h3><p class="question-hint">e.g. Could protein A cause a plant to flower earlier, which then affects seed yield?<br>Protein A (omics) → flowering time (metadata variable) → seed yield (outcome)</p></div><p>Answer for the variables you ticked in Q2.</p>'+(chosen.length?chosen.map(r=>'<div class="role-row"><strong>'+esc(r.field)+'</strong>'+radios(r.field,'q3','')+'</div>').join(''):'<p>No variables were ticked in Q2. Continue to the summary or go back.</p>');
+ }else{
+ $('#assessment').innerHTML=guide()+'<div class="question-panel question-purple"><h3 class="outcome-question">Q1 · Variables associated with Phenotype (Outcome) <span class="mapped-outcome">Your outcome: <strong>'+esc(S.map.cond||'Not mapped')+'</strong></span></h3><p>'+selected.length+' variables selected. Click a name to view its plot.</p></div><div class="question-panel question-teal"><h3>Q2 · Which of these could be associated with the predictor (Omics)?</h3><p class="question-hint">e.g. Could protein abundance or mutation patterns differ with this variable—for example, between ages?</p></div><p>Tick the relevant variables, then select Next.</p>'+selected.map(r=>'<div class="compact-var"><input aria-label="Select '+esc(r.field)+' as associated with omics" type="checkbox" data-q2tick="'+esc(r.field)+'" '+(answer(r.field).q2==='yes'?'checked':'')+'><details data-plot="'+esc(r.field)+'"><summary><b>'+esc(r.field)+'</b></summary><p class="plot-caption">This variable is selected based on its association with the Phenotype (Outcome).</p><div class="wplot">'+(unavailable(r)?'Comparison unavailable for this sampling structure.':'Open to generate the plot.')+'</div></details></div>').join('')+(selected.length?'':'<p>No variables passed the screen. Continue to review the summary.</p>');
+ wireCards();
+ }
+}
+function wireCards(){
+ $$('details[data-plot]').forEach(d=>d.ontoggle=safe(async()=>{if(!d.open||d.dataset.loaded)return;const f=d.dataset.plot,r=rows().find(r=>r.field===f);if(unavailable(r))return;d.dataset.loaded='1';const host=d.querySelector('.wplot');host.textContent='Drawing in R…';const generation=W.generation;try{const code='ss_plot_pair('+JSON.stringify(f)+','+JSON.stringify(S.map.cond)+', "")';await rplot(code,host,Math.min(760,Math.max(320,host.clientWidth)),400);if(generation!==W.generation)return;if(!numeric(f)&&!numeric(S.map.cond)){const c=await rjson('ss_counts('+JSON.stringify(f)+')');host.insertAdjacentHTML('beforeend','<p>Counts; each bar is divided by its outcome-group total among complete pairs.</p><table><thead><tr><th>'+esc(f)+'</th>'+arr(c.collev).map(v=>'<th>'+esc(v)+'</th>').join('')+'</tr></thead><tbody>'+arr(c.rowlev).map((v,i)=>'<tr><th>'+esc(v)+'</th>'+arr(arr(c.counts)[i]).map(n=>'<td>'+n+'</td>').join('')+'</tr>').join('')+'</tbody></table>');}}catch(e){delete d.dataset.loaded;host.textContent='Plot unavailable: '+e.message;}}));
+}
+function combo(r){const a=answer(r.field);return 'Q1 outcome '+q1(r)+' / Q2 omics '+(a.q2||'unanswered')+' / Q3 pathway '+(a.q2==='no'?'not asked':(a.q3||'unanswered'));}
+function outcomeSummary(){const d=S.design||{};if(numeric(S.map.cond))return '<p>Continuous outcome: '+(d.nCond||0)+' distinct recorded values; no artificial groups are created.</p>';return '<h4>Outcome groups</h4><table><thead><tr><th>Group</th><th>Records</th><th>Biological units</th></tr></thead><tbody>'+arr(d.perCond).map(g=>'<tr><td>'+esc(g.level)+'</td><td>'+g.rows+'</td><td>'+g.units+'</td></tr>').join('')+'</tbody></table><p class="whelp">A biological unit may appear in multiple groups. This does not create extra independent units.</p>';}
+function reportHTML(){
+ const rr=rows(),d=S.design||{},c=S.counts||{},groups={aligned:[],overlap:[],poor:[],mediator:[],covariate:[],unresolved:[],unassessed:[],quiet:[],nonconf:[]};
+ rr.forEach(r=>{const a=answer(r.field);if(unavailable(r)){groups.unassessed.push(r);return;}if(a.stale){groups.unresolved.push(r);return;}if(q1(r)==='no'&&!a.q2){groups.quiet.push(r);return;}if(!a.q2||(a.q2==='yes'&&(!a.q3||a.q3==='unsure'))){groups.unresolved.push(r);return;}if(a.q2==='no'){groups.covariate.push(r);return;}if(a.q3==='yes'){groups.mediator.push(r);return;}if(q1(r)==='no'){groups.nonconf.push(r);return;}groups[r.cls?.code==='entangled'?'aligned':r.cls?.code==='nooverlap'?'poor':'overlap'].push(r);});
+ let technical='Not determined',repeated='Not determined';
+ if(c.extra===0){technical=0;repeated=0;}else if(W.sample.repeat==='technical'){technical=c.extra;repeated=0;}else if(W.sample.repeat==='specimens'){technical=0;repeated=c.extra;}else if(W.sample.repeat==='mixed'&&c.specimenComplete){technical=c.withinSpecimen+' possible';repeated=c.betweenSpecimen;}else if(W.sample.repeat==='platforms'){technical='Not classified as technical repeats';repeated='Different assays: '+c.extra+' additional rows';}
+ const counts=[['Biological units (unique '+S.map.unit+' values)',c.units??'Not mapped'],['Biological units represented in the outcome comparison; '+(d.noCond||0)+' have no known outcome',d.comparisonUnits??'—'],['Rows with known outcome / total rows; '+(d.missingCond||0)+' excluded for missing outcome',(S.nrow-(d.missingCond||0))+'/'+S.nrow],['Technical/process replicate rows beyond the first',technical],['Repeated/nested observation rows beyond the first',repeated]];
+ function group(title,list,description){return '<section class="summary-group"><h3>'+title+'<span class="group-count">'+list.length+'</span></h3><p>'+description+'</p>'+(list.length?'<ul>'+list.map(r=>'<li>'+esc(r.field)+'</li>').join('')+'</ul>':'<p>None flagged.</p>')+'</section>';}
+ const missing=rr.filter(r=>Number.isFinite(r.missGap)&&r.missGap>=.15);
+ let h='<p><b>Sheet:</b> '+esc(S.name)+' · <b>Outcome:</b> '+esc(S.map.cond)+'</p><h2>1 · How many biological units and observations are represented? <small>Module 1</small></h2><table><thead><tr><th>Design element</th><th>Result</th></tr></thead><tbody>'+counts.map(([k,v])=>'<tr><td>'+esc(k)+'</td><td><b>'+esc(v)+'</b></td></tr>').join('')+'</tbody></table>'+(c.missingUnit?'<p>'+c.missingUnit+' records have missing biological-unit IDs and cannot be assigned to a unit.</p>':'')+'<p>'+esc(S.screen?.note||'')+' Biological units contributing more specimens may influence this descriptive screen more. Related samples need to be accounted for in later analysis.</p><h2>2 · What may complicate the comparison <small>Module 2</small></h2><div class="stats">'+[['aligned','Complete alignment'],['overlap','Potential confounders: no separation flagged'],['poor','Potential confounders with limited overlap'],['mediator','Possible mediators'],['covariate','Outcome-associated covariates'],['unresolved','Unresolved']].map(([k,l])=>'<div><b>'+groups[k].length+'</b>'+l+'</div>').join('')+'</div><h3 class="confounding-heading">Confounding problems</h3>';
+ h+=group('Complete alignment: potential complete confounding',groups.aligned,'The metadata variable is completely aligned with the outcome groups and your answers flag potential confounding.');
+ h+=group('Potential confounders: no separation flagged',groups.overlap,'Your answers flag potential confounding. No complete alignment or limited-separability warning was detected by these checks. Review the distributions before deciding whether adjustment is appropriate.');
+ h+=group('Potential confounders with limited overlap or separability',groups.poor,'The observed data provide limited comparable information.');
+ h+='<h3 class="interpretations-heading">Other interpretations</h3>'+group('Possible mediators',groups.mediator,'You judged the pathway omics → variable → outcome plausible. Adjustment could remove part of the total causal effect.');
+ h+=group('Outcome-associated covariates',groups.covariate,'These variables passed outcome screening but were not ticked for association with omics when you completed Q2. They may be considered as covariates; appropriate inclusion may improve precision.');
+ h+=group('Uncertain or unfinished: needs review',groups.unresolved,'Do not adjust automatically. Record the uncertainty or complete the outstanding questions.');
+ h+='<h2>3 · What needs review or could not be assessed</h2><h3>Not assessed</h3>'+(groups.unassessed.length?'<ul>'+groups.unassessed.map(r=>'<li><b>'+esc(r.field)+'</b>'+(' — '+esc(reason(r)))+'</li>').join('')+'</ul>':'<p>None.</p>')+'<h3>Missing values that differ between outcome groups</h3>'+(missing.length?'<ul>'+missing.map(r=>'<li><b>'+esc(r.field)+'</b> — '+arr(r.missByGrp).filter(g=>Number.isFinite(g.miss)).map(g=>Math.round(g.miss*100)+'% missing in '+esc(g.level)).join('; ')+'.</li>').join('')+'</ul>':'<p>None flagged.</p>');
+ h+=group('No notable association flagged',groups.quiet,'These variables did not pass the initial screen.');
+ h+='<h3>Working with what is above</h3><p>Review each flagged variable against your biological question. Before collection, consider recruitment, matching or balanced sampling. During processing, consider balanced allocation or blocking. After collection, some variables may be included in a model and others reported as limitations. Possible mediators should not be adjusted for automatically when estimating a total causal effect.</p><p><b>Scope.</b> This activity screens recorded metadata. It does not assess unrecorded variables, statistical power, population representativeness or every assumption of a later analysis. These classifications are provisional.</p><div class="takeaway"><b>Takeaway</b>A sample sheet cannot prove a design is free from confounding. It can show where the design deserves closer attention — early enough to improve the design, choose an appropriate analysis, or state limitations clearly.</div>';
+ return formatReport(h);
+}
+function reason(r){if(r.kind==='held')return 'conflicting metadata across technical repeats; review specimen IDs and values';if(r.cls?.code==='groupspec')return 'recorded for one outcome group only';if(r.cls?.code==='restricted')return 'only one recorded value';return 'insufficient complete, varying observations';}
+function renderReport(){ $('#report').innerHTML=reportHTML();}
+function download(name,text,type){const a=document.createElement('a'),u=URL.createObjectURL(new Blob([text],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+$('#reportExport').onclick=()=>download('metadata-study-summary.html','<!doctype html><html lang="en"><meta charset="utf-8"><title>Metadata study summary</title><style>'+REPORT_CSS+'</style><button class="print-report" onclick="window.print()">Print / Save as PDF</button>'+reportHTML()+'</html>','text/html');
+$('#back').onclick=safe(async()=>{if(W.page===5&&W.phase==='q3'){W.phase='q2';await renderAll();}else await go(W.page-1);});
+$('#next').onclick=safe(async()=>{if(W.page===5&&W.phase==='q2'){for(const r of reviewRows()){const a=answer(r.field);if(a.stale)delete a.q3;a.q2=a.q2==='yes'?'yes':'no';if(a.q2==='no')delete a.q3;a.stale=false;}W.q2done=true;W.phase='q3';await renderAll();window.scrollTo({top:0});return;}await go(W.page+1);});
+const _tt=$('#thresholdToggle');if(_tt)_tt.onclick=()=>{const info=$('#thresholdInfo'),button=$('#thresholdToggle');info.hidden=!info.hidden;button.setAttribute('aria-expanded',String(!info.hidden));};
+$('#demoBtn').onclick=safe(loadDemo);
+$('#fileIn').onchange=safe(async e=>{const f=e.target.files[0];if(f)await loadCSV(await f.text(),f.name,false);});
+$('#pasteBtn').onclick=safe(async()=>{const text=$('#pasteIn').value.trim();if(!text)throw Error('Paste a table with column headers first.');await loadCSV(text,'pasted-sheet',false);});
+['mapUnit','mapCond'].forEach((id,i)=>$('#'+id).onchange=safe(async e=>{const key=['unit','cond'][i];S.map[key]=e.target.value;if(key==='cond'&&S.types[S.map.cond]==='exclude')S.types[S.map.cond]='categorical';[S.map.id,S.map.unit,S.map.cond].forEach(f=>S.include.delete(f));invalidate('Column mapping changed');await refresh();}));
+$('#allOn').onclick=safe(async()=>{S.fields.filter(f=>![S.map.id,S.map.unit,S.map.cond,W.sample.specimen].includes(f)&&S.types[f]!=='exclude').forEach(f=>S.include.add(f));invalidate('Selection changed');await refresh();});
+$('#allOff').onclick=safe(async()=>{S.include.clear();invalidate('Selection changed');await refresh();});
+document.addEventListener('change',safe(async e=>{
+ const t=e.target;
+ if(t.dataset.include){t.checked?S.include.add(t.dataset.include):S.include.delete(t.dataset.include);invalidate('Selection changed');await refresh();}
+ if(t.dataset.type){S.types[t.dataset.type]=t.value;t.value==='exclude'?S.include.delete(t.dataset.type):S.include.add(t.dataset.type);invalidate('Variable type changed');await refresh();}
+ const sm={rowMeaning:'row',repeatMeaning:'repeat',specimenMap:'specimen',visitMap:'visit',clusterStatus:'cluster'};
+ if(sm[t.id]){W.sample[sm[t.id]]=t.value;if(t.id==='specimenMap')S.include.delete(t.value);if(t.id==='repeatMeaning'){const _rc=$('#repeatConsequence');if(_rc){const _m={technical:'Technical replicates will be collapsed to one row per specimen before association testing.',specimens:'Each row is treated as a separate biological observation; subject-level pairing is noted in the report.',mixed:'Rows are kept as-is; conflicting metadata will be flagged.',unsure:'Rows are kept as-is; conflicting metadata will be flagged.'};_rc.textContent=_m[t.value]||'';}}invalidate('Sampling changed');await refresh();}
+ if(t.dataset.q2tick){answer(t.dataset.q2tick).q2=t.checked?'yes':'no';W.q2done=false;}
+ if(t.dataset.answer){const a=answer(t.dataset.field);a[t.dataset.answer]=t.value;await renderAll();}
+ if(t.dataset.keep){W.keep[t.dataset.keep]=t.checked;renderAssessment();}
+}));
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.note)answer(t.dataset.note).note=t.value;if(t.dataset.design)answer(t.dataset.design).design=t.value;});
+document.addEventListener('click',safe(async e=>{const m=e.target.closest('[data-manual]');if(m){W.keep[m.dataset.manual]=true;renderAssessment();return;}const b=e.target.closest('[data-reconfirm]');if(b){answer(b.dataset.reconfirm).stale=false;renderAssessment();}}));
+
+function formatReport(h){
+ h=h.replace('<h2>1 ·','<section class="report-panel counting"><h2>1 ·').replace('<h2>2 ·','</section><section class="report-panel findings"><h2>2 ·').replace('<h2>3 ·','</section><section class="report-panel review"><h2>3 ·');
+ h=h.replace('<h3>Working with what is above</h3>','</section><section class="report-panel action"><h3>Working with what is above</h3>');
+ return '<div class="design-report"><div class="report-title"><span>OVERALL SUMMARY</span><h1>Omics design record</h1></div>'+h+'</section></div>';
+}
+const REPORT_CSS=".design-report h3.confounding-heading{color:#a43823}.design-report h3.interpretations-heading{color:#176b7a}\n.design-report{max-width:1000px;margin:20px auto;color:#20313e;font:15px/1.55 system-ui,-apple-system,sans-serif}.design-report *{box-sizing:border-box}.report-title{margin:0 0 24px}.report-title>span{font-size:12px;font-weight:750;letter-spacing:.12em;color:#bd492d}.report-title h1{font-size:28px;margin:5px 0 0}.design-report>p{color:#526575;margin:0 0 20px}.report-panel{background:#fff;border:1px solid #ccd8df;border-top:4px solid #338f9d;border-radius:8px;padding:22px;margin:20px 0}.report-panel.findings{border-top-color:#e56d45}.report-panel.review{border-top-color:#9b7bbb}.report-panel.action{border-top-color:#638671}.design-report h2{font-size:19px;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid #d9e2e8;line-height:1.4}.design-report h2 small{display:inline-block;background:#e2f0f2;color:#26636b;font-size:11px;padding:3px 8px;border-radius:12px;margin-left:8px;white-space:nowrap}.design-report h3{font-size:15px;line-height:1.45;margin:20px 0 10px}.design-report table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}.design-report th{text-align:left;background:#f2f6f8;color:#526575;font-weight:600}.design-report th,.design-report td{padding:12px 10px;border-bottom:1px solid #dbe3e8;vertical-align:top;white-space:normal}.design-report td:last-child{min-width:85px}.design-report p{margin:10px 0}.design-report .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 24px}.design-report .stats>div{padding:14px;border:1px solid #d2dce3;border-radius:6px;background:#f7f9fb;font-size:12px;line-height:1.4}.design-report .stats b{display:block;font-size:27px;line-height:1.2;color:#20313e;margin-bottom:6px}.design-report .summary-group{padding:14px 16px;margin:12px 0;border:1px solid #d5dfe5;border-left:4px solid #7da2ad;border-radius:5px;break-inside:avoid}.design-report .summary-group h3{display:flex;justify-content:space-between;gap:14px;align-items:start;margin:0 0 8px}.group-count{display:inline-block;padding:1px 9px;background:#e7eef2;border-radius:12px;font-size:12px;flex:none}.design-report .summary-group p{font-size:13px;color:#536a7b}.design-report ul{padding-left:22px;margin:8px 0}.design-report li{margin:4px 0}.design-report .summary-group li{font-weight:600}.design-report .takeaway{padding:16px;background:#edf6f4;border-left:4px solid #468274;border-radius:4px;margin-top:20px}.design-report .takeaway b{display:block;text-transform:uppercase;font-size:11px;letter-spacing:.08em;margin-bottom:6px}.print-report{display:block;margin:20px auto;padding:10px 18px;border:1px solid #aebfc9;border-radius:6px;background:white;cursor:pointer}@media(max-width:650px){.design-report .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.report-panel{padding:14px}.design-report h2{font-size:17px}}@media print{@page{size:A4;margin:14mm}.print-report{display:none!important}.design-report{max-width:none;margin:0;font-size:10pt;line-height:1.4;print-color-adjust:exact;-webkit-print-color-adjust:exact}.report-title h1{font-size:20pt}.report-panel{padding:12px;margin:12px 0;border-radius:4px}.design-report h2{font-size:13pt;break-after:avoid}.design-report h3{font-size:11pt;break-after:avoid}.design-report .stats{grid-template-columns:repeat(3,minmax(0,1fr))}.design-report .stats>div{padding:9px}.design-report .stats b{font-size:20pt}.design-report table{font-size:10pt}.design-report thead{display:table-header-group}.design-report tr{break-inside:avoid}.design-report .summary-group{break-inside:avoid}.design-report p,.design-report li{orphans:3;widows:3}}\n";
+$('#reportPrint').onclick=safe(()=>{if(gate(6))throw Error(gate(6));window.print();});
+for(const id of ['reportExport']){const original=$('#'+id).onclick;$('#'+id).onclick=safe(()=>{if(gate(6))throw Error(gate(6));original();});}
+
+boot();
+</script></body></html>
