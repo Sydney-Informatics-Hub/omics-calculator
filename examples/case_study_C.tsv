@@ -1,0 +1,73 @@
+Sample_id	donor_id	condition	sex	age	tissue	processing_date	cell_type	n_cells
+D01_1	D01	control	male	41	PBMC	13/01/2026	CD4 T naive	781
+D01_2	D01	control	male	41	PBMC	13/01/2026	CD4 T memory	743
+D01_3	D01	control	male	41	PBMC	13/01/2026	CD8 T naive	408
+D01_4	D01	control	male	41	PBMC	13/01/2026	CD8 T effector	536
+D01_5	D01	control	male	41	PBMC	13/01/2026	Treg	185
+D01_6	D01	control	male	41	PBMC	13/01/2026	MAIT	153
+D01_7	D01	control	male	41	PBMC	13/01/2026	gdT	110
+D01_8	D01	control	male	41	PBMC	13/01/2026	NK CD56dim	453
+D01_9	D01	control	male	41	PBMC	13/01/2026	NK CD56bright	57
+D01_10	D01	control	male	41	PBMC	13/01/2026	B naive	352
+D01_11	D01	control	male	41	PBMC	13/01/2026	B memory	196
+D01_12	D01	control	male	41	PBMC	13/01/2026	Plasma	26
+D01_13	D01	control	male	41	PBMC	13/01/2026	CD14 mono	728
+D01_14	D01	control	male	41	PBMC	13/01/2026	CD16 mono	140
+D01_15	D01	control	male	41	PBMC	13/01/2026	cDC	51
+D01_16	D01	control	male	41	PBMC	13/01/2026	pDC	109
+D01_17	D01	control	male	41	PBMC	13/01/2026	Platelet	167
+D01_18	D01	control	male	41	PBMC	13/01/2026	HSPC	5
+D02_1	D02	control	male	38	PBMC	2/1/2026	CD4 T naive	628
+D02_2	D02	control	male	38	PBMC	2/1/2026	CD4 T memory	703
+D02_3	D02	control	male	38	PBMC	2/1/2026	CD8 T naive	301
+D02_4	D02	control	male	38	PBMC	2/1/2026	CD8 T effector	411
+D02_5	D02	control	male	38	PBMC	2/1/2026	Treg	152
+D02_6	D02	control	male	38	PBMC	2/1/2026	MAIT	130
+D02_7	D02	control	male	38	PBMC	2/1/2026	gdT	94
+D02_8	D02	control	male	38	PBMC	2/1/2026	NK CD56dim	394
+D02_9	D02	control	male	38	PBMC	2/1/2026	NK CD56bright	41
+D02_10	D02	control	male	38	PBMC	2/1/2026	B naive	291
+D02_11	D02	control	male	38	PBMC	2/1/2026	B memory	139
+D02_12	D02	control	male	38	PBMC	2/1/2026	Plasma	23
+D02_13	D02	control	male	38	PBMC	2/1/2026	CD14 mono	602
+D02_14	D02	control	male	38	PBMC	2/1/2026	CD16 mono	120
+D02_15	D02	control	male	38	PBMC	2/1/2026	cDC	44
+D02_16	D02	control	male	38	PBMC	2/1/2026	pDC	90
+D02_17	D02	control	male	38	PBMC	2/1/2026	Platelet	132
+D02_18	D02	control	male	38	PBMC	2/1/2026	HSPC	5
+D03_1	D03	disease	male	44	PBMC	21/03/26	CD4 T naive	2369
+D03_2	D03	disease	male	44	PBMC	21/03/26	CD4 T memory	1922
+D03_3	D03	disease	male	44	PBMC	21/03/26	CD8 T naive	1028
+D03_4	D03	disease	male	44	PBMC	21/03/26	CD8 T effector	1533
+D03_5	D03	disease	male	44	PBMC	21/03/26	Treg	527
+D03_6	D03	disease	male	44	PBMC	21/03/26	MAIT	447
+D03_7	D03	disease	male	44	PBMC	21/03/26	gdT	264
+D03_8	D03	disease	male	44	PBMC	21/03/26	NK CD56dim	1368
+D03_9	D03	disease	male	44	PBMC	21/03/26	NK CD56bright	141
+D03_10	D03	disease	male	44	PBMC	21/03/26	B naive	905
+D03_11	D03	disease	male	44	PBMC	21/03/26	B memory	498
+D03_12	D03	disease	male	44	PBMC	21/03/26	Plasma	73
+D03_13	D03	disease	male	44	PBMC	21/03/26	CD14 mono	7752
+D03_14	D03	disease	male	44	PBMC	21/03/26	CD16 mono	385
+D03_15	D03	disease	male	44	PBMC	21/03/26	cDC	129
+D03_16	D03	disease	male	44	PBMC	21/03/26	pDC	108
+D03_17	D03	disease	male	44	PBMC	21/03/26	Platelet	938
+D03_18	D03	disease	male	44	PBMC	21/03/26	HSPC	13
+D04_1	D04	disease	male	36	PBMC	8/4/2026	CD4 T naive	2727
+D04_2	D04	disease	male	36	PBMC	8/4/2026	CD4 T memory	2757
+D04_3	D04	disease	male	36	PBMC	8/4/2026	CD8 T naive	1340
+D04_4	D04	disease	male	36	PBMC	8/4/2026	CD8 T effector	1677
+D04_5	D04	disease	male	36	PBMC	8/4/2026	Treg	584
+D04_6	D04	disease	male	36	PBMC	8/4/2026	MAIT	577
+D04_7	D04	disease	male	36	PBMC	8/4/2026	gdT	359
+D04_8	D04	disease	male	36	PBMC	8/4/2026	NK CD56dim	1732
+D04_9	D04	disease	male	36	PBMC	8/4/2026	NK CD56bright	184
+D04_10	D04	disease	male	36	PBMC	8/4/2026	B naive	1098
+D04_11	D04	disease	male	36	PBMC	8/4/2026	B memory	621
+D04_12	D04	disease	male	36	PBMC	8/4/2026	Plasma	85
+D04_13	D04	disease	male	36	PBMC	8/4/2026	CD14 mono	2464
+D04_14	D04	disease	male	36	PBMC	8/4/2026	CD16 mono	546
+D04_15	D04	disease	male	36	PBMC	8/4/2026	cDC	182
+D04_16	D04	disease	male	36	PBMC	8/4/2026	pDC	93
+D04_17	D04	disease	male	36	PBMC	8/4/2026	Platelet	557
+D04_18	D04	disease	male	36	PBMC	8/4/2026	HSPC	17
