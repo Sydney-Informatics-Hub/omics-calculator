@@ -1,0 +1,501 @@
+Sample	Breed	Sex	Weight	Height	Life span	Long legs	Drop ears	Large ears	Tail curl	Bulky	Muscled	White chest	White head	Hairless	Lengh of fur	Furnish	Boldness
+Afghan Hound 1	Afghan Hound	M	24.95	66.04	13	2		1	1	1	1	2	1	1	2	1	
+Afghan Hound 2	Afghan Hound	F	24.95	66.04	13	2		1	1	1	1	2	1	1	2	1	
+Afghan Hound 3	Afghan Hound	M	24.95	66.04	13	2		1	1	1	1	2	1	1	2	1	
+Airedale Terrier 1	Airedale Terrier	M	22.68	58.42	11			1	1	1	1	1	1	1	1	2	
+Airedale Terrier 2	Airedale Terrier	F	22.68	58.42	11			1	1	1	1	1	1	1	1	2	
+Airedale Terrier 3	Airedale Terrier	M	22.68	58.42	11			1	1	1	1	1	1	1	1	2	
+Airedale Terrier 4	Airedale Terrier	M	22.68	58.42	11			1	1	1	1	1	1	1	1	2	
+Alaskan Husky 1	Alaskan Husky	M	21.5	68	12.5		1	1	1	1	1	2	2	1	1	1	
+Alaskan Husky 2	Alaskan Husky	M	21.5	68	12.5		1	1	1	1	1	2	2	1	1	1	
+Alaskan Malamute 1	Alaskan Malamute	M	36.29	60.96	11		1	1	2	2	2	2		1	1	1	
+Alaskan Malamute 2	Alaskan Malamute	F	36.29	60.96	11		1	1	2	2	2	2		1	1	1	
+Alaskan Malamute 3	Alaskan Malamute	F	36.29	60.96	11		1	1	2	2	2	2		1	1	1	
+Alpine Dachsbracke	Alpine Dachsbracke	M	16.5	37	12		2		1	1	1	1	1	1	1	1	
+American Hairless Terrier	American Hairless Terrier	F	4.76	35.56	15	1	2	1	1	1	1	2		2		1	
+Australian Cattle Dog 1	Australian Cattle Dog	M	20.87	46.99	14	1	1	1	1	1	1	1	2	1	1	1	
+Australian Cattle Dog 2	Australian Cattle Dog	F	20.87	46.99	14	1	1	1	1	1	1	1	2	1	1	1	
+Australian Cattle Dog 3	Australian Cattle Dog	F	20.87	46.99	14	1	1	1	1	1	1	1	2	1	1	1	
+Australian Cattle Dog 4	Australian Cattle Dog	F	20.87	46.99	14	1	1	1	1	1	1	1	2	1	1	1	
+Australian Terrier	Australian Terrier	M	6.58	26.67	13.5		1	1	1	1	1	1	1	1		2	
+Basenji 1	Basenji	M	10.21	42	14		1	1	2	1	1	2	1	1	1	1	
+Basenji 2	Basenji	M	10.21	42	14		1	1	2	1	1	2	1	1	1	1	
+Basenji 3	Basenji	F	10.21	42	14		1	1	2	1	1	2	1	1	1	1	
+Basenji 4	Basenji	F	10.21	42	14		1	1	2	1	1	2	1	1	1	1	
+Bavarian Hound (Bayerischer Gebirgsschweisshund)	Bavarian Hound (Bayerischer Gebirgsschweisshund)	M	22.5	48	11	1	2		1			1	1	1	1	1	
+Beagle 1	Beagle	M	10.89	36.83	12	1	2	2	2	1	1	2	2	1	1	1	2
+Beagle 2	Beagle	M	10.89	36.83	12	1	2	2	2	1	1	2	2	1	1	1	2
+Beagle 3	Beagle	F	10.89	36.83	12	1	2	2	2	1	1	2	2	1	1	1	2
+Beagle 4	Beagle	F	10.89	36.83	12	1	2	2	2	1	1	2	2	1	1	1	2
+Beagle 5	Beagle	F	10.89	36.83	12	1	2	2	2	1	1	2	2	1	1	1	2
+Bearded Collie 1	Bearded Collie	F	22.68	53.34	14				1	1	1	2	2	1	2	2	
+Bearded Collie 2	Bearded Collie	M	22.68	53.34	14				1	1	1	2	2	1	2	2	
+Bearded Collie 3	Bearded Collie	M	22.68	53.34	14				1	1	1	2	2	1	2	2	
+Bearded Collie 4	Bearded Collie	F	22.68	53.34	14				1	1	1	2	2	1	2	2	
+Bearded Collie 5	Bearded Collie	M	22.68	53.34	14				1	1	1	2	2	1	2	2	
+Bearded Collie 6	Bearded Collie	M	22.68	53.34	14				1	1	1	2	2	1	2	2	
+Bearded Collie 7	Bearded Collie	M	22.68	53.34	14				1	1	1	2	2	1	2	2	
+Belgian Malinois 1	Belgian Malinois	F	27.22	60.96	13		1	1	1	1	1	1	1	1	1	1	
+Belgian Malinois 2	Belgian Malinois	F	27.22	60.96	13		1	1	1	1	1	1	1	1	1	1	
+Belgian Malinois 3	Belgian Malinois	F	27.22	60.96	13		1	1	1	1	1	1	1	1	1	1	
+Belgian Malinois 4	Belgian Malinois	F	27.22	60.96	13		1	1	1	1	1	1	1	1	1	1	
+Belgian Malinois 5	Belgian Malinois	M	27.22	60.96	13		1	1	1	1	1	1	1	1	1	1	
+Belgian Sheepdog 1	Belgian Sheepdog	F	30.62	60.96	12		1	1	1	1	1	1	1	1	2	1	
+Belgian Sheepdog 2	Belgian Sheepdog	M	30.62	60.96	12		1	1	1	1	1	1	1	1	2	1	
+Belgian Sheepdog 3	Belgian Sheepdog	F	30.62	60.96	12		1	1	1	1	1	1	1	1	2	1	
+Belgian Sheepdog 4	Belgian Sheepdog	F	30.62	60.96	12		1	1	1	1	1	1	1	1	2	1	
+Belgian Sheepdog 5	Belgian Sheepdog	M	30.62	60.96	12		1	1	1	1	1	1	1	1	2	1	
+Belgian Sheepdog 6	Belgian Sheepdog	M	30.62	60.96	12		1	1	1	1	1	1	1	1	2	1	
+Belgian Sheepdog 7	Belgian Sheepdog	F	30.62	60.96	12		1	1	1	1	1	1	1	1	2	1	
+Belgian Tervuren 1	Belgian Tervuren	F	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 10	Belgian Tervuren	M	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 2	Belgian Tervuren	F	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 3	Belgian Tervuren	F	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 4	Belgian Tervuren	M	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 5	Belgian Tervuren	F	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 6	Belgian Tervuren	M	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 7	Belgian Tervuren	M	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 8	Belgian Tervuren	F	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Belgian Tervuren 9	Belgian Tervuren	F	30.62	60.96	13		1	1	2	1	1		1	1	2	1	1
+Berger Blanc Suisse	Berger Blanc Suisse	M	35	63	12		1	1	1	1	1	2	2	1	2	1	
+Berger Picard 1	Berger Picard	M	27.22	59.69	12		1	1	1	1	1	2	1	1	1	2	
+Berger Picard 2	Berger Picard	F	27.22	59.69	12		1	1	1	1	1	2	1	1	1	2	
+Berger Picard 3	Berger Picard	F	27.22	59.69	12		1	1	1	1	1	2	1	1	1	2	
+Berger Picard 4	Berger Picard	F	27.22	59.69	12		1	1	1	1	1	2	1	1	1	2	
+Bernese Mountain Dog 1	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 10	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 11	Bernese Mountain Dog	M	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 12	Bernese Mountain Dog	M	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 13	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 14	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 15	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 16	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 17	Bernese Mountain Dog	M	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 18	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 2	Bernese Mountain Dog	M	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 3	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 4	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 5	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 6	Bernese Mountain Dog	M	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 7	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 8	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Bernese Mountain Dog 9	Bernese Mountain Dog	F	41	64.4525	7		2		1	2	2	2	2	1	2	1	1
+Black and Tan Coonhound	Black and Tan Coonhound	F	26	61	11		2		1	1		1	1	1	1	1	
+Black Russian Terrier	Black Russian Terrier	F	52.39	71.12	10.5		1	1			2	1	1	1		2	
+Bloodhound	Bloodhound	F	43.09	63.5	11		2		1	1	2	1	1	1	1	1	
+Border Collie 1	Border Collie	F	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 10	Border Collie	F	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 11	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 12	Border Collie	F	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 13	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 14	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 15	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 2	Border Collie	F	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 3	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 4	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 5	Border Collie	F	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 6	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 7	Border Collie	M	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 8	Border Collie	F	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Collie 9	Border Collie	F	17.92	50.8		1	1	1	2	1	1	2	2	1	2	1	1
+Border Terrier 1	Border Terrier	M	6.12	25.4	13.5	1	2	1	1	1	1		1	1	2	2	1
+Border Terrier 2	Border Terrier	F	6.12	25.4	13.5	1	2	1	1	1	1		1	1	2	2	1
+Border Terrier 3	Border Terrier	F	6.12	25.4	13.5	1	2	1	1	1	1		1	1	2	2	1
+Border Terrier 4	Border Terrier	M	6.12	25.4	13.5	1	2	1	1	1	1		1	1	2	2	1
+Borzoi	Borzoi	F	37.42	68.58	8.5			1		1	1	2	2	1	2	1	
+Boston Terrier	Boston Terrier	F	7.94	40.64	14	1	1			1	2	2	2	1	1	1	
+Bouvier des Flandres 1	Bouvier des Flandres	F	31	62	11						1	1	1	1	2	2	
+Bouvier des Flandres 2	Bouvier des Flandres	M	31	62	11						1	1	1	1	2	2	
+Bouvier des Flandres 3	Bouvier des Flandres	M	31	62	11						1	1	1	1	2	2	
+Boxer	Boxer	F	28.35	59.055	11		2	1	2.7	1	2	2	2	1	1	1	1
+Brittany	Brittany	M	15.88	48.26	14.5	1	2	2	1	1	1	2	2	1		1	
+Bull Terrier 1	Bull Terrier	F			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 2	Bull Terrier	F			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 3	Bull Terrier	M			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 4	Bull Terrier	M			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 5	Bull Terrier	M			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 6	Bull Terrier	M			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 7	Bull Terrier	F			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 8	Bull Terrier	M			12.5		1	1	1	1	2	2	2	1	1	1	
+Bull Terrier 9	Bull Terrier	M			12.5		1	1	1	1	2	2	2	1	1	1	
+Bulldog	Bulldog	M	25.81	35.56	9	1		1		1	2	2	2	1	1	1	2
+Bullmastiff	Bullmastiff	F	52.16	64.77	9		2	1	1	2	2	1	1	1	1	1	
+Cairn Terrier	Cairn Terrier	M	6.12	24.765	13.5		1	1	1	1	1		1	1	1	2	
+Cane Corso	Cane Corso	F	44.91	64.77	11					2	2	2	1	1	1	1	
+Carolina Dog	Carolina Dog	F															
+Caucasian Ovcharka	Caucasian Ovcharka	F	47.4	71.12	11					2	2	2		1	2	1	
+Cavalier King Charles Spaniel 1	Cavalier King Charles Spaniel	F	7.03	31.75	10	1	2	2	2	1	1	2	2	1	2	1	2
+Cavalier King Charles Spaniel 2	Cavalier King Charles Spaniel	F	7.03	31.75	10	1	2	2	2	1	1	2	2	1	2	1	2
+Chesapeake Bay Retriever	Chesapeake Bay Retriever	F	30.62	61	11.5		2	1	1	1	1			1		1	
+Chihuahua 1	Chihuahua	M	1.81	19.05			1	1	2	1	1	2		1	1	1	
+Chihuahua 2	Chihuahua	F	1.81	19.05			1	1	2	1	1	2		1	1	1	
+Chihuahua 3	Chihuahua	M	1.81	19.05			1	1	2	1	1	2		1	1	1	
+Chinese Crested 1	Chinese Crested	M	3.4	30.48	14	1	1	1		1	1		2	2		1	
+Chinese Crested 2	Chinese Crested	M	3.4	30.48	14	1	1	1		1	1		2	2		1	
+Chinese Shar-Pei 1	Chinese Shar-Pei	M	23.81	48.26	10			1	2	1	2	1	1	1	1	1	
+Chinese Shar-Pei 2	Chinese Shar-Pei	M	23.81	48.26	10			1	2	1	2	1	1	1	1	1	
+Chinook	Chinook	M	33	58.5						1	1	2		1	1	1	
+Chongqing Dog	Chongqing Dog	F															
+Chow Chow 1	Chow Chow	M	26.08	46.99			1	1		1	2		1	1		1	
+Chow Chow 2	Chow Chow	F	26.08	46.99			1	1		1	2		1	1		1	
+Chow Chow 3	Chow Chow	F	26.08	46.99			1	1		1	2		1	1		1	
+Chow Chow 4	Chow Chow	M	26.08	46.99			1	1		1	2		1	1		1	
+Clumber Spaniel	Clumber Spaniel	F	31.75	46.99	11	1	2	2		1	1	2	2	1	2	1	
+American Cocker Spaniel 1	Cocker Spaniel (American)	M	10.21	36.83	14.5	1	2	2	1	1	1			1	2	1	
+American Cocker Spaniel 2	Cocker Spaniel (American)	F	10.21	36.83	14.5	1	2	2	1	1	1			1	2	1	
+American Cocker Spaniel 3	Cocker Spaniel (American)	M	10.21	36.83	14.5	1	2	2	1	1	1			1	2	1	
+American Cocker Spaniel 4	Cocker Spaniel (American)	M	10.21	36.83	14.5	1	2	2	1	1	1			1	2	1	
+American Cocker Spaniel 5	Cocker Spaniel (American)	F	10.21	36.83	14.5	1	2	2	1	1	1			1	2	1	
+American Cocker Spaniel 6	Cocker Spaniel (American)	F	10.21	36.83	14.5	1	2	2	1	1	1			1	2	1	
+Curly Coated Retreiver	Curly-Coated Retriever	M	32	66.5	12		2		1	1	1	1	1	1	1	1	
+Dachshund 1	Dachshund	F			15.5		2		1	1	1	1	1	1			
+Dachshund 2	Dachshund	M			15.5		2		1	1	1	1	1	1			
+Dachshund 3	Dachshund	M			15.5		2		1	1	1	1	1	1			
+Dachshund 4	Dachshund	M			15.5		2		1	1	1	1	1	1			
+Dachshund 5	Dachshund	M			15.5		2		1	1	1	1	1	1			
+Dalmatian 1	Dalmatian	F	26.08	59	11.5		2	1	1	1	1		2	1	1	1	1
+Dalmatian 2	Dalmatian	M	26.08	59	11.5		2	1	1	1	1		2	1	1	1	1
+Doberman Pinscher 1	Doberman Pinscher	M	34.93	66.04	11.5				1	1		1	1	1	1	1	
+Doberman Pinscher 2	Doberman Pinscher	F	34.93	66.04	11.5				1	1		1	1	1	1	1	
+Doberman Pinscher 3	Doberman Pinscher	F	34.93	66.04	11.5				1	1		1	1	1	1	1	
+Doberman Pinscher 4	Doberman Pinscher	M	34.93	66.04	11.5				1	1		1	1	1	1	1	
+Doberman Pinscher 5	Doberman Pinscher	F	34.93	66.04	11.5				1	1		1	1	1	1	1	
+English Cocker Spaniel 1	English Cocker Spaniel	M	13.61	40.64	13	1	2	2	1	1	1			1	2	1	
+English Cocker Spaniel 2	English Cocker Spaniel	M	13.61	40.64	13	1	2	2	1	1	1			1	2	1	
+English Cocker Spaniel 3	English Cocker Spaniel	M	13.61	40.64	13	1	2	2	1	1	1			1	2	1	
+English Cocker Spaniel 4	English Cocker Spaniel	M	13.61	40.64	13	1	2	2	1	1	1			1	2	1	
+English Cocker Spaniel 5	English Cocker Spaniel	F	13.61	40.64	13	1	2	2	1	1	1			1	2	1	
+English Cocker Spaniel 6	English Cocker Spaniel	M	13.61	40.64	13	1	2	2	1	1	1			1	2	1	
+English Setter 1	English Setter	F	28.35	62.23	11		2		2	1	1	2		1	2	1	2
+English Setter 2	English Setter	F	28.35	62.23	11		2		2	1	1	2		1	2	1	2
+English Setter 3	English Setter	M	28.35	62.23	11		2		2	1	1	2		1	2	1	2
+English Springer Spaniel 1	English Springer Spaniel	M			11		2	2	2	1	1	2	2	1	2	1	
+English Springer Spaniel 2	English Springer Spaniel	M			11		2	2	2	1	1	2	2	1	2	1	
+Entlebucher Sennenhund 1	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Entlebucher Sennenhund 2	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Entlebucher Sennenhund 3	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Entlebucher Sennenhund 4	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Entlebucher Sennenhund 5	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Entlebucher Sennenhund 6	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Entlebucher Sennenhund 7	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Entlebucher Sennenhund 8	Entlebucher Sennenhund	M	25	48	13	1	2	1		1	2	2	2	1	1	1	
+Eurasier 1	Eurasier	M	24.04	53.34	12		1	1	4	1	1		1	1	2	1	
+Eurasier 2	Eurasier	F	24.04	53.34	12		1	1	4	1	1		1	1	2	1	
+Field Spaniel	Field Spaniel	M	20.5	46	11	1	2	2						1			
+Finnish Lapphund	Finnish Lapphund	M	19	49	13	1	1	1		1	1		1	1	2	1	
+Flatcoated Retriever 1	Flat-Coated Retriever	M	29	57	9		2	1	2	1	1	1	1	1		1	2
+Flatcoated Retriever 2	Flat-Coated Retriever	F	29	57	9		2	1	2	1	1	1	1	1		1	2
+Flatcoated Retriever 3	Flat-Coated Retriever	F	29	57	9		2	1	2	1	1	1	1	1		1	2
+Fonni Dog	Fonni's Dog	F	32.5	56			2		1	1	1			1	2	2	
+French Bulldog 1	French Bulldog	F	11.34	30.48	11	1	1	2		1	2	2		1	1	1	
+French Bulldog 2	French Bulldog	M	11.34	30.48	11	1	1	2		1	2	2		1	1	1	
+German Hunting Terrier	German Hunting Terrier	M	9.2	36.5			2	1	1	1	1			1	1	2	
+German Shepherd Dog 1	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 10	German Shepherd Dog	F	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 11	German Shepherd Dog	F	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 12	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 13	German Shepherd Dog	F	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 14	German Shepherd Dog	F	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 15	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 2	German Shepherd Dog	F	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 3	German Shepherd Dog	F	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 4	German Shepherd Dog	F	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 5	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 6	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 7	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 8	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Shepherd Dog 9	German Shepherd Dog	M	38.56	60.96	11		1	1	1	1		1	1	1		1	
+German Wirehaired Pointer	German Wirehaired Pointer	M	29.48	60.96	11		2	1		1	1	2	2	1			
+Golden Retriever 1	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 10	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 11	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 12	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 13	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 14	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 15	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 16	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 17	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 18	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 19	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 2	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 20	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 3	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 4	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 5	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 6	Golden Retriever	F	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 7	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 8	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Golden Retriever 9	Golden Retriever	M	29.48	57.785			2	1	2	1				1	2	1	
+Gordon Setter 1	Gordon Setter	M	28.35	63.5	11		2		2	1	1	1	1	1	2	1	2
+Gordon Setter 2	Gordon Setter	F	28.35	63.5	11		2		2	1	1	1	1	1	2	1	2
+Great Dane 1	Great Dane	F	61.69	78.74	7	2	2	1		1	2			1	1	1	
+Great Dane 2	Great Dane	M	61.69	78.74	7	2	2	1		1	2			1	1	1	
+Great Dane 3	Great Dane	M	61.69	78.74	7	2	2	1		1	2			1	1	1	
+Great Dane 4	Great Dane	F	61.69	78.74	7	2	2	1		1	2			1	1	1	
+Great Dane 5	Great Dane	F	61.69	78.74	7	2	2	1		1	2			1	1	1	
+Great Pyrenees	Great Pyrenees	F	41.96	71.755	11	2	2	1		1	2	2		1	2	1	
+Greater Swiss Mountain Dog 1	Greater Swiss Mountain Dog	M	60.1	66.3575	10		2	1	1	2	2	2	2	1	1	1	
+Greater Swiss Mountain Dog 2	Greater Swiss Mountain Dog	M	60.1	66.3575	10		2	1	1	2	2	2	2	1	1	1	
+Greenland Dog	Greenland Dog	M	31	60			1	1	2	1				1		1	
+Greyhound 1	Greyhound	M	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 2	Greyhound	F	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 3	Greyhound	M	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 4	Greyhound	M	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 5	Greyhound	M	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 6	Greyhound	F	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 7	Greyhound	M	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 8	Greyhound	F	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Greyhound 9	Greyhound	F	29.48	71.755	11	2		1	1	1	1			1	1	1	2
+Grossspitz	Grossspitz	F	17.5	46	14	1	1	1	2	1	1			1		1	
+Heideterrier	Heideterrier	F	20	50		1	2	1	1	1	1	1	1	1	1	1	
+Hovawart	Hovawart	F	40	65.5			2	1	1				1	1	2	1	
+Irish Setter	Irish Setter	F	29.48	66.04	13.5		2			1	1	1	1	1	2	1	
+Irish Terrier 1	Irish Terrier	F	11.79	45.72	14	1		1		1	1	1	1	1	1	2	
+Irish Terrier 2	Irish Terrier	M	11.79	45.72	14	1		1		1	1	1	1	1	1	2	
+Irish Water Spaniel 1	Irish Water Spaniel	M	25.63	57.15	11		2	1		1	1	1	1	1		1	
+Irish Water Spaniel 2	Irish Water Spaniel	F	25.63	57.15	11		2	1		1	1	1	1	1		1	
+Irish Water Spaniel 3	Irish Water Spaniel	M	25.63	57.15	11		2	1		1	1	1	1	1		1	
+Irish Wolfhound	Irish Wolfhound	F	66.63	78.74	8	2		1	2	1	2			1	1	2	2
+Italian Greyhound 1	Italian Greyhound	F	4.3	35.56	13.5			1		1	1			1	1	1	
+Italian Greyhound 2	Italian Greyhound	M	4.3	35.56	13.5			1		1	1			1	1	1	
+Jack Russell Terrier 1	Jack Russell Terrier	F	6.8	30.48	14.5	1		1	2.7	1	1	2	2	1	1	1	1
+Jack Russell Terrier 2	Jack Russell Terrier	M	6.8	30.48	14.5	1		1	2.7	1	1	2	2	1	1	1	1
+Jack Russell Terrier 3	Jack Russell Terrier	F	6.8	30.48	14.5	1		1	2.7	1	1	2	2	1	1	1	1
+Jack Russell Terrier 4	Jack Russell Terrier	F	6.8	30.48	14.5	1		1	2.7	1	1	2	2	1	1	1	1
+Jamthund	Jamthund	M	29.94	60.96	11.5		1	1		1	1		1	1	1	1	
+Jindo	Jindo	M	19.84	50.8	13.5	1	1	1		1	1	2		1	1	1	
+Keeshond	Keeshond	M	17.5	44	13	1	1	1	1	1	1			1	2	1	
+Kerry Blue Terrier	Kerry Blue Terrier	F	16.56	46.355	14	1	2			1	1	1	1	1		2	
+Komondor	Komondor	F	50	75	11		2		1	1		2	2	1	2	2	
+Kromfohrl	Kromfohrl	M	12	42				1	1	1	1	2	2	1		2	
+Labrador Retriever 1	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 10	Labrador Retriever	F	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 11	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 12	Labrador Retriever	F	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 13	Labrador Retriever	F	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 14	Labrador Retriever	F	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 15	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 16	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 17	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 18	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 19	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 2	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 20	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 21	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 22	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 23	Labrador Retriever	F	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 24	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 3	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 4	Labrador Retriever	F	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 5	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 6	Labrador Retriever	F	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 7	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 8	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Labrador Retriever 9	Labrador Retriever	M	30.62	58.42	12		2	1	1	1				1	1	1	2
+Lagotto Romagnolo 1	Lagotto Romagnolo	M	13	44	16	1	2	1		1	1	1	1	1		2	
+Lagotto Romagnolo 2	Lagotto Romagnolo	M	13	44	16	1	2	1		1	1	1	1	1		2	
+Lagotto Romagnolo 3	Lagotto Romagnolo	M	13	44	16	1	2	1		1	1	1	1	1		2	
+Lagotto Romagnolo 4	Lagotto Romagnolo	F	13	44	16	1	2	1		1	1	1	1	1		2	
+Lagotto Romagnolo 5	Lagotto Romagnolo	M	13	44	16	1	2	1		1	1	1	1	1		2	
+Landseer	Landseer	M	56.7	68.58	11		2		2	2	2	2	2	1	2	1	2
+Lapponian Herder	Lapponian Herder	M	27.22	48.26	13		1	1		1	1		1	1	1	1	
+Leonberger	Leonberger	M	41.96	72.39	8.5		2	1	1	2	2	1	1	1	2	1	
+Lowchen	Lowchen	F	6.12	33.02	13	1				1	1	2		1			
+English Mastiff 1	Mastiff (English)	M	82.78	73.025	11	2	2	1		2	2	1	1	1	1	1	
+English Mastiff 2	Mastiff (English)	F	82.78	73.025	11	2	2	1		2	2	1	1	1	1	1	
+Bull Terrier Miniature 	Miniature Bull Terrier 	M	24	20	12	1	1	1	1	1	2	2	2	1	1	1	
+Miniature Poodle 1	Miniature Poodle	M	7.71	31.75	15	1	2	2	1	1	1			1	2	2	
+Miniature Poodle 2	Miniature Poodle	F	7.71	31.75	15	1	2	2	1	1	1			1	2	2	
+Miniature Schnauzer 1	Miniature Schnauzer	F	6.35	33	13.5	1		1	3	1	1	2	1	1		2	1
+Miniature Schnauzer 2	Miniature Schnauzer	F	6.35	33	13.5	1		1	3	1	1	2	1	1		2	1
+Miniature Schnauzer 3	Miniature Schnauzer	F	6.35	33	13.5	1		1	3	1	1	2	1	1		2	1
+New Guinea Singing Dog 1	New Guinea Singing Dog	M	11.5	38.5			1	1	1	1				1	1	1	
+New Guinea Singing Dog 2	New Guinea Singing Dog	M	11.5	38.5			1	1	1	1				1	1	1	
+New Guinea Singing Dog 3	New Guinea Singing Dog	M	11.5	38.5			1	1	1	1				1	1	1	
+New Guinea Singing Dog 4	New Guinea Singing Dog	M	11.5	38.5			1	1	1	1				1	1	1	
+Norwegian Elkhound 1	Norwegian Elkhound	M	21.77	50.8	13.5	1	1	1		1	1	1	1	1	1	1	
+Norwegian Elkhound 2	Norwegian Elkhound	F	21.77	50.8	13.5	1	1	1		1	1	1	1	1	1	1	
+Norwegian Lundehund 1	Norwegian Lundehund	M	7.48	34.29	13	1	1	1		1	1	2		1	1	1	
+Norwegian Lundehund 2	Norwegian Lundehund	F	7.48	34.29	13	1	1	1		1	1	2		1	1	1	
+Norwegian Lundehund 3	Norwegian Lundehund	F	7.48	34.29	13	1	1	1		1	1	2		1	1	1	
+Norwich Terrier 1	Norwich Terrier	M	5.44	25.4	13		1	1	1	1	1	1	1	1	1	2	
+Norwich Terrier 2	Norwich Terrier	F	5.44	25.4	13		1	1	1	1	1	1	1	1	1	2	
+Norwich Terrier 3	Norwich Terrier	F	5.44	25.4	13		1	1	1	1	1	1	1	1	1	2	
+Norwich Terrier 4	Norwich Terrier	F	5.44	25.4	13		1	1	1	1	1	1	1	1	1	2	
+Nova Scotia Duck Tolling Retriever	Nova Scotia Duck Tolling Retriever	M	20	48	13	1	2		2	1	1	2		1		1	2
+Pekingese	Pekingese	F	4.31	19.05	13.5					1	1		1	1	2	1	
+Pembroke Welsh Corgi 1	Pembroke Welsh Corgi	M	11.79	27.94	13		1	2		1	1	2		1	1	1	
+Pembroke Welsh Corgi 2	Pembroke Welsh Corgi	F	11.79	27.94	13		1	2		1	1	2		1	1	1	
+Pembroke Welsh Corgi 3	Pembroke Welsh Corgi	F	11.79	27.94	13		1	2		1	1	2		1	1	1	
+Peruvian Inca Orchid	Peruvian Inca Orchid	M					1	1	1	1	1	1	1	2	1	1	
+Petit Basset Griffon Vendeen	Petit Basset Griffon Vendeen	M	14.51	35.56	13		2			1	1	2	2	1	2	2	
+English Pointer 1	Pointer (English)	M	27.22	64.77	11		2	1		1	1	2	2	1	1	1	
+English Pointer 2	Pointer (English)	F	27.22	64.77	11		2	1		1	1	2	2	1	1	1	
+Pomeranian	Pomeranian	M	2.27	20	14	1	1	1		1	1	1	1	1		1	
+Portuguese Podengo	Portuguese Podengo	M					1	1						1			
+Portuguese Water Dog 1	Portuguese Water Dog	F	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 10	Portuguese Water Dog	F	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 11	Portuguese Water Dog	F	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 2	Portuguese Water Dog	F	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 3	Portuguese Water Dog	M	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 4	Portuguese Water Dog	F	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 5	Portuguese Water Dog	M	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 6	Portuguese Water Dog	M	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 7	Portuguese Water Dog	M	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 8	Portuguese Water Dog	M	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Portuguese Water Dog 9	Portuguese Water Dog	F	20.41	50.8	13.5	1	2	1	1	1	1	1		1	2	1	
+Pug 1	Pug	M	7.26	26.67	13.5	1		1		1	2		1	1	1	1	
+Pug 2	Pug	M	7.26	26.67	13.5	1		1		1	2		1	1	1	1	
+Pug 3	Pug	M	7.26	26.67	13.5	1		1		1	2		1	1	1	1	
+Pug 4	Pug	F	7.26	26.67	13.5	1		1		1	2		1	1	1	1	
+Pug 5	Pug	M	7.26	26.67	13.5	1		1		1	2		1	1	1	1	
+Rhodesian Ridgeback 1	Rhodesian Ridgeback	F	35.15	64.77	11		2	1		1	2		1	1	1	1	
+Rhodesian Ridgeback 2	Rhodesian Ridgeback	F	35.15	64.77	11		2	1		1	2		1	1	1	1	
+Rhodesian Ridgeback 3	Rhodesian Ridgeback	F	35.15	64.77	11		2	1		1	2		1	1	1	1	
+Rhodesian Ridgeback 4	Rhodesian Ridgeback	F	35.15	64.77	11		2	1		1	2		1	1	1	1	
+Rhodesian Ridgeback 5	Rhodesian Ridgeback	F	35.15	64.77	11		2	1		1	2		1	1	1	1	
+Rottweiler 1	Rottweiler	F	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 10	Rottweiler	M	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 2	Rottweiler	M	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 3	Rottweiler	F	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 4	Rottweiler	F	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 5	Rottweiler	F	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 6	Rottweiler	M	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 7	Rottweiler	F	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 8	Rottweiler	F	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Rottweiler 9	Rottweiler	F	45.36	62.23	9		2	1	2	2	2	1	1	1	1	1	1
+Saint Bernard 1	Saint Bernard	F	70.31	67.31	9		2	1		2	2	2	2	1		1	
+Saint Bernard 2	Saint Bernard	M	70.31	67.31	9		2	1		2	2	2	2	1		1	
+Saluki 1	Saluki	F	19.5	64.77	13	2				1	1			1	1	1	
+Saluki 2	Saluki	M	19.5	64.77	13	2				1	1			1	1	1	
+Saluki 3	Saluki	M	19.5	64.77	13	2				1	1			1	1	1	
+Samoyed 1	Samoyed	F	26.31	53.975	13		1	1	4	1	1	2		1	2	1	1
+Samoyed 2	Samoyed	F	26.31	53.975	13		1	1	4	1	1	2		1	2	1	1
+Scottish Deerhound	Scottish Deerhound	M	41.39	74.93	9.5	2				1	2			1			
+Scottish Terrier 1	Scottish Terrier	F	9.07	25.4	13.5		1			1	1	1	1	1		2	
+Scottish Terrier 2	Scottish Terrier	M	9.07	25.4	13.5		1			1	1	1	1	1		2	
+Scottish Terrier 3	Scottish Terrier	F	9.07	25.4	13.5		1			1	1	1	1	1		2	
+Scottish Terrier 4	Scottish Terrier	F	9.07	25.4	13.5		1			1	1	1	1	1		2	
+Shetland Sheepdog 1	Shetland Sheepdog	F	10.02	36.83	12.5	1	1	1		1	1	2	1	1	2	1	
+Shetland Sheepdog 2	Shetland Sheepdog	F	10.02	36.83	12.5	1	1	1		1	1	2	1	1	2	1	
+Shetland Sheepdog 3	Shetland Sheepdog	M	10.02	36.83	12.5	1	1	1		1	1	2	1	1	2	1	
+Shiba Inu 1	Shiba Inu	F	9.07	38.1	13.5	1	1	1		1	1	2	1	1	1	1	
+Shiba Inu 2	Shiba Inu	M	9.07	38.1	13.5	1	1	1		1	1	2	1	1	1	1	
+Shih Tzu	Shih Tzu	M	5.67	24.765			2			1	1	2		1	2	2	
+Siberian Husky 1	Siberian Husky	F	21.55	54.9275	13.5		1	1	3	1	2	1		1		1	1
+Siberian Husky 2	Siberian Husky	M	21.55	54.9275	13.5		1	1	3	1	2	1		1		1	1
+Siberian Husky 3	Siberian Husky	M	21.55	54.9275	13.5		1	1	3	1	2	1		1		1	1
+Siberian Husky 4	Siberian Husky	M	21.55	54.9275	13.5		1	1	3	1	2	1		1		1	1
+Sloughi 1	Sloughi	M	23.25	67.31	14	2				1	1	1	1	1	1	1	
+Sloughi 2	Sloughi	F	23.25	67.31	14	2				1	1	1	1	1	1	1	
+Sloughi 3	Sloughi	M	23.25	67.31	14	2				1	1	1	1	1	1	1	
+Sloughi 4	Sloughi	M	23.25	67.31	14	2				1	1	1	1	1	1	1	
+Soft Coated Wheaten Terrier 1	Soft Coated Wheaten Terrier	F	15.88	45.72	13.5	1	2	1		1	1	1		1		2	
+Soft Coated Wheaten Terrier 2	Soft Coated Wheaten Terrier	M	15.88	45.72	13.5	1	2	1		1	1	1		1		2	
+Soft Coated Wheaten Terrier 3	Soft Coated Wheaten Terrier	F	15.88	45.72	13.5	1	2	1		1	1	1		1		2	
+Soft Coated Wheaten Terrier 4	Soft Coated Wheaten Terrier	F	15.88	45.72	13.5	1	2	1		1	1	1		1		2	
+Spanish Water Dog	Spanish Water Dog	M	17.92	45.085	12	1	2			1	1	2		1		2	
+Spinone Italiano	Spinone Italiano	F	36.5	65			2		1	1	1			1	1	1	
+Standard Poodle 1	Standard Poodle	F	26.08	38.1	13.5		2	2	3	1	1	1	1	1		1	2
+Standard Poodle 2	Standard Poodle	F	26.08	38.1	13.5		2	2	3	1	1	1	1	1		1	2
+Standard Poodle 3	Standard Poodle	M	26.08	38.1	13.5		2	2	3	1	1	1	1	1		1	2
+Standard Poodle 4	Standard Poodle	M	26.08	38.1	13.5		2	2	3	1	1	1	1	1		1	2
+Standard Schnauzer 1	Standard Schnauzer	M	14.97	46.99	14.5			1	3	1	1		1	1	1	2	1
+Standard Schnauzer 2	Standard Schnauzer	M	14.97	46.99	14.5			1	3	1	1		1	1	1	2	1
+Standard Schnauzer 3	Standard Schnauzer	F	14.97	46.99	14.5			1	3	1	1		1	1	1	2	1
+Standard Schnauzer 4	Standard Schnauzer	M	14.97	46.99	14.5			1	3	1	1		1	1	1	2	1
+Swedish Lapphund	Swedish Lapphund	F	20	45.5	11.5	1	1	1		1	1	1	1	1	2	1	
+Tibetan Terrier 1	Tibetan Terrier	M	10.89	57.15	13.5					1	1	2		1	2	2	
+Tibetan Terrier 2	Tibetan Terrier	M	10.89	57.15	13.5					1	1	2		1	2	2	
+Toy Poodle	Toy Poodle	F	2.77	25.4	16	1	2	2		1	1	1	1	1			
+Vizsla	Vizsla	F	24	58.5	9.15		2	1	1	1	1	1	1	1	1	1	
+Weimaraner	Weimaraner	F	32.5	63.5	12.5		2	1	1	1	1	1	1	1	1	1	
+West Highland White Terrier 1	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 10	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 11	West Highland White Terrier	M	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 2	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 3	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 4	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 5	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 6	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 7	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 8	West Highland White Terrier	M	8	26.67	14		1	1		1	1	2		1	2	2	
+West Highland White Terrier 9	West Highland White Terrier	F	8	26.67	14		1	1		1	1	2		1	2	2	
+Whippet	Whippet	M	12.93	48.5	13.5	2				1	1			1	1	1	
+Xoloitzcuintli 1	Xoloitzcuintli	M			13.5		1	1		1	1	1	1	2	1	1	
+Xoloitzcuintli 2	Xoloitzcuintli	M			13.5		1	1		1	1	1	1	2	1	1	
+Yorkshire Terrier 1	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 10	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 11	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 12	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 13	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 14	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 15	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 16	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 17	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 18	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 19	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 2	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 20	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 21	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 22	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 23	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 24	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 25	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 26	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 27	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 28	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 29	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 3	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 30	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 31	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 32	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 33	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 34	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 35	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 36	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 37	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 38	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 39	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 4	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 40	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 41	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 42	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 43	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 44	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 45	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 46	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 47	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 48	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 49	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 5	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 50	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 51	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 52	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 53	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 54	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 55	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 56	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 57	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 58	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 59	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 6	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 60	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 61	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 62	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 63	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 64	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 65	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 66	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 67	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 68	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 69	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 7	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 70	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 71	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 72	Yorkshire Terrier	F	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 73	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 74	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 75	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 8	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1
+Yorkshire Terrier 9	Yorkshire Terrier	M	2.49	16.51	14.5	1	1	1	3	1	1	1	1	1	2	2	1

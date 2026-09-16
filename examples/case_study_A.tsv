@@ -1,0 +1,103 @@
+Sample	Age	Sex	Disease status	Age group	Outcome	Renal function 	BMI
+T-1	33	F	Case	Young	Recovered	97.9	26.2
+T-2	36	F	Case	Young	Recovered	84	31
+T-3	36	F	Case	Young	Recovered	100.2	23.9
+T-4	38	F	Case	Young	Recovered	100.7	27.1
+T-5	38	F	Case	Young	Complication	74.6	24
+T-6	39	M	Case	Young	Recovered	79.9	26.6
+T-7	39	M	Case	Young	Recovered	92.8	31.6
+T-8	40	F	Case	Young	Recovered	88.2	20.8
+T-9	42	F	Case	Young	Recovered	89.6	30
+T-10	44	M	Case	Young	Recovered	80.9	29.3
+T-11	43	M	Case	Young	Recovered	97.1	25.8
+T-12	44	M	Case	Young	Recovered	95.6	22.3
+T-13	33	M	Case	Young	Recovered	95.8	28
+T-14	35	F	Case	Young	Complication	104.1	25.6
+T-15	38	F	Case	Young	Complication	96.4	29
+T-16	42	F	Case	Young	Complication	82.1	28.3
+T-17	42	M	Case	Young	Complication	93.1	34.9
+T-18	43	F	Case	Young	Recovered	80.6	27.3
+T-19	44	M	Case	Young	Complication	96.5	24
+T-20	44	F	Case	Young	Recovered	88.2	29.1
+T-21	28	F	Case	Young	Recovered	95.3	28.3
+T-22	36	F	Case	Young	Recovered	87.3	33.6
+T-23	41	M	Case	Young	Recovered	101.4	31.7
+T-24	41	F	Case	Young	Recovered	89	29.7
+T-25	44	F	Case	Young	Complication	84.7	34.5
+T-26	54	F	Case	Mid	Recovered	79.4	23.9
+T-27	47	M	Case	Mid	Recovered	91.6	25.8
+T-28	47	M	Case	Mid	Recovered	90.1	24.6
+T-29	51	F	Case	Mid	Recovered	88.1	27.1
+T-30	54	F	Case	Mid	Recovered	86.5	23.2
+T-31	51	F	Case	Mid	Complication	103.7	31.4
+T-32	55	F	Case	Mid	Complication	78.3	28.1
+T-33	46	F	Case	Mid	Recovered	82.8	22.3
+T-34	55	F	Case	Mid	Recovered	74.7	24.7
+T-35	45	F	Case	Mid	Recovered	93.5	29.7
+T-36	45	F	Case	Mid	Recovered	98.2	31.9
+T-37	54	F	Case	Mid	Recovered	81.6	37.3
+C-1	45	F	Control	Mid	N/A (control)	88.4	39.4
+C-2	46	M	Control	Mid	N/A (control)	88	29
+C-3	49	F	Control	Mid	N/A (control)	99.5	23.3
+C-4	52	F	Control	Mid	N/A (control)	98.5	18.7
+C-5	47	M	Control	Mid	N/A (control)	99.7	28.4
+C-6	47	F	Control	Mid	N/A (control)	88.8	23.9
+C-7	78	F	Control	Old	N/A (control)	78.3	26.1
+C-8	65	F	Control	Old	N/A (control)	85.1	25.2
+C-9	69	F	Control	Old	N/A (control)	83.6	27.2
+C-10	64	M	Control	Old	N/A (control)	92.4	32.3
+C-11	38	M	Control	Young	N/A (control)	102.2	27.4
+C-12	39	F	Control	Young	N/A (control)	105.7	26.2
+C-13	39	M	Control	Young	N/A (control)	100.2	22.5
+C-14	40	F	Control	Young	N/A (control)	101.6	19.9
+C-15	42	M	Control	Young	N/A (control)	103.5	25
+C-16	44	F	Control	Young	N/A (control)	83.5	26.9
+C-17	43	M	Control	Young	N/A (control)	94.3	34.5
+C-18	44	M	Control	Young	N/A (control)	92.4	27.7
+C-19	33	M	Control	Young	N/A (control)	97.5	30.6
+C-20	35	M	Control	Young	N/A (control)	99.5	24.5
+C-21	38	M	Control	Young	N/A (control)	113.7	21.8
+C-22	42	M	Control	Young	N/A (control)	90	23
+C-23	42	M	Control	Young	N/A (control)	106.5	24
+C-24	43	M	Control	Young	N/A (control)	82.1	36
+C-25	44	F	Control	Young	N/A (control)	93.6	23.7
+C-26	44	F	Control	Young	N/A (control)	98.1	30.7
+C-27	28	M	Control	Young	N/A (control)	110.3	22.4
+C-28	36	F	Control	Young	N/A (control)	107.8	30.6
+C-29	41	M	Control	Young	N/A (control)	105.5	28.6
+C-30	41	F	Control	Young	N/A (control)	95.3	26.3
+C-31	44	M	Control	Young	N/A (control)	92.4	27
+C-32	54	M	Control	Mid	N/A (control)	98.3	25
+C-33	47	M	Control	Mid	N/A (control)	93.1	29.2
+C-34	47	M	Control	Mid	N/A (control)	83.3	25.4
+C-35	51	F	Control	Mid	N/A (control)	82.2	22.4
+C-36	54	M	Control	Mid	N/A (control)	82.3	22.4
+C-37	51	F	Control	Mid	N/A (control)	96.9	28.3
+C-38	55	F	Control	Mid	N/A (control)	91.3	34.4
+C-39	46	M	Control	Mid	N/A (control)	101.6	27.9
+C-40	55	F	Control	Mid	N/A (control)	86.2	27.3
+C-41	45	M	Control	Mid	N/A (control)	97.4	28.4
+C-42	45	M	Control	Mid	N/A (control)	101.6	32.7
+C-43	54	F	Control	Mid	N/A (control)	87.8	28.7
+C-44	45	M	Control	Mid	N/A (control)	100.1	25.5
+C-45	46	M	Control	Mid	N/A (control)	89.4	31.9
+C-46	49	M	Control	Mid	N/A (control)	90.3	29.2
+C-47	52	F	Control	Mid	N/A (control)	88.4	34.1
+C-48	47	M	Control	Mid	N/A (control)	84	28.1
+C-49	47	M	Control	Mid	N/A (control)	99.2	22.2
+C-50	67	M	Control	Old	N/A (control)	91.7	21.5
+C-51	62	F	Control	Old	N/A (control)	96	34.1
+C-52	56	F	Control	Old	N/A (control)	100.3	34.4
+C-53	61	M	Control	Old	N/A (control)	100	26.5
+C-54	44	M	Control	Young	N/A (control)	101.9	25.6
+C-55	44	M	Control	Young	N/A (control)	95.1	33.3
+C-56	55	F	Control	Old	N/A (control)	92.1	22.6
+C-57	28	M	Control	Young	N/A (control)	95.2	23.4
+C-58	31	F	Control	Young	N/A (control)	80.8	29.9
+C-59	77	F	Control	Old	N/A (control)	82.9	25.5
+C-60	57	F	Control	Old	N/A (control)	84	27.2
+C-61	57	F	Control	Old	N/A (control)	87	26.5
+C-62	58	M	Control	Old	N/A (control)	99.5	28.6
+C-63	29	M	Control	Young	N/A (control)	87.8	33.1
+C-64	46	F	Control	Mid	N/A (control)	92.5	27.6
+C-65	48	F	Control	Mid	N/A (control)	107.6	29.9
